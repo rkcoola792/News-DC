@@ -1,5 +1,5 @@
 import { topics } from '../../data/preview.js';
-export default function FeedFilters({ topic, params, filter }) {
+export default function FeedFilters({ topic, params, filter, personalized = false }) {
   return (
     <div className="feed-tools">
       <label>
@@ -14,7 +14,7 @@ export default function FeedFilters({ topic, params, filter }) {
       <label>
         Sort{' '}
         <select value={params.get('sort') || ''} onChange={(e) => filter('sort', e.target.value)}>
-          <option value="">Preview order</option>
+          <option value="">{personalized ? 'For You (preview)' : 'Preview order'}</option>
           <option value="title">Title A–Z</option>
         </select>
       </label>

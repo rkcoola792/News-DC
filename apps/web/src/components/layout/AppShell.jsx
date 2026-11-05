@@ -2,8 +2,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 import Header from './Header.jsx';
 import MobileNav from './MobileNav.jsx';
+import { useNews } from '../../context/NewsContext.jsx';
 export default function AppShell() {
   const { pathname } = useLocation();
+  const { bookmarkError } = useNews();
   return (
     <>
       <a className="skip" href="#main">
@@ -13,6 +15,11 @@ export default function AppShell() {
       <div className="workspace">
         <Header />
         <main id="main" className={`main ${pathname.startsWith('/content/') ? 'reading' : ''}`}>
+          {bookmarkError && (
+            <p className="notice" role="alert">
+              {bookmarkError}
+            </p>
+          )}
           <Outlet />
         </main>
       </div>

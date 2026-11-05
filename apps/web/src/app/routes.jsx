@@ -1,3 +1,4 @@
+import Preferences from '../pages/Preferences.jsx';
 import { Route, Routes } from 'react-router-dom';
 import AppShell from '../components/layout/AppShell.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
@@ -22,6 +23,7 @@ export default function AppRoutes() {
         <Route path="ask" element={<AskAI />} />
         <Route path="content/:id" element={<ContentDetail />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="preferences" element={<Preferences />} />
         <Route path="history" element={<ReadingHistory />} />
         <Route
           path="*"

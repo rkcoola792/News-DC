@@ -1,8 +1,14 @@
+import { usePreferences } from '../hooks/usePreferences.js';
 import { createContext, useContext, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import BookmarkButton from '../components/content/BookmarkButton.jsx';
 import { useReadingHistory } from '../hooks/useReadingHistory.js';
 import { items } from '../data/preview.js';
+import { loadBookmarks, saveBookmarks } from '../utils/bookmarks.js';
+const bookmarkStorage = {
+  getItem: (key) => window.localStorage.getItem(key),
+  setItem: (key, value) => window.localStorage.setItem(key, value),
+};
 const NewsContext = createContext(null);
 function stored(key, fallback) {
   try {
@@ -17,10 +23,12 @@ function persist(key, value) {
   } catch {}
 }
 export function NewsProvider({ children }) {
+  const { preferences, commitPreferences } = usePreferences();
   const { pathname: path } = useLocation();
   const [params, setParams] = useSearchParams();
-  const [saved, setSaved] = useState(() => stored('newsdc-saved', [])),
-    [dark, setDark] = useState(() => stored('newsdc-dark', false));
+  const [saved, setSaved] = useState(() => loadBookmarks(bookmarkStorage)),
+    [dark, setDark] = useState(() => stored('newsdc-dark', false) === true);
+  const [bookmarkError, setBookmarkError] = useState('');
   const [question, setQuestion] = useState(''),
     [asked, setAsked] = useState('');
   const type = params.get('type') || 'All',
@@ -37,8 +45,14 @@ export function NewsProvider({ children }) {
   }
   function toggle(id) {
     const next = saved.includes(id) ? saved.filter((x) => x !== id) : [...saved, id];
-    setSaved(next);
-    persist('newsdc-saved', next);
+    if (saveBookmarks(bookmarkStorage, next)) {
+      setSaved(next);
+      setBookmarkError('');
+    } else {
+      setBookmarkError(
+        'Your browser could not save this bookmark change. Your saved items are unchanged. Allow browser storage and try again.',
+      );
+    }
   }
   const save = (item) => (
     <BookmarkButton item={item} isSaved={saved.includes(item.id)} onToggle={toggle} />
@@ -47,7 +61,10 @@ export function NewsProvider({ children }) {
   return (
     <NewsContext.Provider
       value={{
+        preferences,
+        commitPreferences,
         saved,
+        bookmarkError,
         dark,
         setDark,
         persistTheme,

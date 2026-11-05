@@ -65,3 +65,17 @@ History is stored in this browser, keeps the latest 200 unique opened items, and
 ## Formatting
 
 Run `npm run format` to format supported project files with Prettier, and `npm run format:check` to verify them. Generated builds, dependencies, lockfiles, and environment files are excluded. Formatting uses two spaces, single quotes, semicolons, and a 100-character print width.
+
+## Requirements roadmap
+
+See [requirements in implementation order](docs/REQUIREMENTS_SEQUENCE.md) for the chronological build sequence, feature IDs, dependencies, acceptance criteria, and next planned requirement. Current completion evidence remains in the [feature tracker](docs/IMPLEMENTATION_STATUS.md).
+
+## Local preferences
+
+Open Discover and choose **Personalize your feed**, or visit `/preferences`. Choose any of the 14 topics and four content formats, then save. Cancel discards draft edits; Reset selections clears the draft and requires Save. Empty selections mean no specific preferences. Choices are stored in this browser. Discover uses a local preference/history-based preview order; live server ranking is not connected yet.
+
+Run all local-state logic tests with `node --test apps/web/src/utils/*.test.js`. Preference and history browser interaction checks remain pending.
+
+## ForYou preview ordering
+
+On Discover, **For You (preview)** prioritizes preferred topics (two internal ordering points) and formats (one point). Unread items win equal-match ties; other ties preserve source order. No items are hidden by preferences. Topic/type/text filters still apply; Title A–Z overrides personalized ordering. Read the expandable explanation beneath the filters for details. These are ordering rules, not measured quality or relevance scores. Live recommendation signals and server ranking remain pending.

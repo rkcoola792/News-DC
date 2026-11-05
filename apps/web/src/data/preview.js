@@ -1,3 +1,4 @@
+import { topicOptions } from './taxonomy.js';
 import {
   Layers,
   House,
@@ -24,16 +25,20 @@ import {
   MessagesSquare,
   History,
 } from 'lucide-react';
-export const topics = [
-  ['Infrastructure', Building2],
-  ['AI Compute & GPUs', Cpu],
-  ['Power & Energy', Zap],
-  ['Cooling', Snowflake],
-  ['Sustainability', Leaf],
-  ['Hyperscalers', Layers],
-  ['Networking', Network],
-  ['Security', Shield],
-];
+const topicIcons = {
+  infrastructure: Building2,
+  'ai-compute-gpus': Cpu,
+  'power-energy': Zap,
+  cooling: Snowflake,
+  sustainability: Leaf,
+  'hyperscaler-investments': Layers,
+  networking: Network,
+  security: Shield,
+};
+export const topics = topicOptions.map((topic) => [
+  topic.feedLabel,
+  topicIcons[topic.id] || LayoutGrid,
+]);
 export const items = [
   {
     id: 'ai-infrastructure',
