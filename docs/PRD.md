@@ -2,13 +2,13 @@
 
 ## 1. Document control
 
-| Field | Value |
-|---|---|
-| Product | NewsDC |
-| Version | 0.1 |
-| Status | Draft baseline for assignment MVP |
-| Assignment timebox | 3–4 working days |
-| Product type | AI-powered Data Center content discovery |
+| Field              | Value                                    |
+| ------------------ | ---------------------------------------- |
+| Product            | NewsDC                                   |
+| Version            | 0.1                                      |
+| Status             | Draft baseline for assignment MVP        |
+| Assignment timebox | 3–4 working days                         |
+| Product type       | AI-powered Data Center content discovery |
 
 ## 2. Product summary
 
@@ -44,23 +44,25 @@ Become a focused intelligence discovery layer for the Data Center ecosystem: one
 
 ## 7. Target users and needs
 
-| User type | Need |
-|---|---|
+| User type                     | Need                                                                       |
+| ----------------------------- | -------------------------------------------------------------------------- |
 | Data Center engineer/operator | Find relevant infrastructure, cooling, power and optimization developments |
-| AI infrastructure engineer | Track GPUs, AI compute, networking and utilization |
-| Researcher | Discover papers, technical blogs and discussions |
-| Strategy/investment analyst | Follow hyperscaler investment, economics and market developments |
-| Industry enthusiast | Understand important news without checking many sources |
+| AI infrastructure engineer    | Track GPUs, AI compute, networking and utilization                         |
+| Researcher                    | Discover papers, technical blogs and discussions                           |
+| Strategy/investment analyst   | Follow hyperscaler investment, economics and market developments           |
+| Industry enthusiast           | Understand important news without checking many sources                    |
 
 ## 8. Product scope
 
 ### Content types
+
 - Article
 - Video
 - Research
 - Discussion
 
 ### Configurable topic taxonomy
+
 - Data Center Infrastructure
 - AI Compute and GPUs
 - Power and Energy
@@ -77,6 +79,7 @@ Become a focused intelligence discovery layer for the Data Center ecosystem: one
 - Emerging Technologies
 
 ### Main user-facing areas
+
 - Home / ForYou
 - Trending
 - Topics
@@ -88,24 +91,24 @@ Become a focused intelligence discovery layer for the Data Center ecosystem: one
 
 ## 9. Functional requirements
 
-| ID | Requirement |
-|---|---|
-| FR-01 | System shall ingest publicly accessible content through configured public APIs and RSS feeds. |
+| ID    | Requirement                                                                                                                      |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------- |
+| FR-01 | System shall ingest publicly accessible content through configured public APIs and RSS feeds.                                    |
 | FR-02 | System shall capture title, description, URL, publisher, publication date, author, tags and engagement/comments where available. |
-| FR-03 | System shall refresh sources manually and/or on a schedule. |
-| FR-04 | System shall avoid unnecessary duplicate records. |
-| FR-05 | System shall identify content relevant to the Data Center domain. |
-| FR-06 | System shall classify content into configurable topics. |
-| FR-07 | System shall generate concise summaries and extract technical/business insights. |
-| FR-08 | System shall assign relevance and quality scores with documented scoring logic. |
-| FR-09 | System shall distinguish general news, technical research, investment intelligence and actionable engineering ideas. |
-| FR-10 | System shall offer Trending, topic-based, related and ForYou recommendations. |
-| FR-11 | System shall use local preferences and reading activity for basic personalization without registration. |
-| FR-12 | System shall provide a responsive interface with the specified discovery screens. |
-| FR-13 | System shall provide search, filtering, sorting and pagination/infinite loading. |
-| FR-14 | System shall provide an AI assistant that answers questions from collected content with source references and links. |
-| FR-15 | System shall support JSON and Markdown export. |
-| FR-16 | System shall provide basic logging, validation, error handling and administrative safeguards. |
+| FR-03 | System shall refresh sources manually and/or on a schedule.                                                                      |
+| FR-04 | System shall avoid unnecessary duplicate records.                                                                                |
+| FR-05 | System shall identify content relevant to the Data Center domain.                                                                |
+| FR-06 | System shall classify content into configurable topics.                                                                          |
+| FR-07 | System shall generate concise summaries and extract technical/business insights.                                                 |
+| FR-08 | System shall assign relevance and quality scores with documented scoring logic.                                                  |
+| FR-09 | System shall distinguish general news, technical research, investment intelligence and actionable engineering ideas.             |
+| FR-10 | System shall offer Trending, topic-based, related and ForYou recommendations.                                                    |
+| FR-11 | System shall use local preferences and reading activity for basic personalization without registration.                          |
+| FR-12 | System shall provide a responsive interface with the specified discovery screens.                                                |
+| FR-13 | System shall provide search, filtering, sorting and pagination/infinite loading.                                                 |
+| FR-14 | System shall provide an AI assistant that answers questions from collected content with source references and links.             |
+| FR-15 | System shall support JSON and Markdown export.                                                                                   |
+| FR-16 | System shall provide basic logging, validation, error handling and administrative safeguards.                                    |
 
 ## 10. Non-functional requirements
 
@@ -131,6 +134,7 @@ Become a focused intelligence discovery layer for the Data Center ecosystem: one
 ## 12. Success measures for the prototype
 
 These are evaluation measures, not guaranteed outcomes:
+
 - At least one API source and one RSS source successfully ingest records, subject to access.
 - Duplicate URL attempts do not create duplicate content records.
 - Relevant content is categorized and enriched, with failed AI jobs visible.
@@ -141,15 +145,15 @@ These are evaluation measures, not guaranteed outcomes:
 
 ## 13. Assumptions and risks
 
-| Item | Assumption / risk | Mitigation |
-|---|---|---|
-| Source access | Public APIs/RSS may have limits or change | Build source adapters and record source errors |
-| Video text | Transcript may not be available | Use metadata only; do not fabricate content summaries |
-| LLM quality | Classification and scores may be inconsistent | Structured outputs, validation, retry and manual spot checks |
-| Dataset size | 500 relevant records may be difficult in timebox | Use multiple permitted sources; report actual count |
-| Costs | LLM calls can become expensive | Batch, cache, process once, cap input and track usage |
-| Personalization | No account identity | Browser local storage for MVP |
-| Search | Full-text search may not capture semantic similarity | Use PostgreSQL FTS first; vector search is a stretch goal |
+| Item            | Assumption / risk                                    | Mitigation                                                   |
+| --------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+| Source access   | Public APIs/RSS may have limits or change            | Build source adapters and record source errors               |
+| Video text      | Transcript may not be available                      | Use metadata only; do not fabricate content summaries        |
+| LLM quality     | Classification and scores may be inconsistent        | Structured outputs, validation, retry and manual spot checks |
+| Dataset size    | 500 relevant records may be difficult in timebox     | Use multiple permitted sources; report actual count          |
+| Costs           | LLM calls can become expensive                       | Batch, cache, process once, cap input and track usage        |
+| Personalization | No account identity                                  | Browser local storage for MVP                                |
+| Search          | Full-text search may not capture semantic similarity | Use PostgreSQL FTS first; vector search is a stretch goal    |
 
 ## 14. Open decisions
 

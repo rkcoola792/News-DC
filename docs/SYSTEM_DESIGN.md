@@ -48,6 +48,7 @@ flowchart TB
 Use a **modular monolith** for the assignment. Modules have clear boundaries but can run in one Node.js backend deployment. The ingestion scheduler/worker may be a separate process using the same codebase and database.
 
 Suggested modules:
+
 - `sources`: adapters for RSS and APIs.
 - `ingestion`: orchestration, normalization, deduplication and run tracking.
 - `content`: content CRUD, details and filters.
@@ -62,6 +63,7 @@ Suggested modules:
 ## 4. Main data flow
 
 ### 4.1 Ingestion flow
+
 1. Scheduler or operator starts a source run.
 2. Adapter calls source API/RSS with timeout and rate-limit handling.
 3. Adapter maps raw response into a normalized candidate.
@@ -73,6 +75,7 @@ Suggested modules:
 9. Record counts and errors in ingestion logs.
 
 ### 4.2 AI processing flow
+
 1. Load normalized title, description and permitted text.
 2. Detect content type if source does not provide a reliable type.
 3. Classify Data Center relevance and confidence.
@@ -85,6 +88,7 @@ Suggested modules:
 10. Store model, prompt version, processing time and status for traceability.
 
 ### 4.3 Recommendation flow
+
 For MVP use deterministic ranking rather than training a recommendation model.
 
 Example configurable score:
@@ -98,6 +102,7 @@ Normalize every signal to 0–100 first. If engagement is unavailable, redistrib
 - **Related:** shared categories/tags first; semantic similarity is future enhancement.
 
 ### 4.4 AI assistant / retrieval flow
+
 1. Accept question and optional filters.
 2. Search PostgreSQL full-text index over title, description, summary and extracted text.
 3. Retrieve top matching records.
@@ -111,16 +116,16 @@ For a prototype, PostgreSQL full-text search is sufficient. Embeddings/vector se
 
 ## 5. Component responsibilities
 
-| Component | Responsibility | Must not do |
-|---|---|---|
-| React SPA | Render views, local preferences and user interactions | Hold LLM API keys or call LLM directly |
-| Express API | Validate requests, authorize admin actions, call services | Contain all business logic in route handlers |
-| Source adapters | Fetch and map source-specific data | Decide final AI relevance |
-| Ingestion service | Normalize, deduplicate and persist records | Block user feed requests |
-| AI service | Enrich text and store structured output | Invent unavailable video transcripts |
-| Recommendation service | Rank stored records | Call LLM for every feed item |
-| Assistant service | Retrieve context and produce cited answer | Answer as if unsupported claims were sourced |
-| PostgreSQL | Persist records, relationships and search data | Store provider secrets |
+| Component              | Responsibility                                            | Must not do                                  |
+| ---------------------- | --------------------------------------------------------- | -------------------------------------------- |
+| React SPA              | Render views, local preferences and user interactions     | Hold LLM API keys or call LLM directly       |
+| Express API            | Validate requests, authorize admin actions, call services | Contain all business logic in route handlers |
+| Source adapters        | Fetch and map source-specific data                        | Decide final AI relevance                    |
+| Ingestion service      | Normalize, deduplicate and persist records                | Block user feed requests                     |
+| AI service             | Enrich text and store structured output                   | Invent unavailable video transcripts         |
+| Recommendation service | Rank stored records                                       | Call LLM for every feed item                 |
+| Assistant service      | Retrieve context and produce cited answer                 | Answer as if unsupported claims were sourced |
+| PostgreSQL             | Persist records, relationships and search data            | Store provider secrets                       |
 
 ## 6. Failure handling
 
@@ -149,6 +154,7 @@ For a prototype, PostgreSQL full-text search is sufficient. Embeddings/vector se
 MVP: modular Express app + PostgreSQL + scheduled worker.
 
 If load grows:
+
 1. Move ingestion/AI jobs to BullMQ + Redis.
 2. Run multiple workers with idempotent jobs.
 3. Add a dedicated search engine or PostgreSQL vector extension only when measured needs justify it.
@@ -158,6 +164,7 @@ If load grows:
 ## 9. Deployment topology
 
 For MVP, Docker Compose can run:
+
 - `client` static build served by web server.
 - `server` Express API.
 - `worker` ingestion/AI worker (same image, different command).

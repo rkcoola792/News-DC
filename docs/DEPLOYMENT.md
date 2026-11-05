@@ -7,6 +7,7 @@ Use Docker for repeatable packaging. The exact hosting provider is a project dec
 ## 2. Environment variables
 
 Backend:
+
 ```env
 NODE_ENV=production
 PORT=5000
@@ -20,6 +21,7 @@ INGESTION_CRON=*/30 * * * *
 ```
 
 Frontend:
+
 ```env
 VITE_API_BASE_URL=https://your-api-domain.example/api/v1
 ```
@@ -36,11 +38,11 @@ services:
     depends_on:
       - postgres
     ports:
-      - "5000:5000"
+      - '5000:5000'
 
   worker:
     build: ./server
-    command: ["npm", "run", "worker"]
+    command: ['npm', 'run', 'worker']
     env_file: ./server/.env
     depends_on:
       - postgres

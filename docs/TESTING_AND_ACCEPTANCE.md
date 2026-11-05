@@ -3,6 +3,7 @@
 ## 1. Test layers
 
 ### Unit tests
+
 - URL canonicalization and fingerprint generation.
 - Source adapter normalization.
 - Required field validation.
@@ -12,6 +13,7 @@
 - Citation ID validation.
 
 ### Integration tests
+
 - API list/detail/search filters against test PostgreSQL.
 - Ingestion adapter -> normalization -> deduplication -> persistence.
 - AI pipeline with mocked LLM provider.
@@ -19,6 +21,7 @@
 - Export output validity.
 
 ### Frontend tests
+
 - Navigation and route rendering.
 - Content card displays type, publisher and source.
 - Filters update results.
@@ -28,6 +31,7 @@
 - Loading, empty and error states.
 
 ### End-to-end smoke tests
+
 - Start app and open ForYou.
 - Search for a Data Center topic.
 - Filter to videos or articles.
@@ -75,11 +79,11 @@
 
 ## 4. Verification log template
 
-| Date | Feature/area | Test performed | Result | Evidence/notes | Verified by |
-|---|---|---|---|---|---|
-| YYYY-MM-DD | Ingestion | Trigger RSS fetch | PASS/FAIL | Run ID/log | Manual |
-| YYYY-MM-DD | Deduplication | Re-ingest same URL | PASS/FAIL | Record count | Manual |
-| YYYY-MM-DD | AI | Process sample article | PASS/FAIL | Stored JSON | Manual |
-| YYYY-MM-DD | Assistant | Ask topic question | PASS/FAIL | Citation URLs | Manual |
+| Date       | Feature/area  | Test performed         | Result    | Evidence/notes | Verified by |
+| ---------- | ------------- | ---------------------- | --------- | -------------- | ----------- |
+| YYYY-MM-DD | Ingestion     | Trigger RSS fetch      | PASS/FAIL | Run ID/log     | Manual      |
+| YYYY-MM-DD | Deduplication | Re-ingest same URL     | PASS/FAIL | Record count   | Manual      |
+| YYYY-MM-DD | AI            | Process sample article | PASS/FAIL | Stored JSON    | Manual      |
+| YYYY-MM-DD | Assistant     | Ask topic question     | PASS/FAIL | Citation URLs  | Manual      |
 
 Do not mark a test as passed until it has actually been executed.

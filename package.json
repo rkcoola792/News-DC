@@ -2,10 +2,19 @@
   "name": "newsdc",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["apps/*", "services/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace=@newsdc/web",
     "build": "npm run build --workspace=@newsdc/web",
-    "preview": "npm run preview --workspace=@newsdc/web"
+    "preview": "npm run preview --workspace=@newsdc/web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
   }
 }

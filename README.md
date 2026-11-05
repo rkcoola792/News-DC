@@ -11,7 +11,9 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite. Edit `apps/web/src/App.jsx` to begin building the UI.
+Open the local URL printed by Vite. The frontend currently provides preview screens with illustrative content, local bookmarks/theme, sample filters, and local reading history at `/history`. Backend ingestion, AI processing, and PostgreSQL search are not connected.
+
+See [the feature tracker](docs/IMPLEMENTATION_STATUS.md) for the status of every catalogue item and verification evidence.
 
 ```sh
 npm run build
@@ -34,7 +36,7 @@ docs/              Project documentation
 .github/           Future GitHub configuration and workflows
 ```
 
-The frontend includes folders for assets, components, pages, hooks, services, utilities, and styles. These are placeholders for upcoming designs and features; routing and UI libraries have not been added.
+The frontend includes folders for assets, components, pages, hooks, services, utilities, and styles. Routing uses React Router and icons use Lucide React. Most screen content remains a design preview; see the feature tracker for implemented behavior.
 
 ## Workspaces
 
@@ -50,3 +52,16 @@ Use `.env.example` as a reference. For frontend configuration, copy the needed v
 
 Tailwind CSS v4 is connected through the @tailwindcss/vite plugin in apps/web/vite.config.js. The global stylesheet imports Tailwind, and App.jsx uses utility classes. Add utilities directly to your JSX; no Tailwind config file is needed for this setup.
 
+## Feature verification
+
+Run the reading-history logic checks with:
+
+```sh
+node --test apps/web/src/utils/readingHistory.test.js
+```
+
+History is stored in this browser, keeps the latest 200 unique opened items, and can be viewed or cleared at `/history`. Browser interaction verification remains pending.
+
+## Formatting
+
+Run `npm run format` to format supported project files with Prettier, and `npm run format:check` to verify them. Generated builds, dependencies, lockfiles, and environment files are excluded. Formatting uses two spaces, single quotes, semicolons, and a 100-character print width.

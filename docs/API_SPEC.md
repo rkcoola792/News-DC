@@ -7,13 +7,16 @@ Authentication: no end-user registration for MVP. Administrative endpoints must 
 ## 1. Conventions
 
 ### Pagination
+
 Query parameters:
+
 - `page` (default 1, min 1)
 - `limit` (default 20, max 100)
 - `sort` (endpoint-supported values only)
 - `order` (`asc` or `desc`)
 
 Response shape:
+
 ```json
 {
   "data": [],
@@ -27,6 +30,7 @@ Response shape:
 ```
 
 ### Error shape
+
 ```json
 {
   "error": {
@@ -39,15 +43,16 @@ Response shape:
 
 ## 2. Content
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/content` | List content with filters and pagination |
-| GET | `/content/:id` | Content detail |
-| GET | `/content/:id/related` | Related content |
-| GET | `/content/:id/summary` | AI summary and insights |
-| GET | `/content/types` | Available content types |
+| Method | Endpoint               | Purpose                                  |
+| ------ | ---------------------- | ---------------------------------------- |
+| GET    | `/content`             | List content with filters and pagination |
+| GET    | `/content/:id`         | Content detail                           |
+| GET    | `/content/:id/related` | Related content                          |
+| GET    | `/content/:id/summary` | AI summary and insights                  |
+| GET    | `/content/types`       | Available content types                  |
 
 `GET /content` query:
+
 - `q`: keyword search
 - `type`: ARTICLE, VIDEO, RESEARCH, DISCUSSION
 - `category`: category slug
@@ -58,6 +63,7 @@ Response shape:
 - `page`, `limit`
 
 Example response item:
+
 ```json
 {
   "id": "uuid",
@@ -80,12 +86,12 @@ Example response item:
 
 ## 3. Discovery
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/recommendations/for-you` | Personalized feed |
-| GET | `/recommendations/trending` | Trending feed |
-| GET | `/topics` | Topic list and counts |
-| GET | `/topics/:slug/content` | Topic feed |
+| Method | Endpoint                    | Purpose               |
+| ------ | --------------------------- | --------------------- |
+| GET    | `/recommendations/for-you`  | Personalized feed     |
+| GET    | `/recommendations/trending` | Trending feed         |
+| GET    | `/topics`                   | Topic list and counts |
+| GET    | `/topics/:slug/content`     | Topic feed            |
 
 ForYou accepts a preference payload in the request body only if implemented as POST; otherwise pass compact preference IDs as query parameters. Do not trust arbitrary client scores. The server calculates ranking from validated topic/type preferences and stored signals.
 
@@ -94,19 +100,20 @@ Example:
 
 ## 4. Search
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/search` | Full-text search across content |
+| Method | Endpoint  | Purpose                         |
+| ------ | --------- | ------------------------------- |
+| GET    | `/search` | Full-text search across content |
 
 Query parameters mirror `/content` filters. Return content type, publisher, publication date, excerpt and URL. Use parameterized SQL.
 
 ## 5. Assistant
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| POST | `/assistant/ask` | Ask a question over indexed content |
+| Method | Endpoint         | Purpose                             |
+| ------ | ---------------- | ----------------------------------- |
+| POST   | `/assistant/ask` | Ask a question over indexed content |
 
 Request:
+
 ```json
 {
   "question": "What are recent developments in liquid cooling?",
@@ -119,6 +126,7 @@ Request:
 ```
 
 Response:
+
 ```json
 {
   "answer": "Based on the indexed sources ...",
@@ -139,6 +147,7 @@ Response:
 ```
 
 Rules:
+
 - Return citations only for records actually retrieved.
 - If retrieval returns no useful evidence, say so.
 - Limit question length and retrieved context size.
@@ -148,29 +157,30 @@ Rules:
 
 These can initially be implemented entirely in local storage. If API persistence is required later, add anonymous session-scoped endpoints.
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/bookmarks` | Optional server-synced bookmarks |
-| PUT | `/bookmarks/:contentId` | Optional save/upsert |
-| DELETE | `/bookmarks/:contentId` | Optional remove |
-| GET | `/preferences` | Optional preference sync |
-| PUT | `/preferences` | Optional preference update |
-| POST | `/history` | Optional reading event |
-| GET | `/history` | Optional reading history |
+| Method | Endpoint                | Purpose                          |
+| ------ | ----------------------- | -------------------------------- |
+| GET    | `/bookmarks`            | Optional server-synced bookmarks |
+| PUT    | `/bookmarks/:contentId` | Optional save/upsert             |
+| DELETE | `/bookmarks/:contentId` | Optional remove                  |
+| GET    | `/preferences`          | Optional preference sync         |
+| PUT    | `/preferences`          | Optional preference update       |
+| POST   | `/history`              | Optional reading event           |
+| GET    | `/history`              | Optional reading history         |
 
 Do not implement these endpoints unless server synchronization is actually needed for the MVP.
 
 ## 7. Ingestion and operations (admin protected)
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| POST | `/admin/ingestion/run` | Trigger ingestion |
-| GET | `/admin/ingestion/runs` | List ingestion runs |
-| GET | `/admin/ingestion/runs/:id` | Run details |
-| GET | `/admin/metrics` | Content and processing metrics |
-| POST | `/admin/content/:id/reprocess` | Retry AI enrichment |
+| Method | Endpoint                       | Purpose                        |
+| ------ | ------------------------------ | ------------------------------ |
+| POST   | `/admin/ingestion/run`         | Trigger ingestion              |
+| GET    | `/admin/ingestion/runs`        | List ingestion runs            |
+| GET    | `/admin/ingestion/runs/:id`    | Run details                    |
+| GET    | `/admin/metrics`               | Content and processing metrics |
+| POST   | `/admin/content/:id/reprocess` | Retry AI enrichment            |
 
 Example trigger:
+
 ```json
 { "sourceIds": ["uuid"], "reason": "manual-demo" }
 ```
@@ -179,10 +189,10 @@ Return `202 Accepted` when work is queued, with a job/run identifier.
 
 ## 8. Export
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/exports/content.json` | JSON export |
-| GET | `/exports/content.md` | Markdown export |
+| Method | Endpoint                | Purpose         |
+| ------ | ----------------------- | --------------- |
+| GET    | `/exports/content.json` | JSON export     |
+| GET    | `/exports/content.md`   | Markdown export |
 
 Allow filters and enforce export limits. Preserve original source URLs and attribution.
 

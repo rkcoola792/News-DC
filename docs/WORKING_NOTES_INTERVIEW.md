@@ -95,6 +95,7 @@ The assignment explicitly says no registration is required and recommends browse
 ## 19. Honest implementation status
 
 Before the interview, fill this in with real facts:
+
 - Sources integrated: [list]
 - Records ingested: [actual count]
 - AI provider/model: [actual]

@@ -24,6 +24,7 @@ A left sidebar on desktop and compact navigation on mobile are suitable.
 ## 3. Screen requirements
 
 ### Home / ForYou
+
 - Personalized feed.
 - Content-type filter: All, Articles, Videos, Research, Discussions.
 - Topic chips.
@@ -33,16 +34,19 @@ A left sidebar on desktop and compact navigation on mobile are suitable.
 - Loading, empty and error states.
 
 ### Trending
+
 - Ranked items with publication date and available engagement signals.
 - Explain ranking as a heuristic, not “viral” unless data supports it.
 - Filters by topic and type.
 
 ### Topics
+
 - Topic directory using the assignment taxonomy.
 - Each topic opens a filtered feed.
 - Show content counts if available.
 
 ### Content detail
+
 - Title, publisher/channel, date, author and content type.
 - AI summary and key insights.
 - Relevance and quality indicators with explanatory tooltips.
@@ -54,17 +58,20 @@ A left sidebar on desktop and compact navigation on mobile are suitable.
 - Bookmark action.
 
 ### Search
+
 - Keyword search.
 - Filters: type, topic, publisher, date, relevance and quality.
 - Sort: newest, relevance and quality.
 - Search empty state and clear filters action.
 
 ### Bookmarks
+
 - Locally saved items.
 - Remove bookmark.
 - Empty state explains bookmarks are stored in this browser for MVP.
 
 ### AI Assistant
+
 - Suggested question examples:
   - What are the latest developments in AI data center infrastructure?
   - Which hyperscalers are investing in new data centers?
@@ -75,6 +82,7 @@ A left sidebar on desktop and compact navigation on mobile are suitable.
 - Show “not enough indexed evidence” when retrieval is weak.
 
 ### Dashboard (P1)
+
 - Total content count.
 - Count by content type/category.
 - Ingestion run success/failure.
@@ -84,6 +92,7 @@ A left sidebar on desktop and compact navigation on mobile are suitable.
 ## 4. Content card specification
 
 Required:
+
 - Title
 - Content type label
 - Publisher/channel
@@ -94,6 +103,7 @@ Required:
 - Original source action
 
 Optional:
+
 - Thumbnail
 - Duration or reading-time estimate
 - Relevance and quality scores

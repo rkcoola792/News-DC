@@ -21,31 +21,31 @@ Approved reference: the nine-screen NewsDC visual mockup (Discover, Detail, Ask 
 
 ### Palette (light)
 
-| Token | Value | Use |
-|---|---|---|
-| `--background` | `#FAFAF9` | App background |
-| `--surface` | `#FFFFFF` | Main content surface |
-| `--surface-muted` | `#F5F6F8` | Selected nav, subtle panels |
-| `--text-primary` | `#111827` | Titles, body |
-| `--text-secondary` | `#667085` | Metadata, descriptions |
-| `--border` | `#E7E9EE` | Dividers, input/card borders |
-| `--accent` | `#172B4D` | Active tab, primary action |
-| `--accent-soft` | `#EEF2FF` | AI panel background, sparingly |
-| `--success` | `#15803D` | Job success |
-| `--danger` | `#B42318` | Error states |
+| Token              | Value     | Use                            |
+| ------------------ | --------- | ------------------------------ |
+| `--background`     | `#FAFAF9` | App background                 |
+| `--surface`        | `#FFFFFF` | Main content surface           |
+| `--surface-muted`  | `#F5F6F8` | Selected nav, subtle panels    |
+| `--text-primary`   | `#111827` | Titles, body                   |
+| `--text-secondary` | `#667085` | Metadata, descriptions         |
+| `--border`         | `#E7E9EE` | Dividers, input/card borders   |
+| `--accent`         | `#172B4D` | Active tab, primary action     |
+| `--accent-soft`    | `#EEF2FF` | AI panel background, sparingly |
+| `--success`        | `#15803D` | Job success                    |
+| `--danger`         | `#B42318` | Error states                   |
 
 ### Palette (dark)
 
-| Token | Value |
-|---|---|
-| `--background` | `#101318` |
-| `--surface` | `#171B22` |
-| `--surface-muted` | `#222833` |
-| `--text-primary` | `#F3F4F6` |
+| Token              | Value     |
+| ------------------ | --------- |
+| `--background`     | `#101318` |
+| `--surface`        | `#171B22` |
+| `--surface-muted`  | `#222833` |
+| `--text-primary`   | `#F3F4F6` |
 | `--text-secondary` | `#A3AAB8` |
-| `--border` | `#303744` |
-| `--accent` | `#AFC4FF` |
-| `--accent-soft` | `#252D43` |
+| `--border`         | `#303744` |
+| `--accent`         | `#AFC4FF` |
+| `--accent-soft`    | `#252D43` |
 
 Avoid using accent color for ordinary text labels. Use status colors only when they convey meaning. Verify actual text/background combinations with an automated contrast checker.
 
@@ -140,22 +140,22 @@ One-column cards; no cramped two-column feed. Content thumbnails may stack or di
 
 ## 6. Component contracts
 
-| Component | Responsibilities | Key props (JavaScript) |
-|---|---|---|
-| `AppShell` | Shared layout, navigation, responsive shell | `children` |
-| `Sidebar` | Desktop navigation, active route, theme | `items`, `activePath` |
-| `Header` | Search trigger, page utilities | `onSearch` |
-| `MobileNav` | Mobile primary routes | `items`, `activePath` |
-| `ContentCard` | Scannable unified content row | `item`, `isSaved`, `onToggleSave` |
-| `ContentFeed` | Feed loading, empty/error, pagination | `items`, `status`, `onLoadMore` |
-| `ContentTypeTabs` | All/Article/Video/Research/Discussion filter | `value`, `onChange` |
-| `TopicChip` | Compact taxonomy filter | `topic`, `selected`, `onClick` |
-| `AIInsightPanel` | AI summary and insight display | `summary`, `insights`, `modelLabel` |
-| `AssistantChat` | Prompt entry, answer, streaming state | `messages`, `onSubmit`, `status` |
-| `SourceCitation` | Link answer claim to real source | `source`, `label` |
-| `EmptyState` | No content explanation and action | `title`, `description`, `action` |
-| `Skeleton` | Stable loading placeholders | `variant`, `count` |
-| `ErrorState` | Recoverable errors with retry | `message`, `onRetry` |
+| Component         | Responsibilities                             | Key props (JavaScript)              |
+| ----------------- | -------------------------------------------- | ----------------------------------- |
+| `AppShell`        | Shared layout, navigation, responsive shell  | `children`                          |
+| `Sidebar`         | Desktop navigation, active route, theme      | `items`, `activePath`               |
+| `Header`          | Search trigger, page utilities               | `onSearch`                          |
+| `MobileNav`       | Mobile primary routes                        | `items`, `activePath`               |
+| `ContentCard`     | Scannable unified content row                | `item`, `isSaved`, `onToggleSave`   |
+| `ContentFeed`     | Feed loading, empty/error, pagination        | `items`, `status`, `onLoadMore`     |
+| `ContentTypeTabs` | All/Article/Video/Research/Discussion filter | `value`, `onChange`                 |
+| `TopicChip`       | Compact taxonomy filter                      | `topic`, `selected`, `onClick`      |
+| `AIInsightPanel`  | AI summary and insight display               | `summary`, `insights`, `modelLabel` |
+| `AssistantChat`   | Prompt entry, answer, streaming state        | `messages`, `onSubmit`, `status`    |
+| `SourceCitation`  | Link answer claim to real source             | `source`, `label`                   |
+| `EmptyState`      | No content explanation and action            | `title`, `description`, `action`    |
+| `Skeleton`        | Stable loading placeholders                  | `variant`, `count`                  |
+| `ErrorState`      | Recoverable errors with retry                | `message`, `onRetry`                |
 
 Use semantic `<article>` for content rows, real `<button>` elements for filters/bookmarks, and `<a>` for navigation/source links. Include `aria-pressed` or `aria-current` where appropriate. Avoid click handlers on generic `<div>` elements.
 

@@ -26,6 +26,7 @@ Local-first user preferences, bookmarks and history are stored in browser local 
 ## 3. Core entities
 
 ### publishers
+
 Stores publisher/channel/platform identity.
 
 - `id`: UUID primary key
@@ -35,6 +36,7 @@ Stores publisher/channel/platform identity.
 - `created_at`, `updated_at`
 
 ### sources
+
 Stores configured ingestion endpoints and adapter configuration.
 
 - `id`: UUID
@@ -46,6 +48,7 @@ Stores configured ingestion endpoints and adapter configuration.
 - `last_fetched_at`: timestamp
 
 ### content_items
+
 Central unified record for all formats.
 
 - `id`: UUID
@@ -69,18 +72,23 @@ Central unified record for all formats.
 - timestamps
 
 ### categories and tags
+
 Categories are controlled taxonomy entries. Tags are extracted or source-provided labels.
 
 ### mapping tables
+
 `content_category_map` and `content_tag_map` support many-to-many relationships.
 
 ### ingestion_runs
+
 Tracks each source ingestion execution, including counts, status and error summary.
 
 ### content_processing_logs
+
 Tracks AI processing attempts and failures for debugging and verification.
 
 ### content_relations
+
 Stores related-content edges and their relation score/reason.
 
 ## 4. Indexing strategy
