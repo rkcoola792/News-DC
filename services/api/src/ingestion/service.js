@@ -1,3 +1,15 @@
+async function syncTags(tx, contentId, names) {
+  if (names === undefined) return;
+  const tags = [];
+  for (const name of names)
+    tags.push(await tx.tags.upsert({ where: { name }, create: { name }, update: {} }));
+  await tx.content_tag_map.deleteMany({ where: { content_id: contentId } });
+  if (tags.length)
+    await tx.content_tag_map.createMany({
+      data: tags.map((tag) => ({ content_id: contentId, tag_id: tag.id })),
+      skipDuplicates: true,
+    });
+}
 import { normalizeCandidate, classifyTopics, isRelevantMetadata } from './normalize.js';
 import { fetchCandidates } from './sources.js';
 export async function ingestSource(
@@ -47,6 +59,7 @@ export async function ingestSource(
                 },
               },
             });
+            await syncTags(tx, duplicate.id, item.tags);
             skipped++;
             return;
           }
@@ -59,7 +72,7 @@ export async function ingestSource(
             },
             update: {},
           });
-          await tx.content_items.create({
+          const created = await tx.content_items.create({
             data: {
               content_type: item.type,
               title: item.title,
@@ -81,6 +94,7 @@ export async function ingestSource(
               },
             },
           });
+          await syncTags(tx, created.id, item.tags);
           inserted++;
         });
       } catch (error) {

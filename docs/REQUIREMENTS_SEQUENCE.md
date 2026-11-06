@@ -17,9 +17,9 @@ The existing scope remains unchanged: P0 is essential, P1 is optional when time 
 
 ## Current position and immediate next step
 
-Local history (F18), preferences (F19), bookmarks (F25) and theme (F28) are implemented with browser acceptance pending. F14/F20 personalized ordering is a local preview; the full 14-topic directory exists, while search and filters still operate on samples. Separate pages/components and Prettier are in place. Current logic suite: 23 passing tests. F39 database foundation is verified on PostgreSQL 16; health endpoints exist. AI processing and UI/API integration remain pending.
+Updated 6 November 2026. Non-AI APIs and UI are connected to real data; this supersedes earlier stage snapshots below. Local Docker and runtime smoke checks pass, with 91 actual records. Last full automated run: 52 passing test results. F2 tags are now implemented. Remaining final-product gaps include AI enrichment/assistant (deferred), recommendation/detail AI integration, dataset coverage and public delivery.
 
-**Next:** F2/F5 metadata normalization/validation, followed by F3 canonical URL/fingerprint deduplication. Stage 03 database persistence is verified; live adapters and consumer API integration remain future increments. Browser verification of local features is still outstanding.
+**Next proposed step:** non-AI acceptance and scheduled-ingestion reliability checks. F2 tags are completed; see F2_TAGS.md. Any AI work remains subject to explicit approval.
 
 ## Sequence at a glance
 
@@ -202,7 +202,7 @@ Defer keyboard shortcuts and the P2 roadmap until the MVP is accepted. Other fut
 4. Update the feature tracker with changes, executed checks, and outstanding verification. A passing build alone does not prove a feature works end to end.
 5. Report what was implemented, what passed, and what remains before moving to the next increment.
 
-**Next planned feature:** F2/F5 metadata normalization and validation, then F3 deduplication. F39 database foundation is implemented and integration-tested; local frontend features still need browser QA.
+**Next planned step:** non-AI acceptance/reliability checks; F2 tag implementation and tests are complete.
 
 ## Open decisions and when they are needed
 
@@ -215,3 +215,7 @@ Defer keyboard shortcuts and the P2 roadmap until the MVP is accepted. Other fut
 ## Foundation progress update — 5 November 2026
 
 Stage 03 now has Express health/startup, PostgreSQL pool and schema migrations, shared taxonomy, and internal four-format create/read persistence. Real PostgreSQL verification passed (7 database test results and 6 API tests), alongside 23 frontend logic tests and production build. Stage 03 metadata normalization/validation and deduplication remain next. Earlier descriptions of pending foundation work are superseded by this update and the implementation tracker.
+
+## F2 completion update — 6 November 2026
+
+The source/import tag gap is now closed end to end; see F2_TAGS.md and the tracker. Earlier F2-next descriptions are superseded. Next is the non-AI acceptance/reliability pass, followed by a separate decision about starting deferred AI work.

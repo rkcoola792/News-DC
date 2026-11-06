@@ -10,7 +10,12 @@ export async function request(path, { signal, adminKey, method = 'GET', body } =
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error?.message || `Request failed (${response.status})`);
+  if (!response.ok) {
+    const details = result.error?.details
+      ?.map((d) => `${d.path || 'Input'}: ${d.message}`)
+      .join('; ');
+    throw new Error(details || result.error?.message || `Request failed (${response.status})`);
+  }
   return result;
 }
 export function sourceUrl(value) {

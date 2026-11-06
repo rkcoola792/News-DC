@@ -135,6 +135,7 @@ export function createRoutes(db, { adminKey = process.env.ADMIN_API_KEY, logger 
   // Operator credentials are checked server-side and never embedded in the client bundle.
   const attempts = new Map();
   router.use('/admin', (req, res, next) => {
+    res.set('Cache-Control', 'no-store');
     if (!adminKey)
       return res.status(503).json({
         error: {
@@ -146,6 +147,13 @@ export function createRoutes(db, { adminKey = process.env.ADMIN_API_KEY, logger 
     const key = req.ip || 'local';
     const now = Date.now();
     const entry = attempts.get(key);
+    const token = (req.get('authorization') || '').replace(/^Bearer /, '');
+    const authorized = timingSafeEqual(hash(token), hash(adminKey));
+    if (authorized) {
+      attempts.delete(key);
+      return next();
+    }
+    for (const [ip, attempt] of attempts) if (attempt.until <= now) attempts.delete(ip);
     if (entry && entry.until > now && entry.count >= 30)
       return res.status(429).json({
         error: {
@@ -154,8 +162,9 @@ export function createRoutes(db, { adminKey = process.env.ADMIN_API_KEY, logger 
           details: [],
         },
       });
-    const token = (req.get('authorization') || '').replace(/^Bearer /, '');
-    if (!timingSafeEqual(hash(token), hash(adminKey))) {
+    if (!authorized) {
+      if (attempts.size >= 10000 && !attempts.has(key))
+        attempts.delete(attempts.keys().next().value);
       attempts.set(key, {
         count: entry && entry.until > now ? entry.count + 1 : 1,
         until: now + 60000,

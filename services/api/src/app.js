@@ -4,9 +4,20 @@ import { createRoutes } from './routes.js';
 import { checkDatabaseReady } from '@newsdc/db';
 import express from 'express';
 import { randomUUID } from 'node:crypto';
+import { publicReadLimit } from './security.js';
 export function createApp({ db, logger = console, adminKey, staticDirectory } = {}) {
   const app = express();
   app.disable('x-powered-by');
+  app.use((_req, res, next) => {
+    res.set('X-Content-Type-Options', 'nosniff');
+    res.set('X-Frame-Options', 'DENY');
+    res.set('Referrer-Policy', 'no-referrer');
+    res.set(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+    );
+    next();
+  });
   app.use((req, res, next) => {
     req.requestId = randomUUID();
     res.set('X-Request-Id', req.requestId);
@@ -38,6 +49,11 @@ export function createApp({ db, logger = console, adminKey, staticDirectory } = 
     }
   });
   app.use(express.json({ limit: '1mb' }));
+  const readLimit = publicReadLimit();
+  app.use('/api/v1', (req, res, next) => {
+    if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
+    return readLimit(req, res, next);
+  });
   const { router } = createRoutes(db, { adminKey, logger });
   app.use('/api/v1', router);
   if (staticDirectory) {

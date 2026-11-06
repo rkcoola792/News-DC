@@ -2,14 +2,16 @@
 
 Priorities: **P0** = MVP essential; **P1** = important if time permits; **P2** = future/optional. These priorities are proposed implementation priorities, not priorities stated by the assignment.
 
-Current status: non-AI build delivered for local testing on 5 November 2026. Application queries use Prisma. AI enrichment/assistant work is deferred by explicit user instruction. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for evidence and limitations and [NON_AI_HANDOFF.md](NON_AI_HANDOFF.md) to test. Current automated suite: 52 passing results; current actual dataset: 91 records. Priorities/acceptance criteria remain the final product target.
+Audit: 6 November 2026. Partial final-product requirements are distinguished from working non-AI behavior; see [completion plan](ASSIGNMENT_COMPLETION_PLAN.md).
+
+Current status: non-AI build delivered for local testing on 5 November 2026. Application queries use Prisma. AI enrichment/assistant work is deferred by explicit user instruction. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for evidence and limitations and [NON_AI_HANDOFF.md](NON_AI_HANDOFF.md) to test. Earlier full baseline: 52 passing results; latest F2 API suite: 30 passing results; current actual dataset: 91 records. Priorities/acceptance criteria remain the final product target.
 
 ## A. Ingestion and content management
 
 | ID  | Feature             | Description                                                                                   | Priority | Acceptance criteria                                            | Current status             |
 | --- | ------------------- | --------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------- | -------------------------- |
 | F1  | Source ingestion    | Fetch from public APIs/RSS                                                                    | P0       | Adapter returns normalized candidate records; errors logged    | Implemented; live verified |
-| F2  | Metadata extraction | Capture title, description, URL, publisher, date, author, tags and engagement where available | P0       | Missing optional fields are allowed; required fields validated | Implemented; tested        |
+| F2  | Metadata extraction | Capture title, description, URL, publisher, date, author, tags and engagement where available | P0       | Missing optional fields are allowed; required fields validated | Implemented; tags tested   |
 | F3  | Duplicate detection | Canonical URL and fingerprint detection                                                       | P0       | Same canonical URL cannot create two records                   | Implemented; tested        |
 | F4  | Scheduled refresh   | Periodic ingestion                                                                            | P0       | Schedule invokes ingestion and records run status              | Implemented; opt-in        |
 | F5  | Content validation  | Validate and normalize external records                                                       | P0       | Invalid records rejected or quarantined with reason            | Implemented; tested        |
@@ -31,8 +33,8 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 
 | ID  | Feature         | Description                                             | Priority | Acceptance criteria                           | Current status               |
 | --- | --------------- | ------------------------------------------------------- | -------- | --------------------------------------------- | ---------------------------- |
-| F14 | ForYou          | Rank items against local topic preferences and activity | P0       | Feed order changes when preferences change    | Implemented; non-AI          |
-| F15 | Trending        | Rank timely/high-signal content                         | P0       | Ranking uses documented signals               | Implemented; non-AI          |
+| F14 | ForYou          | Rank items against local topic preferences and activity | P0       | Feed order changes when preferences change    | Partial; non-AI delivered    |
+| F15 | Trending        | Rank timely/high-signal content                         | P0       | Ranking uses documented signals               | Partial; non-AI delivered    |
 | F16 | Topic feed      | List items by topic                                     | P0       | Topic page filters correctly                  | Implemented; tested          |
 | F17 | Related content | Show related items                                      | P1       | Results share topic/tags or similarity signal | Implemented; tested          |
 | F18 | Reading history | Record opened items locally                             | P0       | History can be viewed/cleared locally         | Implemented; smoke checked   |
@@ -45,7 +47,7 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 | F20 | Home / ForYou               | Personalized feed                                     | P0       | Paginated feed renders                                    | Implemented; connected       |
 | F21 | Trending                    | Trending feed                                         | P0       | Trending endpoint powers view                             | Implemented; connected       |
 | F22 | Topics                      | Topic directory and feeds                             | P0       | Each configured topic opens a feed                        | Implemented; connected       |
-| F23 | Content detail              | Summary, insights, metadata, source and related links | P0       | Detail loads by ID; source opens externally               | Implemented; non-AI          |
+| F23 | Content detail              | Summary, insights, metadata, source and related links | P0       | Detail loads by ID; source opens externally               | Partial; non-AI delivered    |
 | F24 | Search                      | Full-text search                                      | P0       | Search query and filters work                             | Implemented; tested          |
 | F25 | Bookmarks                   | Save/unsave content                                   | P0       | Local bookmark list persists                              | Implemented; browser checked |
 | F26 | Dashboard                   | Ingestion and content metrics                         | P1       | Counts match API/database values                          | Implemented; browser checked |
@@ -70,7 +72,7 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 | F40 | Content-type filter         | Filter feeds by content type                       | P0       | Each type filter returns expected items                     | Implemented; tested                |
 | F41 | Video discovery             | Ingest and recommend video metadata                | P1       | Video appears with channel, duration/thumbnail if available | Implemented; metadata import       |
 | F42 | Video detail                | Show metadata and link to original player          | P1       | External playback link works                                | Implemented; metadata only         |
-| F43 | Video metadata extraction   | Extract public metadata from permitted source      | P1       | No fabricated transcript/content fields                     | Implemented; metadata only         |
+| F43 | Video metadata extraction   | Extract public metadata from permitted source      | P1       | No fabricated transcript/content fields                     | Partial; imports only              |
 | F44 | Research discovery          | Support research metadata and source links         | P1       | Research items are searchable                               | Implemented; metadata import       |
 | F45 | Unified search              | Search across all content types                    | P0       | Results include content type and source                     | Implemented; tested                |
 

@@ -24,7 +24,10 @@ export default function FeedPage({ path }) {
   for (const key of ['publisher', 'from', 'to', 'minQuality', 'minRelevance', 'sort', 'timeframe'])
     if (params.get(key)) args.set(key, params.get(key));
   if (params.get('sort') === 'title') args.set('order', 'asc');
-  const savedIds = saved.filter(isContentId).slice(0, 200);
+  const allSavedIds = saved.filter(isContentId);
+  const savedGroups = Math.max(1, Math.ceil(allSavedIds.length / 200));
+  const savedGroup = Math.min(savedGroups, Math.max(1, Number(params.get('savedGroup')) || 1));
+  const savedIds = allSavedIds.slice((savedGroup - 1) * 200, savedGroup * 200);
   if (path === '/saved') args.set('ids', savedIds.join(','));
   const personalized = path === '/' && !params.get('sort');
   if (personalized) {
@@ -62,7 +65,7 @@ export default function FeedPage({ path }) {
             : 'Search'
           : 'Discover';
   const exportArgs = new URLSearchParams(args);
-  for (const key of ['topics', 'types', 'read', 'timeframe']) exportArgs.delete(key);
+  for (const key of ['topics', 'types', 'read']) exportArgs.delete(key);
   return (
     <>
       <div className="page-heading">
@@ -86,6 +89,22 @@ export default function FeedPage({ path }) {
         </p>
       )}
       <ContentTypeTabs type={type} filter={filter} />
+      {path === '/saved' && (
+        <p className="footnote">Up to 200 bookmarks can be added in this browser.</p>
+      )}
+      {path === '/saved' && savedGroups > 1 && (
+        <label>
+          Saved group{' '}
+          <select value={savedGroup} onChange={(e) => filter('savedGroup', e.target.value)}>
+            {Array.from({ length: savedGroups }, (_, i) => (
+              <option key={i} value={i + 1}>
+                Group {i + 1} of {savedGroups}
+              </option>
+            ))}
+          </select>
+          <span> Existing bookmarks are preserved across groups.</span>
+        </label>
+      )}
       <FeedFilters topic={topic} params={params} filter={filter} personalized={path === '/'} />
       {path === '/' && (
         <details className="for-you-explanation">
@@ -118,11 +137,17 @@ export default function FeedPage({ path }) {
         </>
       )}
       <ResourceState {...resource} />
+      {(personalized || (path === '/trending' && !params.get('sort'))) && (
+        <p className="footnote">
+          Recommendations rank up to the 1,000 most recently published matching items.
+        </p>
+      )}
       {!resource.loading && !resource.error && (
         <ContentFeed
           results={results}
           isSaved={path === '/saved'}
           ranked={path === '/trending'}
+          rankOffset={(pagination.page - 1) * 10}
           save={save}
         />
       )}

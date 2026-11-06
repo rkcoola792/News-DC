@@ -1,5 +1,11 @@
 # Testing Strategy and Acceptance Checklist
 
+## Current evidence — 6 November 2026
+
+Latest full suite (5 November): 23 frontend logic + 7 DB + 22 API/ingestion = 52 passing test results with PostgreSQL enabled. Fresh `npm run smoke` on 6 November passes with 91 actual records, 8 cooling results, 14 topics, healthy API and protected metrics. Selected browser flows were checked; this is not an exhaustive accessibility/browser acceptance pass.
+
+Sections 5–6 below are earlier verification snapshots and are superseded by the current implementation tracker. Do not interpret earlier unchecked/pending descriptions as current implementation status. Final assignment acceptance is still open, including metadata tags, deferred AI, dataset coverage and public deployment. The plan is [ASSIGNMENT_COMPLETION_PLAN.md](ASSIGNMENT_COMPLETION_PLAN.md).
+
 ## 1. Test layers
 
 ### Unit tests

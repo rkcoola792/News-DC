@@ -15,6 +15,8 @@ export default function Header() {
         <input
           key={query}
           name="q"
+          maxLength={200}
+          title="Search up to 200 characters"
           defaultValue={query}
           aria-label="Search content"
           placeholder="Search topics, articles, videos…"

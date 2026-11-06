@@ -27,6 +27,7 @@ test(
       const candidates = [
         {
           title: 'Liquid cooling engineering',
+          tags: [' Cooling ', 'COOLING', 'GPU'],
           url: 'https://publisher.invalid/cooling?utm_source=rss',
           type: 'ARTICLE',
           description: 'Cooling infrastructure design',
@@ -71,6 +72,36 @@ test(
         assert.equal(repeat.skipped_count, 5);
         assert.equal(await db.content_items.count(), 4);
       });
+      await t.test(
+        'tag relationships survive repeats, preserve omitted tags and clear explicit empty tags',
+        async () => {
+          const item = await db.content_items.findFirst({ where: { title: candidates[0].title } });
+          const names = async () =>
+            (
+              await db.content_tag_map.findMany({
+                where: { content_id: item.id },
+                include: { tags: true },
+              })
+            )
+              .map((m) => m.tags.name)
+              .sort();
+          assert.deepEqual(await names(), ['cooling', 'gpu']);
+          assert.equal(await db.tags.count({ where: { name: 'cooling' } }), 1);
+          await ingestSource(db, source, { candidates: [{ ...candidates[0], tags: undefined }] });
+          assert.deepEqual(await names(), ['cooling', 'gpu']);
+          const rejected = await ingestSource(db, source, {
+            candidates: [{ ...candidates[0], tags: [42] }],
+          });
+          assert.equal(rejected.failed_count, 1);
+          assert.deepEqual(await names(), ['cooling', 'gpu']);
+          await ingestSource(db, source, { candidates: [{ ...candidates[0], tags: ['Power'] }] });
+          assert.deepEqual(await names(), ['power']);
+          await ingestSource(db, source, { candidates: [{ ...candidates[0], tags: [] }] });
+          assert.deepEqual(await names(), []);
+          await ingestSource(db, source, { candidates: [candidates[0]] });
+          assert.deepEqual(await names(), ['cooling', 'gpu']);
+        },
+      );
       await t.test('invalid candidates are counted with a safe failure reason', async () => {
         const invalid = await ingestSource(db, source, {
           candidates: [{ title: '', url: 'javascript:bad', type: 'ARTICLE' }],
@@ -118,6 +149,14 @@ test(
           assert.equal((await get('/content/not-a-uuid')).status, 400);
         },
       );
+      await t.test('source tags round-trip through list, detail and JSON export', async () => {
+        const list = await get('/content?type=ARTICLE');
+        assert.deepEqual(list.body.data[0].tags.map((t) => t.name).sort(), ['cooling', 'gpu']);
+        const detail = await get(`/content/${list.body.data[0].id}`);
+        assert.deepEqual(detail.body.data.tags, list.body.data[0].tags);
+        const exported = await get('/exports/content.json?type=ARTICLE');
+        assert.deepEqual(exported.body.data[0].tags, detail.body.data.tags);
+      });
       await t.test('personalized feed responds to validated topic preferences', async () => {
         const result = await get('/recommendations/for-you?topics=ai-compute-gpus');
         assert.equal(result.status, 200);

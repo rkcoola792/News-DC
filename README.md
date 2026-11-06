@@ -95,3 +95,11 @@ Read [PRD](docs/PRD.md), [feature catalogue](docs/FEATURES.md), [implementation 
 ## Local startup troubleshooting
 
 Use `http://127.0.0.1:5000/` for the complete Docker-served app, or `http://127.0.0.1:5173/` for Vite while the Docker API is running on port 5000. `npm run dev` starts only the frontend. Vite now uses a strict 5173 port so an existing stale listener produces a clear error instead of silently switching ports. Stop only confirmed project Vite processes before restarting; do not stop the API/database to fix a stale frontend.
+
+## Assignment completion planning
+
+The [strict PRD/MVP audit and completion plan](docs/ASSIGNMENT_COMPLETION_PLAN.md) distinguishes working non-AI behavior from remaining requirements. Next proposed feature: F2 source/import tag extraction and persistence, followed by acceptance checks. AI remains deferred until explicitly approved.
+
+## Source tags
+
+F2 tags are implemented from RSS/Atom or optional operator-import `tags` arrays through Prisma persistence, list/detail/JSON export and detail display. See [F2 tag rules](docs/F2_TAGS.md). Omitted tags preserve existing mappings; `[]` clears them. AI remains disabled.

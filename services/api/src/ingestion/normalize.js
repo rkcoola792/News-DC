@@ -12,6 +12,17 @@ export function cleanText(value, limit = 4000) {
     .trim()
     .slice(0, limit);
 }
+export const tagList = z
+  .array(
+    z
+      .string()
+      .max(500)
+      .transform((value) => cleanText(value, 500).normalize('NFC').toLowerCase())
+      .pipe(z.string().min(1).max(80)),
+  )
+  .max(100)
+  .transform((values) => [...new Set(values)])
+  .refine((values) => values.length <= 30, 'At most 30 unique tags are allowed');
 const input = z.object({
   title: z.string().trim().min(1).max(1000),
   url: z
@@ -29,6 +40,7 @@ const input = z.object({
   publishedAt: z.string().nullable().optional(),
   thumbnailUrl: z.url().nullable().optional(),
   durationSeconds: z.number().int().nonnegative().nullable().optional(),
+  tags: tagList.optional(),
   metadata: z.record(z.string(), z.unknown()).optional(),
 });
 export function canonicalize(value) {

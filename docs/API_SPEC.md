@@ -221,13 +221,14 @@ Allow filters and enforce export limits. Preserve original source URLs and attri
 - Add request IDs and structured error logging.
 - Document actual implemented endpoints in OpenAPI/Swagger if time permits.
 
-## 11. Implemented foundation endpoints
+## 11. Current implementation coverage — 6 November 2026
 
-As of 5 November 2026, only the following endpoints are implemented. Earlier endpoint tables remain planned contracts.
+Implemented: health/live and health/ready; content/types, content list/detail/summary status/related; search; ForYou/Trending; topics/topic content; publishers; JSON/Markdown exports; protected source listing/toggle, ingestion run/inspect, metrics and metadata import. Paths use the `/api/v1` prefix. Source toggling uses PATCH `/admin/sources/:id`; imports use POST `/admin/content/import`.
 
-| Method | Path                   | Behavior                                                                                                            |
-| ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| GET    | `/api/v1/health/live`  | 200 `{ "status": "ok" }`; process liveness independent of DB                                                        |
-| GET    | `/api/v1/health/ready` | 200 with `database: "ready"` after connectivity and required migration checks; otherwise 503 `DATABASE_UNAVAILABLE` |
+Assistant POST returns explicit 503 AI_DISABLED. Summary status is not generated enrichment. AI reprocess is not implemented. Optional server bookmark/preferences/history endpoints are deliberately absent because those features are browser-local.
 
-Responses include generated `X-Request-Id`. Unknown paths return JSON 404. Health responses expose no connection strings or raw errors. No content writes or admin controls are exposed. The frontend still uses preview data.
+Health and errors include request IDs; unknown paths return JSON 404. Content endpoints return stored source metadata using Prisma. Source tags and full AI enrichment are not complete; see the feature tracker. Exports cap matching records at 100. No unprotected admin write controls exist.
+
+## Source tags (F2)
+
+Metadata imports accept optional `tags: string[]`. Content list/detail and JSON exports include `tags: [{id,name}]`. Labels are normalized and deduplicated. Omission preserves existing relationships on refresh, an explicit empty array clears them, and malformed tags reject the candidate. See [F2_TAGS.md](F2_TAGS.md) for limits and semantics.

@@ -44,6 +44,12 @@ export function NewsProvider({ children }) {
     setParams(next);
   }
   function toggle(id) {
+    if (!saved.includes(id) && saved.length >= 200) {
+      setBookmarkError(
+        'This browser can save up to 200 bookmarks. Remove a saved item before adding another.',
+      );
+      return;
+    }
     const next = saved.includes(id) ? saved.filter((x) => x !== id) : [...saved, id];
     if (saveBookmarks(bookmarkStorage, next)) {
       setSaved(next);

@@ -235,7 +235,7 @@ export default function Dashboard() {
                       required
                       value={payload}
                       onChange={(e) => setPayload(e.target.value)}
-                      placeholder='[{"title":"Title","url":"https://publisher.example/item","type":"RESEARCH","description":"Publisher abstract","metadata":{"doi":"..."}}]'
+                      placeholder='[{"title":"Title","url":"https://publisher.example/item","type":"RESEARCH","description":"Publisher abstract","tags":["cooling","research"],"metadata":{"doi":"..."}}]'
                     />
                   </label>
                   <button className="primary" disabled={busy}>

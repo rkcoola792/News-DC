@@ -63,6 +63,12 @@ async function fetchText(url, fetcher) {
     }
   throw last;
 }
+function extractTags(value) {
+  if (value === undefined || value === null) return undefined;
+  return (Array.isArray(value) ? value : [value]).map((tag) =>
+    typeof tag === 'object' ? (tag['#text'] ?? tag['@_term']) : String(tag),
+  );
+}
 export async function fetchCandidates(source, fetcher = fetch) {
   const text = await fetchText(source.endpoint_url, fetcher);
   if (source.source_type === 'API') {
@@ -73,6 +79,7 @@ export async function fetchCandidates(source, fetcher = fetch) {
       url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
       type: 'DISCUSSION',
       description: cleanText(h.story_text || ''),
+      tags: Array.isArray(h.tags) ? h.tags : undefined,
       author: h.author || null,
       publishedAt: h.created_at || null,
       metadata: {
@@ -83,13 +90,18 @@ export async function fetchCandidates(source, fetcher = fetch) {
       },
     }));
   }
-  const parsed = new XMLParser({ ignoreAttributes: false, processEntities: false }).parse(text);
+  const parsed = new XMLParser({
+    ignoreAttributes: false,
+    processEntities: false,
+    parseTagValue: false,
+  }).parse(text);
   const entries = parsed.rss?.channel?.item ?? parsed.feed?.entry;
   if (!entries) throw new Error('Feed contains no supported entries');
   return (Array.isArray(entries) ? entries : [entries]).slice(0, 100).map((e) => ({
     title: cleanText(e.title),
     url: typeof e.link === 'string' ? e.link : e.link?.['@_href'],
     type: 'ARTICLE',
+    tags: extractTags(e.category),
     description: cleanText(e.description || e.summary || ''),
     author: cleanText(e['dc:creator'] || e.author?.name || '') || null,
     publishedAt: e.pubDate || e.published || e.updated || null,

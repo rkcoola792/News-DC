@@ -36,6 +36,7 @@ export const filters = z
   });
 export const include = {
   publishers: true,
+  content_tag_map: { include: { tags: true } },
   content_category_map: { include: { categories: true } },
 };
 export function serialize(row) {
@@ -57,6 +58,7 @@ export function serialize(row) {
       slug: m.categories.slug,
       name: m.categories.name,
     })),
+    tags: row.content_tag_map.map((mapping) => ({ id: mapping.tags.id, name: mapping.tags.name })),
     metadata: row.metadata,
     ai: {
       status: row.ai_status,
@@ -123,9 +125,16 @@ function rank(row, f, kind) {
 }
 export async function listContent(db, f, kind = 'content') {
   const where = whereFor(f);
-  let data, total;
+  let data, total, candidateTotal;
+  let page = f.page;
   if (kind === 'for-you' || kind === 'trending') {
-    const rows = await db.content_items.findMany({ where, include });
+    const rows = await db.content_items.findMany({
+      where,
+      include,
+      take: 1000,
+      orderBy: [{ published_at: { sort: 'desc', nulls: 'last' } }, { id: 'asc' }],
+    });
+    candidateTotal = 1000;
     total = rows.length;
     rows.sort(
       (a, b) =>
@@ -133,7 +142,8 @@ export async function listContent(db, f, kind = 'content') {
         b.created_at - a.created_at ||
         a.id.localeCompare(b.id),
     );
-    data = rows.slice((f.page - 1) * f.limit, f.page * f.limit);
+    page = Math.min(page, Math.max(1, Math.ceil(total / f.limit)));
+    data = rows.slice((page - 1) * f.limit, page * f.limit);
   } else {
     const field = {
       publishedAt: 'published_at',
@@ -166,15 +176,25 @@ export async function listContent(db, f, kind = 'content') {
       }),
       db.content_items.count({ where }),
     ]);
+    page = Math.min(page, Math.max(1, Math.ceil(total / f.limit)));
+    if (page !== f.page)
+      data = await db.content_items.findMany({
+        where,
+        include,
+        orderBy: [order, { id: 'asc' }],
+        skip: (page - 1) * f.limit,
+        take: f.limit,
+      });
   }
   return {
     data: data.map(serialize),
-    pagination: { page: f.page, limit: f.limit, total, totalPages: Math.ceil(total / f.limit) },
+    pagination: { page, limit: f.limit, total, totalPages: Math.ceil(total / f.limit) },
     ...(kind !== 'content'
       ? {
           ranking: {
             method: kind === 'for-you' ? 'local-preferences-freshness' : 'freshness-engagement',
             ai: false,
+            candidateLimit: candidateTotal,
           },
         }
       : {}),

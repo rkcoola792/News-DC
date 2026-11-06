@@ -116,3 +116,44 @@ test('scheduler honors enabled flag, invokes the job and clears its timer', asyn
   )();
   assert.throws(() => startScheduler({}, { interval: 1 }), /at least/);
 });
+
+test('optional tags normalize case/spacing/HTML and deduplicate without inventing values', () => {
+  const base = { title: 'Data center tags', url: 'https://example.invalid/tags', type: 'ARTICLE' };
+  assert.equal(normalizeCandidate(base).tags, undefined);
+  assert.deepEqual(normalizeCandidate({ ...base, tags: [] }).tags, []);
+  assert.deepEqual(
+    normalizeCandidate({
+      ...base,
+      tags: [' Cooling ', 'COOLING', '<b>GPU</b>', 'Liquid   Cooling'],
+    }).tags,
+    ['cooling', 'gpu', 'liquid cooling'],
+  );
+  for (const tags of [
+    'cooling',
+    [42],
+    [null],
+    [{}],
+    ['  '],
+    ['x'.repeat(81)],
+    Array.from({ length: 31 }, (_, i) => 'tag' + i),
+  ])
+    assert.throws(() => normalizeCandidate({ ...base, tags }));
+});
+test('RSS and Atom category structures become source tags; missing categories remain absent', async () => {
+  const rss = await fetchCandidates(
+    sourceDefinitions[1],
+    async () =>
+      new Response(
+        '<rss><channel><item><title>Cooling</title><link>https://example.invalid/tagged</link><category>Cooling</category><category domain="topics">GPU</category></item></channel></rss>',
+      ),
+  );
+  assert.deepEqual(normalizeCandidate(rss[0]).tags, ['cooling', 'gpu']);
+  const atom = await fetchCandidates(
+    sourceDefinitions[1],
+    async () =>
+      new Response(
+        '<feed><entry><title>Cooling</title><link href="https://example.invalid/atom"/><category term="Research"/></entry></feed>',
+      ),
+  );
+  assert.deepEqual(normalizeCandidate(atom[0]).tags, ['research']);
+});

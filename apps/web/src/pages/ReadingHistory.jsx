@@ -55,9 +55,17 @@ export default function ReadingHistory() {
             return (
               <article className="history-row" key={entry.contentId}>
                 <div>
-                  <Link className="headline" to={`/content/${entry.contentId}`}>
-                    {item?.title || 'Open recorded item'}
-                  </Link>
+                  {item ? (
+                    <Link className="headline" to={`/content/${entry.contentId}`}>
+                      {item.title}
+                    </Link>
+                  ) : (
+                    <p className="headline">
+                      {isContentId(entry.contentId) && (resource.loading || older.loading)
+                        ? 'Loading recorded item…'
+                        : 'This recorded item is no longer available.'}
+                    </p>
+                  )}
                   <time dateTime={entry.openedAt}>{new Date(entry.openedAt).toLocaleString()}</time>
                 </div>
                 {item && save(item)}

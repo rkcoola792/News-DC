@@ -1,3 +1,4 @@
+import ContentTags from '../components/content/ContentTags.jsx';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
@@ -64,6 +65,7 @@ export default function ContentDetail() {
           </a>
         )}
       </section>
+      <ContentTags tags={detail.tags} />
       <section className="ai-panel">
         <h2>AI enrichment is disabled</h2>
         <p>
