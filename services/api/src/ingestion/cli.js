@@ -1,5 +1,5 @@
 import { createDatabase } from '@newsdc/db';
-import { seedSources } from './sources.js';
+import { seedSources, sourceDefinitions } from './sources.js';
 import { createIngestion } from './service.js';
 const db = createDatabase();
 try {
@@ -9,7 +9,7 @@ try {
     JSON.stringify({
       event: 'ingestion_finished',
       runs: await db.ingestion_runs.findMany({
-        take: 2,
+        take: sourceDefinitions.length,
         orderBy: { started_at: 'desc' },
         select: {
           status: true,

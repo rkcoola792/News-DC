@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useResource } from '../hooks/useResource.js';
 import { request } from '../services/api.js';
 import ResourceState from '../components/common/ResourceState.jsx';
+import AIProviderControls from '../components/admin/AIProviderControls.jsx';
 export default function Dashboard() {
   const [input, setInput] = useState(''),
     [key, setKey] = useState(''),
@@ -90,6 +91,7 @@ export default function Dashboard() {
               Use a different key
             </button>
           )}
+          <AIProviderControls adminKey={key} />
           {data && (
             <>
               <div className="metrics">
@@ -128,7 +130,7 @@ export default function Dashboard() {
                 <section>
                   <h2>Processing</h2>
                   <p>
-                    AI enrichment <span>Disabled by request</span>
+                    AI enrichment <span>Not implemented yet</span>
                   </p>
                   {data.processing.map((r) => (
                     <p key={r.status}>

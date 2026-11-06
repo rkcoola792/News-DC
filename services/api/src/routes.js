@@ -10,8 +10,16 @@ import {
   include,
 } from './content/service.js';
 import { createIngestion, ingestSource } from './ingestion/service.js';
+import { createAIProviders, probeTask } from './ai/providers.js';
 const hash = (s) => createHash('sha256').update(s).digest();
-export function createRoutes(db, { adminKey = process.env.ADMIN_API_KEY, logger = console } = {}) {
+export function createRoutes(
+  db,
+  {
+    adminKey = process.env.ADMIN_API_KEY,
+    logger = console,
+    aiProviders = createAIProviders(db),
+  } = {},
+) {
   const router = Router();
   const ingestion = createIngestion(db, logger);
   const asyncRoute = (fn) => (req, res, next) => Promise.resolve(fn(req, res)).catch(next);
@@ -218,6 +226,22 @@ export function createRoutes(db, { adminKey = process.env.ADMIN_API_KEY, logger 
         }),
       }),
     ),
+  );
+  router.get(
+    '/admin/ai/providers',
+    asyncRoute(async (_req, res) => res.json({ data: await aiProviders.status() })),
+  );
+  router.post(
+    '/admin/ai/providers/check',
+    asyncRoute(async (req, res) => {
+      z.object({})
+        .strict()
+        .parse(req.body || {});
+      res.json({
+        data: await aiProviders.generate(probeTask),
+        message: 'AI provider connection verified.',
+      });
+    }),
   );
   router.patch(
     '/admin/sources/:id',

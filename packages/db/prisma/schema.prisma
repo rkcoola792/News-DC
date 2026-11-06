@@ -159,3 +159,28 @@ model tags {
   name            String            @unique
   content_tag_map content_tag_map[]
 }
+
+model ai_provider_budget {
+  id                String @id
+  reserved_microusd Int    @default(0)
+}
+
+model ai_provider_daily {
+  day      String @id
+  requests Int    @default(0)
+}
+
+model ai_provider_calls {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider          String
+  model             String
+  status            String    @default("RESERVED")
+  reserved_microusd Int       @default(0)
+  input_tokens      Int?
+  output_tokens     Int?
+  error_code        String?
+  created_at        DateTime  @default(now()) @db.Timestamptz(6)
+  ended_at          DateTime? @db.Timestamptz(6)
+
+  @@index([created_at(sort: Desc)], map: "ai_provider_calls_created_idx")
+}

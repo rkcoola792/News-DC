@@ -1,13 +1,13 @@
 # Non-AI build handoff
 
-5 November 2026 (Asia/Calcutta).
+Updated 6 November 2026 (Asia/Calcutta).
 
 ## Open and test
 
-The app is running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/). Docker app and PostgreSQL containers are healthy. Current collection: **91 live records**, 50 RSS articles and 41 discussions. Video/research lists can be empty until metadata is imported; no demo records were mixed into this collection.
+The app is running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/). Docker app and PostgreSQL containers are healthy. Current collection: **141 live records**, 50 RSS articles, 41 discussions and 50 automatically ingested arXiv papers. No demo records were mixed into this collection. Video lists can remain empty until permitted metadata is imported.
 
 1. Discover: browse, paginate, filter by type/topic, and open **More filters** for publisher/date/score controls. Scores are null while AI is off; minimum-score filters may produce an empty state.
-2. Search: search `cooling` (8 results in the verified dataset), combine filters, try an unmatched term, and clear filters. Sorting/pagination stay in the URL.
+2. Search: search `cooling` (17 results in the verified dataset), combine filters, try an unmatched term, and clear filters. Filter to Research and search `thermal` (2 results), then open a paper to inspect source abstract, authors, tags and original link. Sorting/pagination stay in the URL.
 3. Detail: check publisher/date/author, description, original link, available image/duration/DOI and related items. Missing metadata is explicitly absent. AI is labelled disabled.
 4. Saved: bookmark a record, open Saved, reload, then remove it. State is local to the current browser and origin.
 5. Preferences: choose multiple topics/formats, Save, reload/revisit, Cancel draft changes, and Reset then Save. ForYou order uses those choices while preserving explicit filters.
@@ -40,3 +40,15 @@ Initial local infrastructure faults were repaired without factory reset or data 
 ## Feedback to provide
 
 Report the screen, action, expected result, observed result and any visible error. Do not paste operator/database secrets. We can resolve acceptance issues before starting AI integration. Provider/model/budget and hosting remain open decisions for the next phase.
+
+## Research update — 6 November 2026
+
+Live arXiv metadata ingestion added 50 papers; total 141 actual records. Repeat inserted zero duplicates. Current API/ingestion suite: 35 passing results with real isolated PostgreSQL, no skips; previous same-day DB/frontend suites: 7/23 pass. Live research search/detail and full smoke pass. See RESEARCH_INGESTION.md. No new browser acceptance audit is claimed. AI remains disabled; approximately $10 available OpenAI credit is not an agreed spending cap. Provider/model and a small demo budget remain decisions for the AI phase.
+
+## Reliability handoff — 6 November 2026
+
+Scheduler promise failures are contained; overlap and failure recovery have regression coverage. Real one-minute scheduling/source-failure and isolated database outage/reconnect passed through `npm run test:reliability`. Demo database stays intact; scheduler remains opt-in/off. Research detail topics now wrap correctly at 320px. Keyboard search, research filtering, detail navigation and bookmark Saved/reload/removal were verified. API suite now passes 38 results. See AI_DEMO_PLAN.md for the user-approved next-phase planning: Gemini free tier preferred, $0 target, no paid fallback, $1 initial ceiling reserved for any separately agreed paid use. No live AI calls made.
+
+## AI provider routing update — 6 November 2026
+
+Both server-side keys are configured. Dashboard now has protected connection checks: Gemini first, two temporary-failure retries, then one OpenAI fallback. User removed application spending/daily caps; usage is informational/persistent and provider quotas/retry/timeouts remain. No need to paste keys again. Provider routing is implemented and live-probed; enrichment and assistant remain the next implementation. See AI_PROVIDER_ROUTING.md for exact behavior and verification, superseding the earlier planning/cap notes in this handoff.

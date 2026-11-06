@@ -5,7 +5,8 @@ import { checkDatabaseReady } from '@newsdc/db';
 import express from 'express';
 import { randomUUID } from 'node:crypto';
 import { publicReadLimit } from './security.js';
-export function createApp({ db, logger = console, adminKey, staticDirectory } = {}) {
+import { AIError } from './ai/limits.js';
+export function createApp({ db, logger = console, adminKey, staticDirectory, aiProviders } = {}) {
   const app = express();
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
@@ -54,7 +55,7 @@ export function createApp({ db, logger = console, adminKey, staticDirectory } = 
     if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
     return readLimit(req, res, next);
   });
-  const { router } = createRoutes(db, { adminKey, logger });
+  const { router } = createRoutes(db, { adminKey, logger, aiProviders });
   app.use('/api/v1', router);
   if (staticDirectory) {
     app.use(express.static(staticDirectory));
@@ -68,6 +69,10 @@ export function createApp({ db, logger = console, adminKey, staticDirectory } = 
       .json({ error: { code: 'NOT_FOUND', message: 'Endpoint not found.', details: [] } }),
   );
   app.use((error, req, res, _next) => {
+    if (error instanceof AIError)
+      return res
+        .status(error.status)
+        .json({ error: { code: error.code, message: error.message, details: [] } });
     if (error instanceof ZodError)
       return res.status(400).json({
         error: {

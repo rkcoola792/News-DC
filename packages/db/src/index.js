@@ -31,8 +31,18 @@ export function createDatabase(
 }
 export async function checkDatabaseReady(db) {
   const applied = await db.schema_migrations.findMany({
-    where: { name: { in: ['001_foundation.sql', '002_taxonomy.sql', '003_fingerprint.sql'] } },
+    where: {
+      name: {
+        in: [
+          '001_foundation.sql',
+          '002_taxonomy.sql',
+          '003_fingerprint.sql',
+          '004_ai_provider_limits.sql',
+          '005_remove_ai_demo_caps.sql',
+        ],
+      },
+    },
     select: { name: true },
   });
-  if (applied.length !== 3) throw new Error('Migrations pending');
+  if (applied.length !== 5) throw new Error('Migrations pending');
 }

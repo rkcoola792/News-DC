@@ -497,8 +497,13 @@ select {
 }
 .detail-labels {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 14px;
+}
+.detail-labels > * {
+  flex: 0 1 auto;
+  max-width: 100%;
 }
 .detail-labels span {
   padding: 5px 9px;

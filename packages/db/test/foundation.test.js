@@ -32,7 +32,7 @@ test(
         connect: async () => ({ query: (...args) => client.query(...args), release() {} }),
       };
       await t.test('migrations apply and a repeated run is a no-op', async () => {
-        assert.equal((await migrate(scoped)).length, 3);
+        assert.equal((await migrate(scoped)).length, 5);
         assert.deepEqual(await migrate(scoped), []);
       });
       await t.test('all controlled taxonomy rows match shared definitions', async () => {

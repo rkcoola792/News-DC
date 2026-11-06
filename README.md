@@ -16,11 +16,13 @@ Open [NewsDC](http://127.0.0.1:5000/). The app serves both the SPA and `/api/v1`
 
 `setup:local` creates root `.env` with random local database/operator credentials and never overwrites an existing file. View `ADMIN_API_KEY` in that file to unlock Dashboard; do not share it or put it in a `VITE_` variable. Existing `.env` users can follow `.env.example`. Use URL-safe credentials in Compose's database URL. `.env` is gitignored and excluded from the image.
 
-For the current workspace, app/database are already running and contain **91 real source records**. No LLM key is required. See [the handoff](docs/NON_AI_HANDOFF.md) and [feature tracker](docs/IMPLEMENTATION_STATUS.md).
+The latest verified workspace collection contains **141 real source records**, including 50 research papers. No LLM key is required. See [the handoff](docs/NON_AI_HANDOFF.md) and [feature tracker](docs/IMPLEMENTATION_STATUS.md).
 
 ## Ingest real content
 
-Approved initial sources: Hacker News via Algolia's public API and Data Center Knowledge RSS. In Dashboard, enter the operator key and select **Run ingestion**. It returns persisted run IDs; status/counts appear in recent runs. Enable/disable each source there.
+Gemini-first provider routing is implemented. Root .env uses GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED=true (fresh example defaults false). Dashboard operator controls can check the connection: Gemini gets two temporary-failure retries before one OpenAI fallback. No application spending or fixed daily request cap is configured, as requested; provider quotas and retry/timeout guards remain. Content enrichment and the assistant are not implemented yet. See [provider routing](docs/AI_PROVIDER_ROUTING.md).
+
+Approved sources: Hacker News via Algolia's public API, Data Center Knowledge RSS and arXiv research metadata. In Dashboard, enter the operator key and select **Run ingestion**. It returns persisted run IDs; status/counts appear in recent runs. Enable/disable each source there.
 
 Alternatively, from the host:
 
@@ -30,7 +32,7 @@ npm run ingest
 
 The CLI reads root `.env` and uses PostgreSQL on host port 55434. Scheduled refresh is opt-in: set `INGESTION_ENABLED=true` and recreate the app container. Default interval is 1800000 ms (30 minutes), minimum 60000 ms.
 
-The first live run inserted 50 articles and 41 discussions. Repeat ingestion inserted zero duplicates. Optional fields stay absent when sources omit them. Images that fail to load are hidden. Video/research metadata can be imported through the protected Dashboard form; dedicated live sources for those formats are not configured.
+The original live run inserted 50 articles and 41 discussions. The arXiv adapter added 50 research records; repeat research ingestion inserted zero duplicates. It fetches the newest 50 title-matched data center papers per run, retains source abstracts/authors/tags/available DOI and links to arXiv abstract pages. No PDFs or AI summaries are generated. Run one ingestion process to respect the shared arXiv request limit. See [research ingestion](docs/RESEARCH_INGESTION.md) for query, terms and limitations. Optional fields stay absent when sources omit them. Images that fail to load are hidden. Video metadata still requires protected Dashboard import; no live video adapter is configured.
 
 ## Local development
 
@@ -66,7 +68,9 @@ npm run smoke
 
 Database integration tests require `TEST_DATABASE_URL` in the process environment pointing to a dedicated disposable PostgreSQL database. Without it, real DB tests explicitly skip. They create/drop generated test schemas; the readiness test applies migrations to that test database's public schema. Never use production or the user's development database for these tests.
 
-Latest results: **23 frontend logic + 7 DB + 22 API/ingestion = 52 passing test results**, with real PostgreSQL enabled and no skips. Docker build/start/health, local SPA/API smoke and selected browser checks passed. Full accessibility/browser coverage and public production deployment are not claimed.
+Latest API results: **48 passing results**, real PostgreSQL enabled, no skips. Same-day DB/frontend suites previously passed 7/23 results. Docker build/start/health, local SPA/API smoke and selected browser checks passed. Full accessibility/browser coverage and public production deployment are not claimed.
+
+For the slower, real one-minute scheduler and database outage/recovery checks, run `npm run test:reliability` with Docker available and loopback port 55435 free. It creates its own uniquely named disposable PostgreSQL container, stops/restarts only that database, verifies safe unavailable/recovery behavior, then removes its container/volumes. It does not read root `.env` or modify the development database. Leave the app scheduler off unless periodic ingestion is wanted.
 
 `npm run format` runs Prettier and Prisma schema formatting. `npm run format:check` runs Prettier checks and Prisma schema validation. Generated files, dependencies, builds and secrets are excluded.
 
@@ -88,7 +92,7 @@ docs/                     Requirements, contracts, progress and handoff
 
 Bookmarks/preferences/history stay in the browser, with no registration. Publisher descriptions are not labelled AI summaries. Metadata keyword rules supply topic labels; ranking uses preferences, history, freshness and actual available engagement. No AI summaries, insights, scores, assistant responses or transcript claims are generated.
 
-Search uses Prisma's PostgreSQL full-text feature; source filters, pagination and original attribution are connected to the database. Exports are capped at 100 matching records. ForYou/Trending rank matching records in-process for the MVP. The actual dataset is 91, below the 500-relevant-record target. Hosting, broader sources/backfill and the AI phase remain future work after user testing.
+Search uses Prisma's PostgreSQL full-text feature; source filters, pagination and original attribution are connected to the database. Exports are capped at 100 matching records. ForYou/Trending rank matching records in-process for the MVP. The actual dataset is 141 metadata-filtered records, below the 500-relevant-record target and not AI-verified. Hosting, broader sources/backfill and the AI phase remain future work after user testing. Gemini-first provider routing with OpenAI fallback is implemented; the user removed application spending/daily caps. Enrichment and cited assistant are next. See docs/AI_DEMO_PLAN.md and docs/AI_PROVIDER_ROUTING.md.
 
 Read [PRD](docs/PRD.md), [feature catalogue](docs/FEATURES.md), [implementation sequence](docs/REQUIREMENTS_SEQUENCE.md), and [current status](docs/IMPLEMENTATION_STATUS.md).
 

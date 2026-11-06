@@ -2,6 +2,8 @@
 
 Created: 5 November 2026 (Asia/Calcutta).
 
+Latest increment, 6 November: user-selected automatic arXiv research ingestion is delivered (F1/F2/F44); 50 real papers, repeat deduplication and research search verified. F2 tags are complete. Next: finish non-AI reliability/acceptance, then agree on the low-cost AI scope/model and spending cap before any paid calls. See IMPLEMENTATION_STATUS.md and RESEARCH_INGESTION.md; historical stage notes below are not current completion evidence.
+
 ## Purpose and source of truth
 
 This document presents the requirements in the order we plan to build them, including dependencies, current progress, and acceptance criteria. It is an implementation sequence, not a dated history or a promise that each stage is complete. Stage numbers describe order rather than deadlines.
@@ -219,3 +221,11 @@ Stage 03 now has Express health/startup, PostgreSQL pool and schema migrations, 
 ## F2 completion update — 6 November 2026
 
 The source/import tag gap is now closed end to end; see F2_TAGS.md and the tracker. Earlier F2-next descriptions are superseded. Next is the non-AI acceptance/reliability pass, followed by a separate decision about starting deferred AI work.
+
+## Next stage update — 6 November 2026
+
+The focused non-AI reliability pass is complete: safe scheduled failure/recovery, an actual one-minute timer, isolated database outage/reconnect, and keyboard/mobile research flows verified. AI demo planning is approved with a $1 initial ceiling; the subsequent user preference is Gemini free tier, $0 target and no paid fallback. Next: confirm a billing-disabled project/model/quota and configure the server-side key, implement guarded enrichment for a small batch, then the grounded assistant. See AI_DEMO_PLAN.md; no live AI calls have run.
+
+## Provider routing increment — 6 November 2026
+
+Gemini primary, two temporary-failure retries, then OpenAI fallback are implemented and live-verified. Application spending/daily caps were removed at user request. Usage persists through Prisma. Next: F7–F12 enrichment through this gateway, then F31/F32 cited assistant. See AI_PROVIDER_ROUTING.md. Historical cap/deferral decisions above are superseded.

@@ -2,9 +2,9 @@
 
 ## Current evidence — 6 November 2026
 
-Latest full suite (5 November): 23 frontend logic + 7 DB + 22 API/ingestion = 52 passing test results with PostgreSQL enabled. Fresh `npm run smoke` on 6 November passes with 91 actual records, 8 cooling results, 14 topics, healthy API and protected metrics. Selected browser flows were checked; this is not an exhaustive accessibility/browser acceptance pass.
+Latest API/provider suite (6 November): **48 passing results**, PostgreSQL enabled, no skips. Same-day DB/frontend suites before these fixes passed 7/23 results. The explicit `npm run test:reliability` check also passed a real 60-second scheduled interval and isolated database outage/recovery. Current live collection is 141 records (17 cooling search results, 14 topics), with AI disabled. Keyboard search/filter/detail/bookmark workflows and 320px research detail/Topics were inspected; this is not an exhaustive accessibility/browser acceptance pass.
 
-Sections 5–6 below are earlier verification snapshots and are superseded by the current implementation tracker. Do not interpret earlier unchecked/pending descriptions as current implementation status. Final assignment acceptance is still open, including metadata tags, deferred AI, dataset coverage and public deployment. The plan is [ASSIGNMENT_COMPLETION_PLAN.md](ASSIGNMENT_COMPLETION_PLAN.md).
+Sections 5–6 below are earlier verification snapshots and are superseded by the current implementation tracker. Do not interpret earlier unchecked/pending descriptions as current implementation status. Tags and automatic research ingestion are complete. Final assignment acceptance remains open for AI, dataset coverage, broader user acceptance and public deployment. The plan is [ASSIGNMENT_COMPLETION_PLAN.md](ASSIGNMENT_COMPLETION_PLAN.md).
 
 ## 1. Test layers
 
@@ -126,3 +126,19 @@ Executed against a temporary PostgreSQL 16 container on loopback port 55432 with
 Default API/DB commands explicitly skip their real PostgreSQL tests when `TEST_DATABASE_URL` is absent. API integration applies migrations in the dedicated test database public schema; DB integration uses a temporary schema, then drops only that generated schema. Use a disposable test database, never production. Mocked readiness tests alone are not PostgreSQL evidence.
 
 F39 foundation acceptance is verified. Ingestion, AI, consumer content/search APIs, browser acceptance and full container delivery remain unchecked. A canonical unique constraint is verified; automatic canonicalization/fingerprint processing is not yet implemented.
+
+## Research increment verification — 6 November 2026
+
+The current API/ingestion suite passes **35 results**, no skips, using the disposable PostgreSQL database on loopback 55433. Prior to research changes, DB foundation (7) and frontend logic (23) suites passed on the same date. The earlier sections are historical evidence, not current implementation gaps. Research tests cover Atom metadata, optional fields/legacy IDs, invalid/error/empty feeds, single-connection request spacing after failure, Prisma persistence/tags, research search and repeat deduplication.
+
+Live arXiv ingestion persisted 50 records; repeat inserted 0, skipped 50, failed 0. Development total is 141. Smoke passes readiness/content/topics/protected metrics with AI off (17 cooling matches, 14 topics). Live research-only thermal search/detail verified authors, tags and original link. Docker image and production frontend build pass. See IMPLEMENTATION_STATUS.md for recovery details and remaining manual/scheduler/AI acceptance. No fresh browser audit is claimed for this increment.
+
+## Reliability acceptance update — 6 November 2026
+
+`npm run test:api`: 38 passing results, real isolated PostgreSQL, no skips. `npm run test:reliability`: PASS, real scheduled interval at 60,348 ms, safe source failure, actual isolated database stop/start, ready/content 503 during outage while live stays 200, safe scheduler failure, readiness and persistence/dedup recovery. It uses test-only port 55435 and removes its own container/volumes. The running demo database is not affected.
+
+Browser: keyboard skip/search/filter/detail/bookmark/reload/remove and mobile Topics inspected. Fixed and rechecked topic-label wrapping for multi-topic research detail at 320px; no horizontal overflow observed. Screenshot in artifacts/research-mobile-verified.png. These checks do not establish an exhaustive accessibility/browser matrix. Public deployment and AI end-to-end acceptance remain open; Gemini free-tier planning is in AI_DEMO_PLAN.md.
+
+## Provider routing verification — 6 November 2026
+
+Final cap-removal suites: 48 API + 7 DB results pass, isolated PostgreSQL enabled, no skips. Nine provider tests cover primary success, retry/fallback order, Retry-After, permanent/non-JSON errors, safety refusals, malformed output, disabled/oversized/storage-failure paths, overlap and operator authorization. Real DB integration verifies five migrations, persisted counters beyond the previous $1/50 thresholds, concurrent accounting and idempotent finalization. Provider unit tests were rerun after the final non-JSON error handling fix; all nine pass. Frontend/Docker builds and live smoke passed. Gemini and controlled-failure/real-OpenAI probes succeeded; see AI_PROVIDER_ROUTING.md. No generated summaries or assistant acceptance is claimed.

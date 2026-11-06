@@ -1,4 +1,4 @@
-import { XMLParser } from 'fast-xml-parser';
+import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import { cleanText } from './normalize.js';
 export const sourceDefinitions = [
   {
@@ -14,6 +14,14 @@ export const sourceDefinitions = [
     source_type: 'RSS',
     endpoint_url: 'https://www.datacenterknowledge.com/rss.xml',
   },
+  {
+    id: '10000000-0000-4000-8000-000000000003',
+    name: 'arXiv · data center research',
+    source_type: 'API',
+    endpoint_url:
+      'https://export.arxiv.org/api/query?search_query=ti:%22data%20center%22%20OR%20ti:%22datacenter%22%20OR%20ti:%22data%20centre%22&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
+    config: { adapter: 'arxiv', metadataOnly: true, maxResults: 50 },
+  },
 ];
 export async function seedSources(db) {
   for (const source of sourceDefinitions)
@@ -24,11 +32,12 @@ export async function seedSources(db) {
         name: source.name,
         source_type: source.source_type,
         endpoint_url: source.endpoint_url,
+        ...(source.config ? { config: source.config } : {}),
       },
     });
 }
 async function fetchText(url, fetcher) {
-  // Only the two reviewed registry endpoints are fetched; no arbitrary user-controlled URL requests.
+  // Only reviewed registry endpoints are fetched; no arbitrary user-controlled URL requests.
   if (!sourceDefinitions.some((s) => s.endpoint_url === url))
     throw new Error('Source endpoint is not approved');
   let last;
@@ -59,9 +68,73 @@ async function fetchText(url, fetcher) {
     } catch (error) {
       last = error;
       if (error.noRetry) break;
-      if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 500));
+      if (attempt === 0)
+        await new Promise((resolve) => setTimeout(resolve, isArxiv(url) ? 3000 : 500));
     }
   throw last;
+}
+const isArxiv = (url) => url === sourceDefinitions[2].endpoint_url;
+let researchRequest = Promise.resolve();
+let nextResearchRequestAt = 0;
+// arXiv requires one connection and at least three seconds between requests.
+// This process-local queue also covers manual runs and retries. Run one ingestion process.
+function fetchResearchText(url, fetcher) {
+  const pending = researchRequest.then(async () => {
+    const delay = nextResearchRequestAt - Date.now();
+    if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
+    try {
+      return await fetchText(url, fetcher);
+    } finally {
+      nextResearchRequestAt = Date.now() + 3000;
+    }
+  });
+  researchRequest = pending.catch(() => {});
+  return pending;
+}
+const asArray = (value) => (value == null ? [] : Array.isArray(value) ? value : [value]);
+const atomText = (value) => cleanText(typeof value === 'object' ? value?.['#text'] : value);
+
+export function parseResearchFeed(text) {
+  if (XMLValidator.validate(text) !== true) throw new Error('Invalid arXiv XML response');
+  const parsed = new XMLParser({
+    ignoreAttributes: false,
+    processEntities: false,
+    parseTagValue: false,
+  }).parse(text);
+  if (!parsed.feed) throw new Error('Unexpected arXiv response');
+  const entries = asArray(parsed.feed.entry);
+  if (entries.some((entry) => String(entry.id).includes('/api/errors')))
+    throw new Error('arXiv returned a query error');
+  if (!entries.length && String(parsed.feed['opensearch:totalResults']) !== '0')
+    throw new Error('arXiv response is missing entries');
+  return entries.slice(0, 50).map((entry) => {
+    const id = atomText(entry.id).match(/^https?:\/\/arxiv\.org\/abs\/(.+)$/)?.[1];
+    if (!id || !/^(?:\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?\/\d{7})(?:v\d+)?$/.test(id))
+      throw new Error('Invalid arXiv paper identifier');
+    const authors = asArray(entry.author)
+      .map((author) => atomText(author.name))
+      .filter(Boolean);
+    return {
+      title: atomText(entry.title),
+      url: `https://arxiv.org/abs/${id}`,
+      type: 'RESEARCH',
+      description: atomText(entry.summary),
+      author: authors.join(', ') || null,
+      publishedAt: entry.published || null,
+      tags: extractTags(entry.category),
+      metadata: {
+        sourceFormat: 'arXiv Atom',
+        externalId: id,
+        arxivId: id,
+        authors,
+        doi: atomText(entry['arxiv:doi']) || null,
+        journalReference: atomText(entry['arxiv:journal_ref']) || null,
+        updatedAt: entry.updated || null,
+        primaryCategory: entry['arxiv:primary_category']?.['@_term'] || null,
+        descriptionOrigin: 'source-abstract',
+      },
+    };
+  });
 }
 function extractTags(value) {
   if (value === undefined || value === null) return undefined;
@@ -70,6 +143,8 @@ function extractTags(value) {
   );
 }
 export async function fetchCandidates(source, fetcher = fetch) {
+  if (isArxiv(source.endpoint_url))
+    return parseResearchFeed(await fetchResearchText(source.endpoint_url, fetcher));
   const text = await fetchText(source.endpoint_url, fetcher);
   if (source.source_type === 'API') {
     const payload = JSON.parse(text);

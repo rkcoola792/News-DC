@@ -33,3 +33,7 @@ This matrix maps the supplied NewsDC assignment to the proposed documentation an
 - **Assignment-stated:** NewsDC is an AI-powered Data Center news/research discovery platform; the listed sources, categories, AI functions, recommendation views, assistant, stack options and deliverables.
 - **Design recommendation:** unified content model for articles/videos/research/discussions; PostgreSQL selection; exact feature IDs/priorities; ranking heuristic; schema and endpoint names; 3–4 day implementation sequence.
 - **Must be verified during implementation:** source availability/terms, record count, transcript availability, LLM quality/cost, deployment behavior and all acceptance results.
+
+## Assignment screenshot clarification — 6 November 2026
+
+The user supplied the original success criteria and AI assistant requirement screenshots. Copies and acceptance mapping are preserved in [ASSIGNMENT_ACCEPTANCE_REFERENCE.md](ASSIGNMENT_ACCEPTANCE_REFERENCE.md). Prioritize a working end-to-end news/research MVP over feature count. User-selected arXiv discovery now provides 50 live research records (F1/F2/F44), with repeat deduplication and search verified; see [RESEARCH_INGESTION.md](RESEARCH_INGESTION.md). Collected-content answers with supporting source links (F31/F32), AI quality and relevance remain required for final acceptance but deferred. Metadata rules do not fulfill those AI criteria.

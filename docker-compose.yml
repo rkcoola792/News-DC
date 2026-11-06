@@ -6,6 +6,9 @@ services:
       ADMIN_API_KEY: ${ADMIN_API_KEY:?Set ADMIN_API_KEY in .env}
       INGESTION_ENABLED: ${INGESTION_ENABLED:-false}
       INGESTION_INTERVAL_MS: ${INGESTION_INTERVAL_MS:-1800000}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_PROVIDER_ENABLED: ${AI_PROVIDER_ENABLED:-false}
     depends_on:
       postgres:
         condition: service_healthy

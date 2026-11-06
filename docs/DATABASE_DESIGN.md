@@ -118,3 +118,7 @@ Stores related-content edges and their relation score/reason.
 `packages/db` owns the pool, internal create/read repository and migration runner. `schema_migrations` tracks names/checksums; migrations run transactionally under an advisory lock. Repeated application is a no-op, and changed applied migrations are rejected. Run `npm run db:migrate` after setting root `.env` as described in README.
 
 Verified on PostgreSQL 16: four-format persistence, null optional fields, taxonomy seed, repeated migration, canonical URL uniqueness, range/enum/foreign-key constraints and search-vector updates. This is not an implemented ingestion pipeline or public content/search API. Fingerprint generation, URL normalization and AI processing remain pending.
+
+## AI provider persistence — 6 November 2026
+
+Migrations 004/005 add ai_provider_calls (provider/model/status/timestamps/token usage/safe error code), ai_provider_daily (UTC request counts) and ai_provider_budget (conservative OpenAI usage accounting). User requested removal of spending/fixed daily caps; migration 005 removes the initial upper-bound checks without rewriting applied migration 004. These names are retained for history; they do not enforce an app budget. Accounting is serializable and idempotently finalized through Prisma; no application raw SQL, prompt text or credentials are stored. See AI_PROVIDER_ROUTING.md. Provider connectivity is implemented; content-level AI processing schema fields still await enrichment integration.

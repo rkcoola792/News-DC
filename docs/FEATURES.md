@@ -4,7 +4,7 @@ Priorities: **P0** = MVP essential; **P1** = important if time permits; **P2** =
 
 Audit: 6 November 2026. Partial final-product requirements are distinguished from working non-AI behavior; see [completion plan](ASSIGNMENT_COMPLETION_PLAN.md).
 
-Current status: non-AI build delivered for local testing on 5 November 2026. Application queries use Prisma. AI enrichment/assistant work is deferred by explicit user instruction. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for evidence and limitations and [NON_AI_HANDOFF.md](NON_AI_HANDOFF.md) to test. Earlier full baseline: 52 passing results; latest F2 API suite: 30 passing results; current actual dataset: 91 records. Priorities/acceptance criteria remain the final product target.
+Current status: non-AI build delivered for local testing. Application queries use Prisma. Gemini-first/OpenAI-fallback routing is implemented; enrichment and assistant implementation remain pending. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for evidence and limitations and [NON_AI_HANDOFF.md](NON_AI_HANDOFF.md) to test. Latest API suite: 48 passing results; real scheduler/outage recovery verified; latest DB/frontend suites: 7/23 passing results; current dataset: 141 records including 50 automatically ingested arXiv papers. Priorities/acceptance criteria remain the final product target.
 
 ## A. Ingestion and content management
 
@@ -19,15 +19,15 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 
 ## B. AI intelligence
 
-| ID  | Feature                | Description                                                               | Priority | Acceptance criteria                         | Current status    |
-| --- | ---------------------- | ------------------------------------------------------------------------- | -------- | ------------------------------------------- | ----------------- |
-| F7  | Relevance detection    | Decide whether item materially relates to Data Centers                    | P0       | Store relevant flag, confidence and reason  | Deferred AI phase |
-| F8  | Categorization         | Assign configurable topic labels                                          | P0       | Categories are from configured taxonomy     | Deferred AI phase |
-| F9  | Summarization          | Generate concise factual summary                                          | P0       | Summary stored and marked AI-generated      | Deferred AI phase |
-| F10 | Insight extraction     | Extract technical/business insights                                       | P0       | Structured list stored and displayed        | Deferred AI phase |
-| F11 | Quality scoring        | Estimate usefulness/quality                                               | P0       | Score stored with documented rubric         | Deferred AI phase |
-| F12 | Content classification | Distinguish news, research, investment intelligence and engineering ideas | P0       | Classification stored as a controlled label | Deferred AI phase |
-| F13 | Trend detection        | Identify rising themes over time                                          | P1       | Trend output links to supporting items      | Deferred AI phase |
+| ID  | Feature                | Description                                                               | Priority | Acceptance criteria                         | Current status            |
+| --- | ---------------------- | ------------------------------------------------------------------------- | -------- | ------------------------------------------- | ------------------------- |
+| F7  | Relevance detection    | Decide whether item materially relates to Data Centers                    | P0       | Store relevant flag, confidence and reason  | Pending AI implementation |
+| F8  | Categorization         | Assign configurable topic labels                                          | P0       | Categories are from configured taxonomy     | Pending AI implementation |
+| F9  | Summarization          | Generate concise factual summary                                          | P0       | Summary stored and marked AI-generated      | Pending AI implementation |
+| F10 | Insight extraction     | Extract technical/business insights                                       | P0       | Structured list stored and displayed        | Pending AI implementation |
+| F11 | Quality scoring        | Estimate usefulness/quality                                               | P0       | Score stored with documented rubric         | Pending AI implementation |
+| F12 | Content classification | Distinguish news, research, investment intelligence and engineering ideas | P0       | Classification stored as a controlled label | Pending AI implementation |
+| F13 | Trend detection        | Identify rising themes over time                                          | P1       | Trend output links to supporting items      | Pending AI implementation |
 
 ## C. Recommendation and personalization
 
@@ -60,8 +60,8 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 
 | ID  | Feature                     | Description                                        | Priority | Acceptance criteria                                         | Current status                     |
 | --- | --------------------------- | -------------------------------------------------- | -------- | ----------------------------------------------------------- | ---------------------------------- |
-| F31 | AI research assistant       | Answer questions using collected content           | P0       | Answer is grounded in retrieved records                     | Deferred AI phase                  |
-| F32 | Source references           | Cite supporting content in answer                  | P0       | Each citation maps to a returned content item and URL       | Deferred AI phase                  |
+| F31 | AI research assistant       | Answer questions using collected content           | P0       | Answer is grounded in retrieved records                     | Pending AI implementation          |
+| F32 | Source references           | Cite supporting content in answer                  | P0       | Each citation maps to a returned content item and URL       | Pending AI implementation          |
 | F33 | JSON export                 | Export records or filtered result set              | P1       | Valid downloadable JSON                                     | Implemented; tested                |
 | F34 | Markdown export             | Export selected content/research notes             | P1       | Readable Markdown with source URLs                          | Implemented; tested                |
 | F35 | Docker deployment           | Containerized runtime                              | P0       | Documented containers start successfully                    | Implemented; local Docker verified |
@@ -73,7 +73,7 @@ Current status: non-AI build delivered for local testing on 5 November 2026. App
 | F41 | Video discovery             | Ingest and recommend video metadata                | P1       | Video appears with channel, duration/thumbnail if available | Implemented; metadata import       |
 | F42 | Video detail                | Show metadata and link to original player          | P1       | External playback link works                                | Implemented; metadata only         |
 | F43 | Video metadata extraction   | Extract public metadata from permitted source      | P1       | No fabricated transcript/content fields                     | Partial; imports only              |
-| F44 | Research discovery          | Support research metadata and source links         | P1       | Research items are searchable                               | Implemented; metadata import       |
+| F44 | Research discovery          | Support research metadata and source links         | P1       | Research items are searchable                               | Implemented; live arXiv verified   |
 | F45 | Unified search              | Search across all content types                    | P0       | Results include content type and source                     | Implemented; tested                |
 
 ## F46 — Operational observability (recommended)

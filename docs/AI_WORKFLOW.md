@@ -142,3 +142,11 @@ The graph state should contain content ID, normalized text, classification, enri
 - Record provider, model, prompt version, duration and error.
 - Set per-run and daily usage limits.
 - Provide a non-AI fallback feed when the LLM provider is unavailable.
+
+## User-approved AI planning — 6 November 2026
+
+After research ingestion and the focused non-AI reliability pass, the user approved AI demo planning with an initial $1 ceiling, then requested Gemini free tier instead of OpenAI. Current target is $0 on a billing-disabled Google AI Studio project; no paid/provider fallback. See AI_DEMO_PLAN.md for the proposed model, quota/input/output controls, small enrichment batch and grounded assistant acceptance. This is a planning decision; no live AI calls or output are implemented by it. Key and project/model quota confirmation remain pending.
+
+## Provider integration update — 6 November 2026
+
+Implemented Gemini first, two temporary-failure retries, then one OpenAI fallback. User subsequently removed application spending/daily caps. Usage remains persisted through Prisma; quotas, input/output bounds, timeout, Retry-After and concurrency guards remain. Operator checks are enabled and both live paths verified. See AI_PROVIDER_ROUTING.md. This supersedes earlier planning/no-fallback/cap notes. Enrichment and assistant remain next implementation stages; connectivity alone is not their acceptance evidence.

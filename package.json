@@ -16,6 +16,7 @@
     "dev:api": "npm run dev --workspace @newsdc/api",
     "db:migrate": "npm run migrate --workspace @newsdc/db",
     "test:api": "npm test --workspace @newsdc/api",
+    "test:reliability": "node scripts/verify-reliability.mjs",
     "test:db": "npm test --workspace @newsdc/db",
     "db:up": "docker compose up -d postgres",
     "db:generate": "npm run generate --workspace @newsdc/db",

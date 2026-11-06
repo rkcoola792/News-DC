@@ -4,7 +4,13 @@ Base path: `/api/v1`
 Format: JSON  
 Authentication: no end-user registration for MVP. Administrative endpoints must be protected by a server-side admin secret or deployment access control. Never expose that secret in the browser.
 
+Research adapter update (6 November 2026): existing content/search/detail/export contracts now serve live arXiv records with `contentType: "RESEARCH"`, author, source abstract, tags and original HTTPS abstract link. `metadata` includes `arxivId`, `authors`, available `doi`/`journalReference`, `updatedAt`, `primaryCategory` and `descriptionOrigin: "source-abstract"`. Existing protected source/run endpoints manage source `10000000-0000-4000-8000-000000000003`. No new endpoint or AI call is required; absent optional fields remain null. See RESEARCH_INGESTION.md.
+
 ## 1. Conventions
+
+### AI provider routing
+
+Backend-only environment names: GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED. Keys remain in root gitignored .env or deployment secrets, never in URLs, API bodies or VITE_ variables. Operator authentication protects GET /admin/ai/providers (safe configuration/usage) and POST /admin/ai/providers/check with an empty JSON object (fixed connection probe). Gemini is primary with two temporary-failure retries, then one OpenAI fallback. Permanent errors skip futile retries; safety refusals do not fall back. No application spending/daily cap is configured. Unknown fields/prompts are rejected. This enables connection checks only; assistant/ask still returns AI_DISABLED until implemented. See AI_PROVIDER_ROUTING.md for contracts and evidence.
 
 ### Pagination
 

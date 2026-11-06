@@ -6,6 +6,7 @@ import { createPool, createDatabase, migrate } from '@newsdc/db';
 import { createApp } from '../src/app.js';
 import { seedSources, sourceDefinitions } from '../src/ingestion/sources.js';
 import { ingestSource } from '../src/ingestion/service.js';
+import { createAILimits } from '../src/ai/limits.js';
 const logger = { info() {}, error() {} };
 test(
   'non-AI content and ingestion vertical slice',
@@ -250,6 +251,64 @@ test(
           assert.equal(detail.body.data.failed_count, 1);
         },
       );
+      await t.test(
+        'arXiv feed persists searchable research and deduplicates repeat imports',
+        async () => {
+          const researchSource = await db.sources.findUnique({
+            where: { id: sourceDefinitions[2].id },
+          });
+          const fetcher = async () =>
+            new Response(`<feed><entry>
+          <id>http://arxiv.org/abs/2611.00002v1</id>
+          <title>Data center thermal resilience</title>
+          <summary>Liquid cooling research abstract.</summary>
+          <author><name>Research Author</name></author><category term="cs.DC"/>
+          </entry></feed>`);
+          const first = await ingestSource(db, researchSource, { fetcher });
+          assert.equal(first.status, 'COMPLETED');
+          assert.equal(first.inserted_count, 1);
+          const repeat = await ingestSource(db, researchSource, { fetcher });
+          assert.equal(repeat.inserted_count, 0);
+          assert.equal(repeat.skipped_count, 1);
+          const found = await get('/search?q=thermal&type=RESEARCH');
+          assert.equal(found.status, 200);
+          assert.equal(found.body.data.length, 1);
+          assert.equal(found.body.data[0].contentType, 'RESEARCH');
+          assert.equal(found.body.data[0].metadata.arxivId, '2611.00002v1');
+          assert.deepEqual(
+            found.body.data[0].tags.map((tag) => tag.name),
+            ['cs.dc'],
+          );
+          assert.equal(found.body.data[0].metadata.aiEnabled, false);
+        },
+      );
+      await t.test('AI usage persists atomically without spending or daily caps', async () => {
+        const limits = createAILimits(db);
+        const calls = [];
+        for (let i = 0; i < 19; i++) calls.push(await limits.reserve('openai', 'gpt-5.4-mini'));
+        const competing = await Promise.allSettled([
+          limits.reserve('openai', 'gpt-5.4-mini'),
+          createAILimits(db).reserve('openai', 'gpt-5.4-mini'),
+        ]);
+        assert.equal(competing.filter((result) => result.status === 'fulfilled').length, 2);
+        assert.equal((await createAILimits(db).status()).openaiUsedOrReservedUsd, 1.05);
+        assert.equal((await limits.status()).openaiCapUsd, null);
+        await limits.finish(calls[0], {
+          status: 'COMPLETED',
+          usage: { inputTokens: 20, outputTokens: 5 },
+        });
+        const after = (await limits.status()).openaiUsedOrReservedUsd;
+        assert.equal(after, 1.000038);
+        await limits.finish(calls[0], {
+          status: 'COMPLETED',
+          usage: { inputTokens: 20, outputTokens: 5 },
+        });
+        assert.equal((await limits.status()).openaiUsedOrReservedUsd, after);
+        for (let i = 0; i < 30; i++) await limits.reserve('gemini', 'gemini-3.5-flash-lite');
+        await limits.reserve('gemini', 'gemini-3.5-flash-lite');
+        assert.equal((await limits.status()).requestsToday, 52);
+        assert.equal((await limits.status()).dailyRequestLimit, null);
+      });
     } finally {
       if (server) await new Promise((resolve) => server.close(resolve));
       await db.$disconnect();
