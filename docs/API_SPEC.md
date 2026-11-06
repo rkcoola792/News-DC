@@ -220,3 +220,14 @@ Allow filters and enforce export limits. Preserve original source URLs and attri
 - Keep controllers thin; business logic belongs in services.
 - Add request IDs and structured error logging.
 - Document actual implemented endpoints in OpenAPI/Swagger if time permits.
+
+## 11. Implemented foundation endpoints
+
+As of 5 November 2026, only the following endpoints are implemented. Earlier endpoint tables remain planned contracts.
+
+| Method | Path                   | Behavior                                                                                                            |
+| ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| GET    | `/api/v1/health/live`  | 200 `{ "status": "ok" }`; process liveness independent of DB                                                        |
+| GET    | `/api/v1/health/ready` | 200 with `database: "ready"` after connectivity and required migration checks; otherwise 503 `DATABASE_UNAVAILABLE` |
+
+Responses include generated `X-Request-Id`. Unknown paths return JSON 404. Health responses expose no connection strings or raw errors. No content writes or admin controls are exposed. The frontend still uses preview data.

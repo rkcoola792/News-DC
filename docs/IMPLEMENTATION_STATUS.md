@@ -1,139 +1,105 @@
 # NewsDC implementation tracker
 
-Updated: 5 November 2026 (Asia/Calcutta).
+Updated: 5 November 2026 (Asia/Calcutta). Scope: the user requested a complete **non-AI build first**, using the PRD stack with Prisma for application queries.
 
-Source of scope: [FEATURES.md](FEATURES.md). Specifications describe intended behavior; this file records implementation evidence. Preview data is illustrative and is not evidence of ingestion or AI processing.
+## Current handoff
 
-## Status definitions
+- Running locally at **http://127.0.0.1:5000/** in Docker with persistent PostgreSQL on host port **55434**.
+- **91 actual source records:** 50 articles from Data Center Knowledge RSS and 41 discussions from the Hacker News/Algolia adapter. No fixtures were inserted into the development collection. Video/research imports are supported but their current live counts are zero.
+- Both source fetches succeeded. A second run fetched 50 records per source and inserted **zero duplicates**. These are metadata-rule-filtered records, not AI-verified relevant records. The 500-relevant-record product target is not achieved yet.
+- Current automated results: **52 passing test results** (23 frontend logic, 7 DB foundation including nested integration results, 22 API/ingestion including nested results). No skips in the database-enabled runs.
+- Docker image builds successfully; app/database are healthy; SPA deep links, readiness, content/search/topics and protected metrics passed `npm run smoke`.
+- Browser smoke checks verified live content/search/detail, Saved after reload, reading history after reload, Preferences Save/Cancel/Reset/reload, operator dashboard, theme reload and 320px layout. Primary/secondary contrast ratios: light 17.74/4.97, dark 15.69/7.40. This is not a complete accessibility audit or exhaustive browser matrix.
 
-- **Pending:** not implemented.
-- **UI preview:** layout exists, but the feature acceptance criteria are not fulfilled.
-- **Partial:** some required behavior exists; remaining work is listed.
-- **Implemented; browser QA pending:** implementation exists, with remaining browser verification explicitly tracked. This is not full acceptance sign-off.
-- **Verified:** all applicable acceptance checks executed successfully. No feature currently has complete browser/end-to-end acceptance evidence.
-- **Deferred P2:** excluded from initial MVP implementation sequence.
+## Status meanings
+
+“Implemented” identifies delivered behavior within the named scope. “Tested” means the relevant automated checks passed; “browser checked” is a limited manual smoke check, not exhaustive acceptance. “Non-AI” means unavailable AI-derived signals/output are intentionally excluded. “Metadata import” means the format is supported without claiming a configured live source for it. Deferred AI/P2 work remains in the final-product catalogue.
 
 ## Feature inventory
 
-| ID  | Feature                     | Priority    | Status                          | Evidence / remaining work                                                                                                                                                                                 |
-| --- | --------------------------- | ----------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F1  | Source ingestion            | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F2  | Metadata extraction         | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F3  | Duplicate detection         | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F4  | Scheduled refresh           | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F5  | Content validation          | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F6  | Source management           | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F7  | Relevance detection         | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F8  | Categorization              | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F9  | Summarization               | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F10 | Insight extraction          | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F11 | Quality scoring             | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F12 | Content classification      | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F13 | Trend detection             | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F14 | ForYou                      | P0          | Partial                         | Discover preview now ranks with saved topic/type preferences and history. Eight ranking/selection tests pass. Live server ranking and browser QA pending.                                                 |
-| F15 | Trending                    | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F16 | Topic feed                  | P0          | Partial                         | Topic query filters the five local preview records; no API.                                                                                                                                               |
-| F17 | Related content             | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F18 | Reading history             | P0          | Implemented; browser QA pending | Local history hook and /history screen; revisits, clear, validation, 200-item limit. Five utility tests pass; browser integration unverified.                                                             |
-| F19 | Preferences                 | P0          | Implemented; browser QA pending | /preferences supports 14 topics and four types, draft edits, Save/Cancel/Reset, validated local persistence and save-failure feedback. Seven preference logic tests pass; browser interaction QA pending. |
-| F20 | Home / ForYou               | P0          | UI preview                      | Discover renders local samples; personalization and pagination pending.                                                                                                                                   |
-| F21 | Trending                    | P0          | UI preview                      | Ranked-looking sample list; no trending endpoint or live ranking.                                                                                                                                         |
-| F22 | Topics                      | P0          | Partial                         | Full 14-topic PRD taxonomy now supplies the directory and filters; API-backed feeds/counts and browser QA pending.                                                                                        |
-| F23 | Content detail              | P0          | UI preview                      | Local ID lookup, summary panel and score placeholder; verified metadata, original links and related content pending.                                                                                      |
-| F24 | Search                      | P0          | Partial                         | Substring search over local samples; PostgreSQL full-text search pending.                                                                                                                                 |
-| F25 | Bookmarks                   | P0          | Implemented; browser QA pending | Save/unsave uses localStorage; Saved view reads saved IDs. Persistence has not been browser-tested.                                                                                                       |
-| F26 | Dashboard                   | P1          | UI preview                      | Explicit disconnected states; no operational metrics.                                                                                                                                                     |
-| F27 | Filters and sorting         | P0          | Partial                         | Type/topic/text filters combine; title sort exists. Date/publisher/score filters pending.                                                                                                                 |
-| F28 | Theme                       | P1          | Implemented; browser QA pending | Theme toggle and localStorage preference exist; contrast/browser checks pending.                                                                                                                          |
-| F29 | Pagination/infinite loading | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F30 | Keyboard shortcuts          | P2          | Deferred P2                     | Future scope.                                                                                                                                                                                             |
-| F31 | AI research assistant       | P0          | UI preview                      | Prompt suggestions/composer and disconnected reply only; retrieval and generation pending.                                                                                                                |
-| F32 | Source references           | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F33 | JSON export                 | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F34 | Markdown export             | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F35 | Docker deployment           | P0          | Pending                         | Compose file is a placeholder; no runnable containers.                                                                                                                                                    |
-| F36 | Logging/error handling      | P0          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F37 | Documentation               | P0          | Partial                         | Specification docs exist; current README refreshed. Clean setup and deployment unverified.                                                                                                                |
-| F38 | AI-assisted development log | P0          | Partial                         | This tracker records implementation and executed checks; ongoing updates required.                                                                                                                        |
-| F39 | Multi-format content model  | P0          | Partial                         | All four formats represented in preview data; persistent common schema pending.                                                                                                                           |
-| F40 | Content-type filter         | P0          | Partial                         | Type filtering implemented on local samples; API and browser validation pending.                                                                                                                          |
-| F41 | Video discovery             | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F42 | Video detail                | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F43 | Video metadata extraction   | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F44 | Research discovery          | P1          | Pending                         | Not implemented.                                                                                                                                                                                          |
-| F45 | Unified search              | P0          | Partial                         | Local text search covers four preview formats; indexed search and actual publisher/source attribution pending.                                                                                            |
-| F46 | Operational observability   | Recommended | Pending                         | No run tracking, AI retry logs, or protected manual trigger.                                                                                                                                              |
+| ID  | Feature                     | Priority    | Status                             | Evidence / limitations                                                                                                                  |
+| --- | --------------------------- | ----------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| F1  | Source ingestion            | P0          | Implemented; live verified         | Both approved adapters fetched 50 items; 91 unique records persisted.                                                                   |
+| F2  | Metadata extraction         | P0          | Implemented; tested                | Source metadata normalization, publisher attribution, dates and optional fields; Prisma persistence.                                    |
+| F3  | Duplicate detection         | P0          | Implemented; tested                | Canonical URL and title/domain fingerprint deduplication; unique indexes; repeat ingestion inserts zero duplicates.                     |
+| F4  | Scheduled refresh           | P0          | Implemented; opt-in                | Configurable interval scheduler, shared single-process job lock, persistent run IDs/status. Timer invocation tested; default off.       |
+| F5  | Content validation          | P0          | Implemented; tested                | Zod validation, safe failure reasons/counts, HTTP(S) URLs, dates/formats and optional-field checks.                                     |
+| F6  | Source management           | P1          | Implemented; tested                | Protected source list, latest run, enable/disable; registry endpoints restricted to approved public sources.                            |
+| F7  | Relevance detection         | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F8  | Categorization              | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F9  | Summarization               | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F10 | Insight extraction          | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F11 | Quality scoring             | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F12 | Content classification      | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F13 | Trend detection             | P1          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F14 | ForYou                      | P0          | Implemented; non-AI                | Server-side preferences/history/freshness/available-engagement ranking. AI relevance/quality signals omitted.                           |
+| F15 | Trending                    | P0          | Implemented; non-AI                | Heuristic freshness/engagement order and timeframe filters; no fabricated engagement.                                                   |
+| F16 | Topic feed                  | P0          | Implemented; tested                | API topic feeds and shared-category filtering.                                                                                          |
+| F17 | Related content             | P1          | Implemented; tested                | Related records share configured topic labels; advanced similarity remains future scope.                                                |
+| F18 | Reading history             | P0          | Implemented; smoke checked         | 200 unique local openings, revisit/clear utilities; successful live detail visit and browser reload verified.                           |
+| F19 | Preferences                 | P0          | Implemented; browser checked       | 14 topics/four formats, draft Save/Cancel/Reset and actual browser reload verified.                                                     |
+| F20 | Home / ForYou               | P0          | Implemented; connected             | API-backed ForYou feed, pagination, preference entry and recoverable loading/error/empty states.                                        |
+| F21 | Trending                    | P0          | Implemented; connected             | Trending endpoint powers ranked UI with timeframe controls.                                                                             |
+| F22 | Topics                      | P0          | Implemented; connected             | 14-topic directory with database-derived counts and filtered links.                                                                     |
+| F23 | Content detail              | P0          | Implemented; non-AI                | Real metadata, publisher/date/author/source, related links, video/duration/DOI when available; AI panels explicitly disabled.           |
+| F24 | Search                      | P0          | Implemented; tested                | PostgreSQL full-text search via Prisma, combined filters and URL query persistence.                                                     |
+| F25 | Bookmarks                   | P0          | Implemented; browser checked       | Local bookmarks, invalid-storage recovery, failed-write feedback; live save and browser reload verified.                                |
+| F26 | Dashboard                   | P1          | Implemented; browser checked       | Protected metrics/type/processing counts, 7-day ingestion chart, source controls, recent runs and metadata imports.                     |
+| F27 | Filters and sorting         | P0          | Implemented; tested                | Type/topic/publisher/date/score filters and sorting. AI-score filters may return empty results while scores are null.                   |
+| F28 | Theme                       | P1          | Implemented; smoke checked         | Light/dark preference reload tested; primary/secondary text contrast checked. Full accessibility audit remains pending.                 |
+| F29 | Pagination/infinite loading | P0          | Implemented; tested                | URL page navigation, bounded API pagination, stable tie-breakers; no duplicate records across tested pages.                             |
+| F30 | Keyboard shortcuts          | P2          | Deferred P2                        | Keyboard shortcuts remain future scope; ordinary keyboard controls and visible focus are implemented.                                   |
+| F31 | AI research assistant       | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F32 | Source references           | P0          | Deferred AI phase                  | Explicitly deferred by the user. Keyword topic rules and publisher descriptions are not AI output.                                      |
+| F33 | JSON export                 | P1          | Implemented; tested                | Filtered downloadable JSON, max 100 matching records per export.                                                                        |
+| F34 | Markdown export             | P1          | Implemented; tested                | Markdown with publisher attribution and original links, max 100 records.                                                                |
+| F35 | Docker deployment           | P0          | Implemented; local Docker verified | App and PostgreSQL build/start/health smoke-tested. Public hosting and production release checks remain pending.                        |
+| F36 | Logging/error handling      | P0          | Implemented; non-AI                | Request IDs, safe JSON errors, structured logs, upstream limits/retry, persistent ingestion failure counts; AI failures deferred.       |
+| F37 | Documentation               | P0          | Maintained                         | README, runtime contracts, handoff, verification and feature tracker updated. Public deployment not claimed.                            |
+| F38 | AI-assisted development log | P0          | Maintained                         | Actual changes, test results, browser checks and recovery steps logged; historical snapshots archived.                                  |
+| F39 | Multi-format content model  | P0          | Verified foundation                | Prisma Client over PostgreSQL; all four formats and optional fields round-trip. Versioned SQL migrations preserve DB-specific features. |
+| F40 | Content-type filter         | P0          | Implemented; tested                | Four-format filters run against stored metadata.                                                                                        |
+| F41 | Video discovery             | P1          | Implemented; metadata import       | Operator imports can store/recommend video metadata. No dedicated live video source configured.                                         |
+| F42 | Video detail                | P1          | Implemented; metadata only         | Video detail displays available duration/thumbnail and safe original playback link; no embedded hosting/transcripts.                    |
+| F43 | Video metadata extraction   | P1          | Implemented; metadata only         | Validated video metadata imports; no invented transcripts/content claims.                                                               |
+| F44 | Research discovery          | P1          | Implemented; metadata import       | Research metadata/DOI can be imported, searched and displayed. No dedicated live research source configured.                            |
+| F45 | Unified search              | P0          | Implemented; tested                | One Prisma/PostgreSQL search across all stored formats with type/publisher/original URL.                                                |
+| F46 | Operational observability   | Recommended | Implemented; non-AI                | Persistent ingestion lifecycle/counts/errors and protected manual runs. AI processing logs remain schema-only until AI phase.           |
 
-## Implementation order
+## What to do next
 
-Work in individual increments and update this inventory and verification log with each change. P0 comes before optional P1/P2 work.
+1. User acceptance testing: follow [NON_AI_HANDOFF.md](NON_AI_HANDOFF.md) and report UI/data issues. The app and database are left running.
+2. Resolve acceptance findings, then expand source coverage/backfill toward the 500-record target if required. Dedicated video/research sources need a separate source decision; operator metadata import already supports those formats.
+3. When explicitly approved, choose the LLM provider/model/budget and implement the deferred AI enrichment, scoring and grounded assistant/citation phase. No LLM key is needed now.
+4. Choose hosting for public deployment later. Local Docker delivery is verified; public deployment is not done.
 
-1. Local reading history (F18): implementation complete; browser QA pending.
-2. Persistent topic/type preferences (F19) and full topic directory implemented; browser QA pending. ForYou preview ranking is now implemented (F14 partial); backend/database foundation is next.
-3. Backend/database foundation, common content schema (F39), validation/metadata (F2/F5), deduplication (F3).
-4. Source adapters (F1), scheduled ingestion (F4), logs and observability (F36/F46). Initial sources remain an open decision.
-5. AI processing (F7–F12), after provider/model/budget decisions.
-6. API-backed feed, search, filters, pagination, detail, trending (F15/F16/F20–F24/F27/F29/F40/F45).
-7. Grounded assistant and validated citations (F31/F32).
-8. Docker and acceptance verification (F35), documentation/log updates throughout (F37/F38).
-9. Optional P1 features after the core works; P2 remains deferred.
+## Architecture and operational decisions
 
-## Verification and change log
+- React/Vite JavaScript, Tailwind, Lucide, React Router; modular Express backend; PostgreSQL with Prisma 7 Client and `@prisma/adapter-pg`.
+- Application content, taxonomy, operation and health queries use Prisma. Raw SQL remains only in versioned schema migrations and PostgreSQL-specific integration-test infrastructure.
+- Shared framework-independent taxonomy is in `packages/shared`. All pages/components remain separate. Prettier formats JS/JSX/CSS/docs; Prisma formats and validates its schema.
+- Existing migrations are retained to preserve checks, partial indexes, triggers and generated tsvector. Prisma Client full-text search is used for the application; this does not claim it uses the existing generated-vector GIN index. Profile and optimize that path if dataset growth warrants it.
+- Scheduler is opt-in (`INGESTION_ENABLED=true`, minimum interval 60000 ms, default 30 minutes); one app process handles ingestion with bounded source requests and a shared lock. Job state is persisted; interrupted pending/running jobs are marked failed at restart.
+- Dashboard requires a server-checked operator key held only in UI memory. Local `.env` contains generated development secrets and is gitignored/excluded from Docker builds. No public ingestion/write endpoint or end-user registration was added.
+- Exports are capped at 100 matching records; live source adapters bound item count/response size. Recommendations rank the matching stored dataset in process for this MVP; large-scale ranking is not claimed.
 
-| Date       | Feature       | Change / executed check                                                                                 | Result        | Limits                                                                                                                                   |
-| ---------- | ------------- | ------------------------------------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-05 | UI foundation | React routes, preview screens, local bookmarks/theme, sample filters                                    | Implemented   | Earlier production build passed; browser behavior not verified.                                                                          |
-| 2026-11-05 | F18           | Record opening, deduplicate/move latest first, bounded local persistence, history view and clear action | Implemented   | Browser route and interaction verification pending.                                                                                      |
-| 2026-11-05 | F18           | `node --test apps/web/src/utils/readingHistory.test.js`                                                 | PASS: 5 tests | Covers reorder/deduplication, malformed input, size cap, reload/clear, storage failure reporting. Uses in-memory storage, not a browser. |
-| 2026-11-05 | Frontend      | `npm run build` after history integration                                                               | PASS          | Production compilation only; not visual/accessibility/end-to-end verification.                                                           |
+## Change and verification log
 
-## Decisions still needed
+| Date       | Increment                 | Actual result                                                                                                                                                                                                                                                                                                                                                  |
+| ---------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-05 | UI/local state foundation | Separate pages/routes/shared components, bookmarks/history/preferences/theme, formatting and preview-ranking increments completed. Earlier snapshots preserved in IMPLEMENTATION_HISTORY.md.                                                                                                                                                                   |
+| 2026-11-05 | F39 initial DB foundation | Real PostgreSQL migration/persistence/constraint tests passed before ORM change.                                                                                                                                                                                                                                                                               |
+| 2026-11-05 | Prisma migration          | Introspected existing tables; generated Prisma 7 Client; content CRUD/readiness and new backend modules use Prisma. Original data model/migrations retained.                                                                                                                                                                                                   |
+| 2026-11-05 | Non-AI backend/UI         | Ingestion, validation/deduplication, public APIs, search/filters, ranking, pagination, related items, exports, operator controls/imports and connected UI delivered. AI endpoints return explicit AI_DISABLED.                                                                                                                                                 |
+| 2026-11-05 | Verification              | 7 DB + 22 API/ingestion + 23 frontend logic results pass; source adapters fetched live metadata; first ingestion persisted 91 records; repeat inserted none.                                                                                                                                                                                                   |
+| 2026-11-05 | System recovery           | Docker Desktop showed stale engine state/HTTP 500/no route to its Linux VM. Non-destructive restarts and targeted WSL termination were insufficient. User approved Windows UAC for WslService restart; Docker then reported engine 29.8.1 and existing unrelated container resumed. No factory reset, unregister, disk/volume deletion or reinstall performed. |
+| 2026-11-05 | Runtime                   | Windows reserved 5432; project DB moved to loopback 55434. App Docker build/start and health checks passed; local smoke reports 91 content records, 8 cooling search results, 14 topics, protected metrics and AI disabled.                                                                                                                                    |
+| 2026-11-05 | Browser                   | Live source cards, search, detail, bookmark/history persistence, preference form lifecycle, operator dashboard, theme reload and mobile layout inspected. Screenshots in artifacts/.                                                                                                                                                                           |
 
-LLM provider/model and usage budget, permitted initial content sources, and hosting provider. These do not block local UI work or storage/domain foundations.
+## Remaining limits
 
-## Frontend organization
+AI requirements and the model/provider/budget decision are explicitly deferred. No video transcript extraction, semantic search, account sync, notifications or P2 shortcuts are included. Current ingestion does not satisfy the 500-record target. Production hardening/hosting and a full keyboard/accessibility/browser audit remain follow-up work; local smoke tests are not evidence of a public production release.
 
-Refactored on 5 November 2026 to follow DESIGN_SYSTEM.md sections 6–7:
+## Runtime repair — 6 November 2026
 
-- `src/App.jsx`: browser router and shared provider only.
-- `src/app/routes.jsx`: explicit screen routes, including missing-page handling.
-- `src/pages/`: Discover, Trending, Topics, ContentDetail, Search, Saved, AskAI, Dashboard, ReadingHistory.
-- `src/components/layout/`: AppShell, Sidebar, Header, MobileNav.
-- `src/components/content/`: FeedPage, ContentFeed, ContentCard, ContentTypeTabs, FeedFilters, BookmarkButton.
-- `src/components/common/`: reusable EmptyState.
-- `src/context/NewsContext.jsx`: shared local state and filters.
-- `src/data/preview.js`: clearly illustrative content, topic and navigation definitions.
-- `src/hooks/useReadingHistory.js` and `src/utils/readingHistory.js`: local history logic.
-
-Verification after refactor: production build and five reading-history tests pass. Browser/visual regression testing remains pending. This is structural work; it does not complete pending backend features.
-
-## Formatting maintenance
-
-Added Prettier configuration, EditorConfig, and root `format` / `format:check` scripts. Formatted supported project files; generated builds, dependencies, lockfile and environment files are excluded. This is maintenance, not completion of additional feature catalogue entries.
-
-## F19 — local preferences implementation
-
-- Dedicated `/preferences` page, entered through Discover's “Personalize your feed” link.
-- Shared taxonomy defines all 14 PRD topics and four content formats; preferences persist stable IDs.
-- Checkbox changes are local drafts. Cancel leaves saved preferences unchanged. Reset clears the draft and requires Save to apply.
-- No selections mean no preference within that group. Preferences do not alter URL filters. F14 now uses them for local preview ranking; server ranking remains pending.
-- Successful saves restore on reload through the shared provider; failed writes keep previous preferences and show an error.
-- Reusable `PreferenceOptions`, separate `usePreferences` hook, storage utilities, and page follow the component structure.
-- Executed `node --test apps/web/src/utils/*.test.js`: PASS, 12 tests (seven preferences, five history). Storage tests use an in-memory storage adapter.
-- Executed `npm run build` and `npm run format:check`: PASS.
-- Browser verification attempt could not reach the local preview (`ERR_CONNECTION_TIMED_OUT`); browser save/reload/cancel/reset, visual, keyboard, and responsive checks remain pending.
-
-## F14 — ForYou preview ranking
-
-Implemented 5 November 2026 under FEATURES.md F14 and SYSTEM_DESIGN.md section 4.3.
-
-- Discover default sort is now **For You (preview)**. A preferred topic adds two internal ordering points; a preferred format adds one. Unread items win ties; original order breaks remaining ties. These points are not relevance/quality scores and are not displayed as metrics.
-- Saved stable topic IDs map to the shared taxonomy's preview labels. Saved format IDs match the item's format. Reading history is read from the existing provider.
-- Items are reordered rather than hidden by preferences. Explicit type/topic/text filters still narrow results. Title A–Z overrides personalization. Saved, Search and Trending retain their existing order.
-- Empty preferences/history preserve original order. Resetting preferences removes preference boosts; history still influences unread ties. Clearing history removes that tie-break signal.
-- Expandable explanation describes actual behavior and the missing live signals. Preference-save messaging reflects connected local ordering.
-- `node --test apps/web/src/utils/*.test.js`: PASS, 20 tests (8 ranking/selection, 7 preferences, 5 history).
-- `npm run build`: PASS. Prettier applied and formatting check passes.
-- This is local preview behavior only. Server-computed relevance/quality/freshness/available engagement and validated recommendation endpoint remain pending. Browser/visual interaction verification remains pending.
-
-Next planned work: backend/database foundation and persistent unified content model (F39), then validation/metadata/deduplication (F2/F5/F3), following the implementation sequence. Full F14 acceptance awaits backend integration.
+The app/database containers were already healthy and the API returned 91 content records, 8 cooling search results and 14 topics. The reported missing data was traced to a stale NewsDC Vite listener on 5173, with additional project listeners on 5174/5176. Confirmed project processes were stopped and one clean frontend was started on 5173. Vite is now configured with explicit loopback host, port 5173 and strictPort, retaining its `/api` proxy to port 5000. Server/database data and credentials were unchanged. Both the complete Docker app on 5000 and the development frontend on 5173 remain available.

@@ -34,8 +34,8 @@ export default function Preferences() {
         Choose the topics and formats that interest you. Your preferences stay in this browser.
       </p>
       <p className="notice">
-        Leave a group unselected to include everything. Preferences guide For You preview ordering;
-        they do not change your current feed filters.
+        Leave a group unselected to include everything. Preferences guide For You ordering; they do
+        not change your current feed filters.
       </p>
       <form onSubmit={submit}>
         <PreferenceOptions

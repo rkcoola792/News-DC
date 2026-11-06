@@ -110,3 +110,11 @@ Stores related-content edges and their relation score/reason.
 - Store AI output and provenance (model/prompt version).
 - A record with failed AI processing may still appear in a clearly labelled unprocessed/admin view, but should not appear as fully enriched.
 - Avoid treating the AI score as objective truth; document it as a heuristic estimate.
+
+## 6. Implemented foundation
+
+`database/migrations/001_foundation.sql` creates the documented tables, constraints, indexes, generated search vector and updated-at triggers. `002_taxonomy.sql` seeds all 14 category slugs matching `packages/shared/src/taxonomy.js`. Categories use their controlled slug as primary key; mapping tables reference that slug.
+
+`packages/db` owns the pool, internal create/read repository and migration runner. `schema_migrations` tracks names/checksums; migrations run transactionally under an advisory lock. Repeated application is a no-op, and changed applied migrations are rejected. Run `npm run db:migrate` after setting root `.env` as described in README.
+
+Verified on PostgreSQL 16: four-format persistence, null optional fields, taxonomy seed, repeated migration, canonical URL uniqueness, range/enum/foreign-key constraints and search-vector updates. This is not an implemented ingestion pipeline or public content/search API. Fingerprint generation, URL normalization and AI processing remain pending.

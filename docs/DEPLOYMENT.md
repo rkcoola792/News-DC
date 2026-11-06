@@ -85,3 +85,9 @@ This is a topology example. Adjust Dockerfiles, scripts, health checks and secre
 - Avoid unbounded full-dataset LLM reprocessing.
 - Keep database backups and retention policy appropriate to the host.
 - Respect external source terms and rate limits.
+
+## 6. Current local infrastructure
+
+The repository Compose file now provides PostgreSQL 16 only, with loopback-only port 5432, health checks, and a named volume. Copy root `.env.example` to `.env`, choose local credentials, then run `npm run db:up`, `npm run db:migrate`, and `npm run dev:api`. The API is a local Node process with liveness/readiness under `/api/v1/health`. No migration runs automatically during API startup.
+
+Database integration was verified in a separate temporary PostgreSQL 16 container without a persistent volume. This does not verify app/client/worker Docker packaging, public hosting, production secrets, or the complete release checklist; those remain pending under F35.

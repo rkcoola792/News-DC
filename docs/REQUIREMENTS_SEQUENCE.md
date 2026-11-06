@@ -15,6 +15,12 @@ This document presents the requirements in the order we plan to build them, incl
 
 The existing scope remains unchanged: P0 is essential, P1 is optional when time permits, and P2 is future work. Backend dependencies must exist before API-backed features can be accepted, even when their UI previews already exist.
 
+## Current position and immediate next step
+
+Local history (F18), preferences (F19), bookmarks (F25) and theme (F28) are implemented with browser acceptance pending. F14/F20 personalized ordering is a local preview; the full 14-topic directory exists, while search and filters still operate on samples. Separate pages/components and Prettier are in place. Current logic suite: 23 passing tests. F39 database foundation is verified on PostgreSQL 16; health endpoints exist. AI processing and UI/API integration remain pending.
+
+**Next:** F2/F5 metadata normalization/validation, followed by F3 canonical URL/fingerprint deduplication. Stage 03 database persistence is verified; live adapters and consumer API integration remain future increments. Browser verification of local features is still outstanding.
+
 ## Sequence at a glance
 
 | Order | Stage                                         | Main dependency                                                 |
@@ -59,7 +65,7 @@ Finish local reading history and bookmarks, persist selected topics/content type
 
 Create Express modules and PostgreSQL migrations. Define one content model for all four types. Validate required fields, tolerate missing optional metadata, preserve source attribution, canonicalize URLs conservatively, and enforce uniqueness. Implement fingerprint checks.
 
-**Current position:** Preview objects cover four formats, but backend, migrations, persistence, validation, and deduplication are pending.
+**Current position:** Express health/startup and PostgreSQL migrations/repository are implemented. All four content types round-trip in real PostgreSQL tests. F39 foundation is verified; candidate normalization/validation (F2/F5) and automatic deduplication (F3) remain next.
 
 | ID  | Requirement                | Priority | Acceptance criteria                                            |
 | --- | -------------------------- | -------- | -------------------------------------------------------------- |
@@ -140,7 +146,7 @@ Retrieve a bounded set of matching indexed records, generate answers from that e
 
 Complete meaningful unit/integration/browser checks, responsive and accessibility checks, and failure-path verification. Package client/API/worker/database as appropriate with Docker. Verify fresh setup, protected operations, environment configuration, persistence, and the deployed demo. Keep F37/F38 documentation and evidence updated.
 
-**Current position:** Pending. Docker Compose is a placeholder. Production frontend compilation and five local-history utility tests have passed; deployment and end-to-end acceptance have not.
+**Current position:** Pending. Local PostgreSQL Compose exists; full application Docker packaging remains pending. Production frontend compilation and 23 local logic tests have passed; deployment and end-to-end acceptance have not.
 
 | ID  | Requirement       | Priority | Acceptance criteria                      |
 | --- | ----------------- | -------- | ---------------------------------------- |
@@ -196,7 +202,7 @@ Defer keyboard shortcuts and the P2 roadmap until the MVP is accepted. Other fut
 4. Update the feature tracker with changes, executed checks, and outstanding verification. A passing build alone does not prove a feature works end to end.
 5. Report what was implemented, what passed, and what remains before moving to the next increment.
 
-**Next planned feature:** backend/database foundation and persistent common content model (F39), then metadata/validation/deduplication (F2/F5/F3). F14 local preview ranking and F19 preferences are implemented with browser QA pending; full server ranking remains pending.
+**Next planned feature:** F2/F5 metadata normalization and validation, then F3 deduplication. F39 database foundation is implemented and integration-tested; local frontend features still need browser QA.
 
 ## Open decisions and when they are needed
 
@@ -205,3 +211,7 @@ Defer keyboard shortcuts and the P2 roadmap until the MVP is accepted. Other fut
 | Exact initial permitted API/RSS sources | Connecting live ingestion in stage 04                            | Local UI, schema, validation, deduplication, adapter contracts        |
 | LLM provider/model and usage budget     | Provider-backed processing in stage 05 and assistant in stage 08 | Processing contracts, output validation, retrieval and failure states |
 | Hosting provider                        | Production release in stage 09                                   | Local Docker packaging, tests and setup documentation                 |
+
+## Foundation progress update — 5 November 2026
+
+Stage 03 now has Express health/startup, PostgreSQL pool and schema migrations, shared taxonomy, and internal four-format create/read persistence. Real PostgreSQL verification passed (7 database test results and 6 API tests), alongside 23 frontend logic tests and production build. Stage 03 metadata normalization/validation and deduplication remain next. Earlier descriptions of pending foundation work are superseded by this update and the implementation tracker.

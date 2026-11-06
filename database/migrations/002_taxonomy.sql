@@ -1,0 +1,15 @@
+INSERT INTO categories(slug,name) VALUES
+('infrastructure','Data Center Infrastructure'),
+('ai-compute-gpus','AI Compute and GPUs'),
+('power-energy','Power and Energy'),
+('cooling','Cooling'),
+('sustainability','Sustainability (PUE/WUE/carbon)'),
+('hyperscaler-investments','Hyperscaler Investments'),
+('economics','Economics and Financial Models'),
+('site-selection','Site Selection'),
+('networking','Networking'),
+('optimization','Optimization'),
+('ai-agentic-ai','AI/Agentic AI'),
+('security','Security'),
+('regulation','Regulation'),
+('emerging-technologies','Emerging Technologies');

@@ -1,28 +1,39 @@
+import ContentThumbnail from './ContentThumbnail.jsx';
 import { Link } from 'react-router-dom';
-import { Play } from 'lucide-react';
-export default function ContentCard({ item: x, rank, save }) {
+import { ArrowUpRight } from 'lucide-react';
+import { sourceUrl } from '../../services/api.js';
+export default function ContentCard({ item, rank, save }) {
+  const original = sourceUrl(item.url);
   return (
-    <article className="content-row" key={x.id}>
+    <article className="content-row">
       {rank && <span className="rank">{rank}</span>}
-      <Link className={`thumbnail ${x.art}`} to={`/content/${x.id}`} aria-label={`Open ${x.title}`}>
-        <span />
-        {x.type === 'Video' && <Play size={23} fill="white" />}
-      </Link>
+      <ContentThumbnail item={item} />
       <div className="content-copy">
         <div className="eyebrow">
-          {x.topic}
-          <span>· Preview</span>
+          {item.topic}
+          <span>
+            ·{' '}
+            {item.publishedAt
+              ? new Date(item.publishedAt).toLocaleDateString()
+              : 'Date unavailable'}
+          </span>
         </div>
-        <Link className="headline" to={`/content/${x.id}`}>
-          {x.title}
+        <Link className="headline" to={`/content/${item.id}`}>
+          {item.title}
         </Link>
-        <p className="summary">{x.summary}</p>
+        <p className="summary">{item.summary}</p>
         <div className="metadata">
-          {x.type}
-          <span>·</span>Sample content
+          {item.type}
+          <span>·</span>
+          {item.publisher?.name || 'Unknown publisher'}
+          {original && (
+            <a href={original} target="_blank" rel="noopener noreferrer">
+              Original <ArrowUpRight size={12} />
+            </a>
+          )}
         </div>
       </div>
-      {save(x)}
+      {save(item)}
     </article>
   );
 }

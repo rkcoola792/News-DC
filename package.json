@@ -11,8 +11,19 @@
     "dev": "npm run dev --workspace=@newsdc/web",
     "build": "npm run build --workspace=@newsdc/web",
     "preview": "npm run preview --workspace=@newsdc/web",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write . && npm run schema:format --workspace @newsdc/db",
+    "format:check": "prettier --check . && npm run schema:validate --workspace @newsdc/db",
+    "dev:api": "npm run dev --workspace @newsdc/api",
+    "db:migrate": "npm run migrate --workspace @newsdc/db",
+    "test:api": "npm test --workspace @newsdc/api",
+    "test:db": "npm test --workspace @newsdc/db",
+    "db:up": "docker compose up -d postgres",
+    "db:generate": "npm run generate --workspace @newsdc/db",
+    "db:introspect": "npm run introspect --workspace @newsdc/db",
+    "postinstall": "npm run db:generate",
+    "ingest": "npm run ingest --workspace @newsdc/api",
+    "setup:local": "node scripts/setup-local.mjs",
+    "smoke": "node --env-file-if-exists=.env scripts/smoke.mjs"
   },
   "devDependencies": {
     "prettier": "^3.9.10"

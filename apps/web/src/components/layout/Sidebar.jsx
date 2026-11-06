@@ -24,7 +24,7 @@ export default function Sidebar() {
         </NavLink>
         <NavLink to="/dashboard">
           <ChartNoAxesCombined size={18} />
-          Dashboard <small>P1</small>
+          Dashboard
         </NavLink>
       </nav>
       <div className="sidebar-bottom">

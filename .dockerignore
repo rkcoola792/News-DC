@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+**/dist
+packages/db/generated
+.git
+.env
+.env.*
+*.log
+coverage
+
+docs/
+README.md
+AGENTS.md
+.github/
+artifacts/
+**/*.test.js

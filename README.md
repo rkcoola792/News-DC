@@ -1,81 +1,97 @@
 # NewsDC
 
-A modular monorepo, starting with a React frontend written in plain JavaScript and JSX, styled with Tailwind CSS.
+Data center content discovery, built with React + Vite, JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL and Prisma. The **non-AI build** is ready for local testing; AI enrichment and assistant answers are intentionally disabled.
 
-## Getting started
+## Run with Docker
 
-Install Node.js 22.12+ (or a newer supported LTS release) and npm. From the repository root:
+Prerequisites: a running Docker Desktop Linux engine and Node.js 22.12+ for local helper commands.
 
 ```sh
 npm install
+npm run setup:local
+docker compose up --build -d
+```
+
+Open [NewsDC](http://127.0.0.1:5000/). The app serves both the SPA and `/api/v1` on port 5000. PostgreSQL persists in a named volume and is exposed only on `127.0.0.1:55434` by default. Configure `POSTGRES_PORT` if that port is unavailable. Compose runs migrations before API startup.
+
+`setup:local` creates root `.env` with random local database/operator credentials and never overwrites an existing file. View `ADMIN_API_KEY` in that file to unlock Dashboard; do not share it or put it in a `VITE_` variable. Existing `.env` users can follow `.env.example`. Use URL-safe credentials in Compose's database URL. `.env` is gitignored and excluded from the image.
+
+For the current workspace, app/database are already running and contain **91 real source records**. No LLM key is required. See [the handoff](docs/NON_AI_HANDOFF.md) and [feature tracker](docs/IMPLEMENTATION_STATUS.md).
+
+## Ingest real content
+
+Approved initial sources: Hacker News via Algolia's public API and Data Center Knowledge RSS. In Dashboard, enter the operator key and select **Run ingestion**. It returns persisted run IDs; status/counts appear in recent runs. Enable/disable each source there.
+
+Alternatively, from the host:
+
+```sh
+npm run ingest
+```
+
+The CLI reads root `.env` and uses PostgreSQL on host port 55434. Scheduled refresh is opt-in: set `INGESTION_ENABLED=true` and recreate the app container. Default interval is 1800000 ms (30 minutes), minimum 60000 ms.
+
+The first live run inserted 50 articles and 41 discussions. Repeat ingestion inserted zero duplicates. Optional fields stay absent when sources omit them. Images that fail to load are hidden. Video/research metadata can be imported through the protected Dashboard form; dedicated live sources for those formats are not configured.
+
+## Local development
+
+```sh
+npm run db:up
+npm run db:migrate
+npm run dev:api
+# Another terminal:
 npm run dev
 ```
 
-Open the local URL printed by Vite. The frontend currently provides preview screens with illustrative content, local bookmarks/theme, sample filters, and local reading history at `/history`. Backend ingestion, AI processing, and PostgreSQL search are not connected.
+If the Docker app is running on port 5000, stop just that service with `docker compose stop app` before starting the host API. Vite proxies `/api` to `127.0.0.1:5000`. Set browser-safe `VITE_API_BASE_URL` in `apps/web/.env.local` only when using another API origin.
 
-See [the feature tracker](docs/IMPLEMENTATION_STATUS.md) for the status of every catalogue item and verification evidence.
+## Prisma and database workflow
+
+Application queries use Prisma Client in `packages/db`, with PostgreSQL's driver adapter. Normal `npm install` generates the client through root postinstall; after installing with `--ignore-scripts`, run:
 
 ```sh
-npm run build
-npm run preview
+npm run db:generate
 ```
 
-The production build is written to `apps/web/dist`. Preview serves that build locally.
+Existing versioned SQL migrations remain the schema authority because they preserve database checks, triggers, partial indexes and the generated full-text vector. To evolve the database: add a new migration, run `npm run db:migrate`, then `npm run db:introspect` and `npm run db:generate`. Preserve the Prisma `fullTextSearchPostgres` preview feature when introspecting. Do not use `db push` or reset an existing database. Application code uses `findMany`, `findUnique`, `create`, `update`, transactions and aggregates rather than handwritten SQL.
 
-## Repository structure
+## Verification and formatting
+
+```sh
+node --test apps/web/src/utils/*.test.js
+npm run test:db
+npm run test:api
+npm run format:check
+npm run smoke
+```
+
+Database integration tests require `TEST_DATABASE_URL` in the process environment pointing to a dedicated disposable PostgreSQL database. Without it, real DB tests explicitly skip. They create/drop generated test schemas; the readiness test applies migrations to that test database's public schema. Never use production or the user's development database for these tests.
+
+Latest results: **23 frontend logic + 7 DB + 22 API/ingestion = 52 passing test results**, with real PostgreSQL enabled and no skips. Docker build/start/health, local SPA/API smoke and selected browser checks passed. Full accessibility/browser coverage and public production deployment are not claimed.
+
+`npm run format` runs Prettier and Prisma schema formatting. `npm run format:check` runs Prettier checks and Prisma schema validation. Generated files, dependencies, builds and secrets are excluded.
+
+## Project layout
 
 ```text
-apps/web/           React + JavaScript + Tailwind CSS frontend, powered by Vite
-services/api/       Future backend API
-services/ingestion/ Future news ingestion service
-services/ai-worker/ Future AI processing service
-packages/shared/   Future shared utilities and contracts
-packages/db/       Future database access package
-database/          Future schemas, migrations, and seed data
-docs/              Project documentation
-.github/           Future GitHub configuration and workflows
+apps/web/src/pages/        Separate screen components
+apps/web/src/components/  Shared layout, feed, forms and states
+apps/web/src/hooks/        Preferences, history and API resources
+services/api/src/         Express, content services, ingestion and protected operations
+packages/db/              Prisma schema/client factory, repositories and migration runner
+packages/shared/          Controlled taxonomy shared with frontend/backend
+database/migrations/     Versioned PostgreSQL schema/taxonomy/index migrations
+scripts/                  Safe local configuration and smoke helpers
+docs/                     Requirements, contracts, progress and handoff
 ```
 
-The frontend includes folders for assets, components, pages, hooks, services, utilities, and styles. Routing uses React Router and icons use Lucide React. Most screen content remains a design preview; see the feature tracker for implemented behavior.
+## Scope and limits
 
-## Workspaces
+Bookmarks/preferences/history stay in the browser, with no registration. Publisher descriptions are not labelled AI summaries. Metadata keyword rules supply topic labels; ranking uses preferences, history, freshness and actual available engagement. No AI summaries, insights, scores, assistant responses or transcript claims are generated.
 
-The root uses npm workspaces for `apps/*`, `services/*`, and `packages/*`. Add a `package.json` to a placeholder module when implementing it. Install frontend dependencies from the root with `npm install <package> --workspace=@newsdc/web`.
+Search uses Prisma's PostgreSQL full-text feature; source filters, pagination and original attribution are connected to the database. Exports are capped at 100 matching records. ForYou/Trending rank matching records in-process for the MVP. The actual dataset is 91, below the 500-relevant-record target. Hosting, broader sources/backfill and the AI phase remain future work after user testing.
 
-## Environment and infrastructure
+Read [PRD](docs/PRD.md), [feature catalogue](docs/FEATURES.md), [implementation sequence](docs/REQUIREMENTS_SEQUENCE.md), and [current status](docs/IMPLEMENTATION_STATUS.md).
 
-Use `.env.example` as a reference. For frontend configuration, copy the needed variables into `apps/web/.env.local`. Only browser-safe values should use the `VITE_` prefix.
+## Local startup troubleshooting
 
-`docker-compose.yml` is an empty placeholder for future infrastructure; there are no containers to start yet.
-
-## Styling
-
-Tailwind CSS v4 is connected through the @tailwindcss/vite plugin in apps/web/vite.config.js. The global stylesheet imports Tailwind, and App.jsx uses utility classes. Add utilities directly to your JSX; no Tailwind config file is needed for this setup.
-
-## Feature verification
-
-Run the reading-history logic checks with:
-
-```sh
-node --test apps/web/src/utils/readingHistory.test.js
-```
-
-History is stored in this browser, keeps the latest 200 unique opened items, and can be viewed or cleared at `/history`. Browser interaction verification remains pending.
-
-## Formatting
-
-Run `npm run format` to format supported project files with Prettier, and `npm run format:check` to verify them. Generated builds, dependencies, lockfiles, and environment files are excluded. Formatting uses two spaces, single quotes, semicolons, and a 100-character print width.
-
-## Requirements roadmap
-
-See [requirements in implementation order](docs/REQUIREMENTS_SEQUENCE.md) for the chronological build sequence, feature IDs, dependencies, acceptance criteria, and next planned requirement. Current completion evidence remains in the [feature tracker](docs/IMPLEMENTATION_STATUS.md).
-
-## Local preferences
-
-Open Discover and choose **Personalize your feed**, or visit `/preferences`. Choose any of the 14 topics and four content formats, then save. Cancel discards draft edits; Reset selections clears the draft and requires Save. Empty selections mean no specific preferences. Choices are stored in this browser. Discover uses a local preference/history-based preview order; live server ranking is not connected yet.
-
-Run all local-state logic tests with `node --test apps/web/src/utils/*.test.js`. Preference and history browser interaction checks remain pending.
-
-## ForYou preview ordering
-
-On Discover, **For You (preview)** prioritizes preferred topics (two internal ordering points) and formats (one point). Unread items win equal-match ties; other ties preserve source order. No items are hidden by preferences. Topic/type/text filters still apply; Title A–Z overrides personalized ordering. Read the expandable explanation beneath the filters for details. These are ordering rules, not measured quality or relevance scores. Live recommendation signals and server ranking remain pending.
+Use `http://127.0.0.1:5000/` for the complete Docker-served app, or `http://127.0.0.1:5173/` for Vite while the Docker API is running on port 5000. `npm run dev` starts only the frontend. Vite now uses a strict 5173 port so an existing stale listener produces a clear error instead of silently switching ports. Stop only confirmed project Vite processes before restarting; do not stop the API/database to fix a stale frontend.

@@ -1,21 +1,23 @@
 import { Link } from 'react-router-dom';
-
-import { topics } from '../data/preview.js';
+import { LayoutGrid } from 'lucide-react';
+import { useResource } from '../hooks/useResource.js';
+import ResourceState from '../components/common/ResourceState.jsx';
 export default function Topics() {
+  const resource = useResource('/topics');
   return (
     <>
       <h1>Topics</h1>
-      <p className="description">Explore content by key data center themes.</p>
+      <p className="description">Explore data center themes. Counts reflect indexed metadata.</p>
+      <ResourceState {...resource} />
       <div className="topic-grid">
-        {topics.map(([name, Icon]) => (
-          <Link className="topic-card" to={`/?topic=${encodeURIComponent(name)}`} key={name}>
-            <Icon size={28} strokeWidth={1.5} />
-            <h2>{name}</h2>
-            <span>Explore topic →</span>
+        {resource.data?.data.map((t) => (
+          <Link className="topic-card" key={t.slug} to={`/?topic=${encodeURIComponent(t.slug)}`}>
+            <LayoutGrid size={26} />
+            <h2>{t.name}</h2>
+            <span>{t.count} items</span>
           </Link>
         ))}
       </div>
-      <p className="footnote">Topic counts will appear when indexed content is available.</p>
     </>
   );
 }

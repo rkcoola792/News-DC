@@ -1,17 +1,32 @@
 import { Link } from 'react-router-dom';
-import { History } from 'lucide-react';
 import { useNews } from '../context/NewsContext.jsx';
-import { items } from '../data/preview.js';
+import { useResource } from '../hooks/useResource.js';
+import { asItem, isContentId } from '../services/api.js';
+import ResourceState from '../components/common/ResourceState.jsx';
 export default function ReadingHistory() {
   const { history, clearHistory, storageError, save } = useNews();
+  const ids = history
+    .map((h) => h.contentId)
+    .filter(isContentId)
+    .slice(0, 200);
+  const resource = useResource(
+    ids.length ? `/content?limit=100&ids=${ids.slice(0, 100).join(',')}` : null,
+  );
+  const older = useResource(
+    ids.length > 100 ? `/content?limit=100&ids=${ids.slice(100).join(',')}` : null,
+  );
+  const found = new Map(
+    [...(resource.data?.data || []), ...(older.data?.data || [])].map((row) => [
+      row.id,
+      asItem(row),
+    ]),
+  );
   return (
     <>
       <div className="page-heading">
         <div>
           <h1>Reading history</h1>
-          <p className="description">
-            Recently opened content, stored only in this browser. Up to 200 items.
-          </p>
+          <p className="description">The latest 200 opened items, stored in this browser.</p>
         </div>
         <button className="clear-history" disabled={!history.length} onClick={clearHistory}>
           Clear history
@@ -19,39 +34,36 @@ export default function ReadingHistory() {
       </div>
       {storageError && (
         <p className="notice" role="status">
-          Browser storage is unavailable. Changes last only for this session.
+          Storage is unavailable. Changes last only for this session.
         </p>
       )}
-      {history.length ? (
+      <ResourceState {...resource} />
+      {older.error && <ResourceState {...older} />}
+      {!history.length && (
+        <div className="empty">
+          <h2>No reading history yet</h2>
+          <p>Open something from Discover to start your history.</p>
+          <Link className="primary" to="/">
+            Explore Discover
+          </Link>
+        </div>
+      )}
+      {!resource.loading && !resource.error && (
         <div className="history-list">
           {history.map((entry) => {
-            const item = items.find((x) => x.id === entry.contentId);
+            const item = found.get(entry.contentId);
             return (
               <article className="history-row" key={entry.contentId}>
-                <History size={18} />
                 <div>
-                  {item ? (
-                    <Link className="headline" to={`/content/${item.id}`}>
-                      {item.title}
-                    </Link>
-                  ) : (
-                    <p>Content is no longer available</p>
-                  )}
+                  <Link className="headline" to={`/content/${entry.contentId}`}>
+                    {item?.title || 'Open recorded item'}
+                  </Link>
                   <time dateTime={entry.openedAt}>{new Date(entry.openedAt).toLocaleString()}</time>
                 </div>
                 {item && save(item)}
               </article>
             );
           })}
-        </div>
-      ) : (
-        <div className="empty">
-          <History size={28} />
-          <h2>No reading history yet</h2>
-          <p>Open an item from Discover to start your history.</p>
-          <Link className="primary" to="/">
-            Explore Discover
-          </Link>
         </div>
       )}
     </>

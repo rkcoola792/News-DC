@@ -1,0 +1,24 @@
+{
+  "name": "@newsdc/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "migrate": "node --env-file-if-exists=../../.env src/migrate.js",
+    "test": "node --test test/*.test.js",
+    "generate": "prisma generate",
+    "introspect": "node --env-file-if-exists=../../.env ../../node_modules/prisma/build/index.js db pull",
+    "schema:format": "prisma format",
+    "schema:validate": "prisma validate"
+  },
+  "exports": "./src/index.js",
+  "dependencies": {
+    "@newsdc/shared": "0.1.0",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "prisma": "^7.10.1"
+  }
+}

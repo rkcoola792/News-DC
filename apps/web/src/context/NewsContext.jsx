@@ -3,7 +3,6 @@ import { createContext, useContext, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import BookmarkButton from '../components/content/BookmarkButton.jsx';
 import { useReadingHistory } from '../hooks/useReadingHistory.js';
-import { items } from '../data/preview.js';
 import { loadBookmarks, saveBookmarks } from '../utils/bookmarks.js';
 const bookmarkStorage = {
   getItem: (key) => window.localStorage.getItem(key),
@@ -34,13 +33,14 @@ export function NewsProvider({ children }) {
   const type = params.get('type') || 'All',
     topic = params.get('topic') || '',
     query = params.get('q') || '';
-  const detail = path.startsWith('/content/')
-    ? items.find((x) => x.id === path.split('/').pop())
-    : null;
-  const { history, clearHistory, storageError } = useReadingHistory(detail?.id);
+  const [openedId, setOpenedId] = useState(null);
+  const { history, clearHistory, storageError } = useReadingHistory(
+    path.startsWith('/content/') ? openedId : null,
+  );
   function filter(key, value) {
     const next = new URLSearchParams(params);
     value ? next.set(key, value) : next.delete(key);
+    if (key !== 'page') next.delete('page');
     setParams(next);
   }
   function toggle(id) {
@@ -77,6 +77,7 @@ export function NewsProvider({ children }) {
         query,
         params,
         filter,
+        setOpenedId,
         history,
         clearHistory,
         storageError,

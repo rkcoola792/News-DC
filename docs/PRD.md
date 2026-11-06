@@ -161,3 +161,9 @@ These are evaluation measures, not guaranteed outcomes:
 - Confirm the exact initial RSS/API sources and permitted usage.
 - Decide whether video transcripts are in scope based on accessible, permitted transcript sources.
 - Decide hosting provider after checking deployment constraints.
+
+## 15. Current build phase override — 5 November 2026
+
+The user explicitly requested the complete non-AI frontend/backend first and deferred AI implementation. The PRD remains the final product target; this phase does not remove AI requirements permanently. Use Prisma Client for application queries, as explicitly requested. Keep React/Vite, JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL and Docker.
+
+In this phase, publisher descriptions and public metadata are displayed directly; no summaries, insights, relevance/quality scores, model classifications or assistant answers are generated. Metadata keyword rules provide transparent topic labels and a basic domain gate; they are not AI processing. Ranking omits unavailable AI signals. Hacker News (Algolia public API) and Data Center Knowledge RSS were approved by the user as initial public sources. Public video/research metadata can be imported through operator-only tooling; no transcript extraction or video watching is claimed.

@@ -1077,3 +1077,227 @@ summary {
   text-underline-offset: 3px;
   padding: 12px 0 4px;
 }
+
+.actual-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.metadata a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  text-decoration: underline;
+}
+.expanded-filters {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.more-filters {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.more-filters > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 600px;
+  padding: 16px 0;
+}
+.more-filters label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.more-filters input,
+.operator-login input,
+.operator-section select,
+.operator-section textarea {
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  width: 100%;
+}
+.more-filters p {
+  font-size: 12px;
+  grid-column: 1/-1;
+  line-height: 1.6;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  font-size: 13px;
+}
+.pagination button {
+  padding: 10px 16px;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.feed-footer > div {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.feed-footer a {
+  text-decoration: underline;
+}
+.loading-state {
+  padding: 28px 0;
+  color: var(--secondary);
+  font-size: 14px;
+}
+.skeleton {
+  height: 100px;
+  border-radius: 8px;
+  background: var(--muted);
+  margin: 16px 0;
+}
+.detail-image {
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin: 24px 0;
+}
+.insights .primary {
+  margin-top: 20px;
+}
+.detail-labels a {
+  font-size: 12px;
+  background: var(--soft);
+  border-radius: 8px;
+  padding: 6px 9px;
+}
+.section-title {
+  font-size: 20px;
+  margin-top: 32px;
+}
+.timeframe {
+  display: block;
+  font-size: 13px;
+  margin-top: 16px;
+}
+.operator-login {
+  max-width: 440px;
+  margin-top: 32px;
+}
+.operator-login label {
+  display: block;
+  font-size: 14px;
+}
+.operator-login input {
+  margin: 10px 0 16px;
+}
+.operator-section {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 24px;
+}
+.operator-section h2 {
+  font-size: 18px;
+}
+.operator-section summary {
+  font-size: 16px;
+}
+.operator-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+.operator-section form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+.operator-section textarea {
+  resize: vertical;
+  font-family: monospace;
+}
+.source-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 13px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.source-row p {
+  color: var(--secondary);
+  line-height: 1.7;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.source-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ingestion-chart {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 200px;
+}
+.ingestion-chart > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  gap: 8px;
+}
+.ingestion-chart > div > div {
+  background: var(--accent);
+  opacity: 0.65;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+}
+.ingestion-chart small {
+  color: var(--secondary);
+  font-size: 10px;
+}
+@media (max-width: 760px) {
+  .source-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .more-filters > div {
+    grid-template-columns: 1fr;
+  }
+  .metadata {
+    row-gap: 8px;
+  }
+  .ingestion-chart {
+    gap: 5px;
+  }
+  .operator-section {
+    padding: 16px;
+  }
+}
+
+.thumbnail[hidden] {
+  display: none;
+}
+@media (max-width: 760px) {
+  .mobile-nav a {
+    font-size: 13px;
+    line-height: 1.1;
+  }
+  .mobile-nav span {
+    font-size: 13px;
+  }
+}
