@@ -1,0 +1,283 @@
+[
+  {
+    "question": "What are the latest developments in AI data center infrastructure?",
+    "status": 200,
+    "citationsValid": true,
+    "response": {
+      "model": "gemini-3.5-flash-lite",
+      "answer": "The rapid expansion of artificial intelligence is transforming data centers into major drivers of electricity demand, prompting the exploration of alternative models such as floating and offshore data centers in marine environments to exploit natural cooling and direct offshore renewable energy integration. [1]\n\nThe transition toward geo-distributed AI training across multiple data centers is being driven by model growth and data sovereignty requirements, utilizing EVPN-VXLAN infrastructure foundations alongside scalable emulation frameworks to handle synchronization and wide-area latency challenges. [2]\n\nResearchers are also addressing power constraints and infrastructure planning by linking high-resolution workload power measurements—such as those for NVIDIA H100 GPU-based training, fine-tuning, and inference—to whole-facility energy demand. [3]",
+      "cached": true,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2609.12511v1",
+          "scope": "abstract-only",
+          "title": "Computing at Sea: Floating and Offshore Data Centres as a Pathway to Sustainable AI Infrastructure",
+          "contentId": "782e434e-3dd0-480d-af5f-25ef7324c0fa",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2026-09-11T07:15:21.000Z"
+        },
+        {
+          "url": "https://arxiv.org/abs/2606.12963v1",
+          "scope": "abstract-only",
+          "title": "ScaleAcross: Designing Multi-Data-Center Infrastructure for Geo-Distributed AI Training",
+          "contentId": "24440ae1-0d71-4a24-adfa-8f18cc24a088",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2026-06-11T06:48:51.000Z"
+        },
+        {
+          "url": "https://arxiv.org/abs/2604.07345v1",
+          "scope": "abstract-only",
+          "title": "Measurement of Generative AI Workload Power Profiles for Whole-Facility Data Center Infrastructure Planning",
+          "contentId": "0e4f7484-7e37-408e-98dc-7077fbd1e86b",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2026-04-08T17:56:41.000Z"
+        }
+      ],
+      "provider": "gemini",
+      "retrieval": {
+        "count": 5,
+        "terms": ["ai", "artificial", "intelligence", "infrastructure"],
+        "method": "postgres_full_text"
+      },
+      "paragraphs": [
+        {
+          "text": "The rapid expansion of artificial intelligence is transforming data centers into major drivers of electricity demand, prompting the exploration of alternative models such as floating and offshore data centers in marine environments to exploit natural cooling and direct offshore renewable energy integration.",
+          "contentIds": ["782e434e-3dd0-480d-af5f-25ef7324c0fa"]
+        },
+        {
+          "text": "The transition toward geo-distributed AI training across multiple data centers is being driven by model growth and data sovereignty requirements, utilizing EVPN-VXLAN infrastructure foundations alongside scalable emulation frameworks to handle synchronization and wide-area latency challenges.",
+          "contentIds": ["24440ae1-0d71-4a24-adfa-8f18cc24a088"]
+        },
+        {
+          "text": "Researchers are also addressing power constraints and infrastructure planning by linking high-resolution workload power measurements—such as those for NVIDIA H100 GPU-based training, fine-tuning, and inference—to whole-facility energy demand.",
+          "contentIds": ["0e4f7484-7e37-408e-98dc-7077fbd1e86b"]
+        }
+      ],
+      "limitations": "The provided sources are abstract-only preprints from 2026 discussing specific technical aspects of AI data center infrastructure, such as power profiling, geo-distributed training, and offshore data centers, but they do not represent an exhaustive industry overview.",
+      "insufficientEvidence": false
+    }
+  },
+  {
+    "question": "Which hyperscalers are investing in new data centers?",
+    "status": 200,
+    "citationsValid": true,
+    "response": {
+      "model": "gemini-3.5-flash-lite",
+      "answer": "Based on the provided sources, Google is expanding its data center footprint with a €13 billion expansion involving facilities in Finland. [2]\n\nAdditionally, Meta is expanding its AI compute spending and AI infrastructure buildout. [1]",
+      "cached": true,
+      "sources": [
+        {
+          "url": "https://www.datacenterknowledge.com/data-center-chips/nvidia-amd-commit-4b-to-meta-ai-buildout",
+          "scope": "supplied source text",
+          "title": "Nvidia, AMD Commit $4B to Meta AI Buildout",
+          "contentId": "3c21cee5-1226-4ffc-a80d-2a16d2985fce",
+          "publisher": "www.datacenterknowledge.com",
+          "contentType": "ARTICLE",
+          "publishedAt": "2026-10-29T09:00:00.000Z"
+        },
+        {
+          "url": "https://www.datacenterknowledge.com/regulations/permits-not-power-halt-google-s-finland-data-centers",
+          "scope": "supplied source text",
+          "title": "Permits, Not Power, Halt Google’s Finland Data Centers",
+          "contentId": "5148f4e0-328d-48c4-9b8f-6840d76ad229",
+          "publisher": "www.datacenterknowledge.com",
+          "contentType": "ARTICLE",
+          "publishedAt": "2026-10-08T17:33:01.000Z"
+        }
+      ],
+      "provider": "gemini",
+      "retrieval": {
+        "count": 5,
+        "terms": [
+          "hyperscaler",
+          "hyperscale",
+          "microsoft",
+          "google",
+          "amazon",
+          "meta",
+          "investing",
+          "investment",
+          "expansion",
+          "spending"
+        ],
+        "method": "postgres_full_text"
+      },
+      "paragraphs": [
+        {
+          "text": "Based on the provided sources, Google is expanding its data center footprint with a €13 billion expansion involving facilities in Finland.",
+          "contentIds": ["5148f4e0-328d-48c4-9b8f-6840d76ad229"]
+        },
+        {
+          "text": "Additionally, Meta is expanding its AI compute spending and AI infrastructure buildout.",
+          "contentIds": ["3c21cee5-1226-4ffc-a80d-2a16d2985fce"]
+        }
+      ],
+      "limitations": "The provided sources specifically name Google and Meta regarding data center expansions and buildouts, but do not provide a comprehensive list of all hyperscalers investing in new data centers.",
+      "insufficientEvidence": false
+    }
+  },
+  {
+    "question": "What is emerging in liquid cooling and power availability?",
+    "status": 200,
+    "citationsValid": true,
+    "response": {
+      "model": "gemini-3.5-flash-lite",
+      "answer": "AI workloads are accelerating the data center transition toward high-density racks using direct-to-chip (DTC) liquid cooling for chilled-water and warm-water architectures [S1]. Furthermore, GPU-dense AI data centers are adopting liquid cooling to handle extreme heat loads [S2, S4], while evolving toward gigawatt grid loads characterized by highly fluctuating power swings [S4]. [1] [2] [3]",
+      "cached": true,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.33148v1",
+          "scope": "abstract-only",
+          "title": "Modeling Liquid-Cooled Data Centers in EnergyPlus",
+          "contentId": "162b6e20-8781-40cd-9316-e5bada9ec4e5",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2026-10-23T17:24:37.000Z"
+        },
+        {
+          "url": "https://arxiv.org/abs/2512.21801v1",
+          "scope": "abstract-only",
+          "title": "Smart IoT-Based Leak Forecasting and Detection for Energy-Efficient Liquid Cooling in AI Data Centers",
+          "contentId": "7c537d49-ce3c-4d9e-8523-d1a6bce66823",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2025-12-25T22:51:16.000Z"
+        },
+        {
+          "url": "https://arxiv.org/abs/2609.30785v1",
+          "scope": "abstract-only",
+          "title": "Job Class Thermal Intent Aware Liquid Cooling Allocation for AI Data Centers",
+          "contentId": "e6f9db0c-9fe6-47d9-bb32-eb6e2d675c7f",
+          "publisher": "arxiv.org",
+          "contentType": "RESEARCH",
+          "publishedAt": "2026-09-25T04:06:10.000Z"
+        }
+      ],
+      "provider": "gemini",
+      "retrieval": {
+        "count": 5,
+        "terms": [
+          "liquid",
+          "cooling",
+          "coolant",
+          "thermal",
+          "liquid",
+          "power",
+          "electricity",
+          "energy",
+          "grid",
+          "availability"
+        ],
+        "method": "postgres_full_text"
+      },
+      "paragraphs": [
+        {
+          "text": "AI workloads are accelerating the data center transition toward high-density racks using direct-to-chip (DTC) liquid cooling for chilled-water and warm-water architectures [S1]. Furthermore, GPU-dense AI data centers are adopting liquid cooling to handle extreme heat loads [S2, S4], while evolving toward gigawatt grid loads characterized by highly fluctuating power swings [S4].",
+          "contentIds": [
+            "162b6e20-8781-40cd-9316-e5bada9ec4e5",
+            "7c537d49-ce3c-4d9e-8523-d1a6bce66823",
+            "e6f9db0c-9fe6-47d9-bb32-eb6e2d675c7f"
+          ]
+        }
+      ],
+      "limitations": "The provided evidence covers abstract-level information on liquid cooling and power trends in data centers up to late 2026.",
+      "insufficientEvidence": false
+    }
+  },
+  {
+    "question": "Which articles discuss GPU utilization optimization?",
+    "status": 200,
+    "citationsValid": true,
+    "response": {
+      "model": "gemini-3.5-flash-lite",
+      "answer": "The indexed collection does not provide enough evidence to answer this question reliably. Try a narrower question or different filters.",
+      "cached": true,
+      "sources": [],
+      "provider": "gemini",
+      "retrieval": {
+        "count": 5,
+        "terms": [
+          "gpu",
+          "gpus",
+          "nvidia",
+          "accelerator",
+          "utilization",
+          "utilisation",
+          "optimization",
+          "efficiency",
+          "optimization"
+        ],
+        "method": "postgres_full_text"
+      },
+      "paragraphs": [],
+      "limitations": "The provided sources discuss neural network training modeling (MONET), geo-distributed data center workload optimization, grid-aware load allocation, CPU thermal optimization (ITD-aware per-CPU thermal optimization), and temperature-aware scheduling of LLM inference. None of the articles explicitly discuss GPU utilization optimization.",
+      "insufficientEvidence": true
+    }
+  },
+  {
+    "question": "What technologies could improve PUE and WUE?",
+    "status": 200,
+    "citationsValid": true,
+    "response": {
+      "model": "gemini-3.5-flash-lite",
+      "answer": "The indexed collection does not provide enough evidence to answer this question reliably. Try a narrower question or different filters.",
+      "cached": true,
+      "sources": [],
+      "provider": "gemini",
+      "retrieval": {
+        "count": 5,
+        "terms": ["pue", "efficiency", "wue", "water"],
+        "method": "postgres_full_text"
+      },
+      "paragraphs": [],
+      "limitations": "The provided source texts discuss Power Usage Effectiveness (PUE) and Water Usage Effectiveness (WUE) as standard data center metrics and mention cooling choices and the water-energy nexus, but they do not list or identify any specific technologies that could improve PUE and WUE.",
+      "insufficientEvidence": true
+    }
+  },
+  {
+    "request": {
+      "question": "zzzzxxyyqqq nonexistent lunar cheese observatory"
+    },
+    "status": 200,
+    "response": {
+      "answer": "The indexed collection does not provide enough evidence to answer this question reliably. Try a narrower question or different filters.",
+      "paragraphs": [],
+      "sources": [],
+      "insufficientEvidence": true,
+      "limitations": "The supplied evidence discusses orbital data centers, satellite constellations, and the Vera C. Rubin Observatory, but contains no information regarding a lunar cheese observatory.",
+      "retrieval": {
+        "count": 2,
+        "method": "postgres_full_text",
+        "terms": ["zzzzxxyyqqq", "nonexistent", "lunar", "cheese", "observatory"]
+      },
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "cached": false
+    }
+  },
+  {
+    "request": {
+      "question": "cooling",
+      "filters": {
+        "dateFrom": "2026-11-07",
+        "dateTo": "2026-01-01"
+      }
+    },
+    "status": 400,
+    "response": {
+      "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Check the request filters or fields.",
+        "details": [
+          {
+            "path": "filters.dateTo",
+            "message": "End date must follow start date"
+          }
+        ]
+      }
+    }
+  }
+]

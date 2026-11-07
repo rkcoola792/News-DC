@@ -37,6 +37,23 @@ export default function Header() {
         <History size={18} />
         <span>History</span>
       </Link>
+      <details className="mobile-menu">
+        <summary aria-label="More navigation">More</summary>
+        <nav aria-label="More navigation">
+          <Link
+            to="/preferences"
+            onClick={(e) => e.currentTarget.closest('details').removeAttribute('open')}
+          >
+            Preferences
+          </Link>
+          <Link
+            to="/dashboard"
+            onClick={(e) => e.currentTarget.closest('details').removeAttribute('open')}
+          >
+            System dashboard
+          </Link>
+        </nav>
+      </details>
       <span className="preview-indicator">Data center intelligence</span>
     </header>
   );

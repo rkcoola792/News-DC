@@ -51,7 +51,7 @@ export default function AskAI() {
     }
   }
   return (
-    <div className="assistant">
+    <div className={`assistant ${history.length ? 'has-conversation' : ''}`}>
       <div className="assistant-intro">
         <div className="sparkle-mark">
           <Sparkles size={30} />

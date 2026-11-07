@@ -23,6 +23,14 @@ export const sourceDefinitions = [
       'https://export.arxiv.org/api/query?search_query=ti:%22data%20center%22%20OR%20ti:%22datacenter%22%20OR%20ti:%22data%20centre%22&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending',
     config: { adapter: 'arxiv', metadataOnly: true, maxResults: 50 },
   },
+  {
+    id: '10000000-0000-4000-8000-000000000004',
+    name: 'Hacker News · data center videos',
+    source_type: 'API',
+    endpoint_url:
+      'https://hn.algolia.com/api/v1/search?query=data%20center%20video&tags=story&hitsPerPage=50',
+    config: { adapter: 'hn-video', metadataOnly: true, maxResults: 20 },
+  },
 ];
 export async function seedSources(db) {
   for (const source of sourceDefinitions)
@@ -194,6 +202,20 @@ export async function fetchCandidates(source, fetcher = fetch) {
         externalId: h.objectID,
       },
     }));
+    if (source.endpoint_url === sourceDefinitions[3].endpoint_url) {
+      const seen = new Set();
+      const videos = candidates
+        .filter((candidate) => {
+          const id = youtubeId(candidate.url);
+          if (!id || seen.has(id)) return false;
+          seen.add(id);
+          return true;
+        })
+        .slice(0, 20);
+      const results = [];
+      for (const candidate of videos) results.push(await videoCandidate(candidate, fetcher));
+      return results;
+    }
     let videos = 0;
     for (let i = 0; i < candidates.length; i++)
       if (youtubeId(candidates[i].url) && videos++ < 5)

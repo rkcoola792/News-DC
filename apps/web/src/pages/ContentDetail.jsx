@@ -27,7 +27,7 @@ export default function ContentDetail() {
         Back to Discover
       </Link>
       <div className="detail-labels">
-        {detail.categories.map((t) => (
+        {detail.categories.slice(0, 2).map((t) => (
           <Link key={t.slug} to={`/?topic=${t.slug}`}>
             {t.name}
           </Link>
@@ -43,6 +43,18 @@ export default function ContentDetail() {
         </span>
         {save(detail)}
       </div>
+      {detail.categories.length > 2 && (
+        <details className="additional-topics">
+          <summary>All topics ({detail.categories.length})</summary>
+          <div className="detail-labels">
+            {detail.categories.map((t) => (
+              <Link key={t.slug} to={`/?topic=${t.slug}`}>
+                {t.name}
+              </Link>
+            ))}
+          </div>
+        </details>
+      )}
       {detail.thumbnailUrl && sourceUrl(detail.thumbnailUrl) && (
         <img
           className="detail-image"

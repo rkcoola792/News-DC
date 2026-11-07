@@ -1465,3 +1465,498 @@ summary {
   border: 1px solid var(--border);
   border-radius: 6px;
 }
+
+/* Editorial polish: shared hierarchy and responsive content rhythm. */
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+h2 {
+  font-weight: 650;
+  line-height: 1.35;
+}
+h3 {
+  font-weight: 600;
+  line-height: 1.4;
+}
+.topbar {
+  height: 64px;
+  padding-inline: 32px;
+}
+.main {
+  padding: 32px 32px 64px;
+}
+.reading {
+  max-width: 824px;
+}
+.description {
+  font-size: 15px;
+  margin-top: 8px;
+}
+.headline {
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+.summary {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eyebrow {
+  font-size: 12px;
+  color: var(--secondary);
+}
+.metadata {
+  flex-wrap: wrap;
+  line-height: 1.6;
+}
+.content-row {
+  padding-block: 24px;
+  gap: 16px;
+}
+.tabs {
+  margin-top: 24px;
+}
+.tabs button {
+  border-radius: 999px;
+  min-height: 44px;
+}
+.feed-tools {
+  align-items: center;
+  margin-top: 20px;
+  gap: 16px;
+}
+.feed-tools label {
+  font-size: 13px;
+}
+.feed-tools select {
+  font-size: 13px;
+  min-height: 44px;
+}
+.more-filters > summary {
+  margin: 0;
+  padding-block: 12px;
+}
+.more-filters[open] {
+  flex-basis: 100%;
+}
+.more-filters > div {
+  width: 100%;
+}
+.personalize-link {
+  color: var(--secondary);
+  padding: 12px;
+}
+.feed-footer {
+  font-size: 12px;
+  flex-wrap: wrap;
+  line-height: 1.6;
+}
+.for-you-explanation {
+  background: transparent;
+  padding: 12px 0;
+  border: 0;
+  border-radius: 0;
+  margin-top: 8px;
+}
+.footnote {
+  line-height: 1.6;
+}
+.topic-card {
+  padding: 24px 16px;
+}
+.topic-card h2 {
+  font-size: 15px;
+}
+.topic-card span {
+  margin-top: 6px;
+  font-size: 13px;
+}
+.topic-card > svg {
+  margin-bottom: 16px;
+}
+.topic-chevron,
+.mobile-menu {
+  display: none;
+}
+.detail-title {
+  line-height: 1.25;
+}
+.detail-meta {
+  line-height: 1.6;
+  gap: 16px;
+}
+.detail-labels a,
+.detail-labels span {
+  font-size: 13px;
+}
+.additional-topics {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+.additional-topics summary {
+  min-height: 44px;
+  padding-block: 12px;
+}
+.additional-topics .detail-labels {
+  margin-top: 12px;
+}
+.insights {
+  margin-top: 24px;
+}
+.insights p,
+.ai-panel p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.ai-panel h2 {
+  font-size: 20px;
+}
+.ai-panel h3 {
+  font-size: 17px;
+}
+.assistant-intro {
+  margin: 32px 0 24px;
+}
+.assistant-intro > p {
+  font-size: 14px;
+}
+.suggestions {
+  margin-top: 8px;
+}
+.suggestions button {
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  min-height: 44px;
+}
+.answer {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.answer p {
+  color: var(--text);
+}
+.assistant-question {
+  font-size: 19px;
+}
+.assistant-sources h3 {
+  font-size: 16px;
+}
+.assistant-sources > div {
+  padding-block: 16px;
+}
+.assistant-sources small {
+  margin-block: 6px;
+  font-size: 12px;
+}
+.assistant-sources a:last-child {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding-block: 6px;
+}
+.composer {
+  min-height: 52px;
+  align-items: center;
+}
+.composer input {
+  font-size: 16px;
+}
+.composer button {
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+}
+.assistant-note {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.dashboard-panels h2,
+.operator-section h2 {
+  font-size: 20px;
+}
+.operator-section {
+  line-height: 1.6;
+}
+.history-row > div {
+  flex: 1;
+  min-width: 0;
+}
+.page-heading .clear-history {
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .topbar {
+    height: auto;
+    gap: 8px;
+    padding: 8px 16px 12px;
+  }
+  .mobile-brand {
+    min-height: 44px;
+    margin-right: auto;
+  }
+  .global-search {
+    height: 44px;
+    order: 5;
+  }
+  .global-search input {
+    font-size: 16px;
+  }
+  .global-search kbd {
+    display: none;
+  }
+  .mobile-menu {
+    display: block;
+    position: relative;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+  .mobile-menu > summary {
+    list-style: none;
+    margin: 0;
+    padding: 14px 8px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+  .mobile-menu > summary::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-menu[open] > summary {
+    background: var(--muted);
+  }
+  .mobile-menu nav {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    width: 210px;
+    z-index: 30;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px #00000012;
+  }
+  .mobile-menu a {
+    display: block;
+    padding: 14px 12px;
+    min-height: 44px;
+    border-radius: 6px;
+  }
+  .mobile-menu a:hover {
+    background: var(--muted);
+  }
+  .history-link {
+    margin-left: 0;
+  }
+  .main {
+    padding: 24px 16px calc(104px + env(safe-area-inset-bottom));
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .description {
+    font-size: 14px;
+  }
+  .page-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .personalize-link {
+    padding: 10px 0;
+    border: 0;
+    background: transparent;
+    min-height: 44px;
+  }
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 8px;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .tabs button {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  .feed-tools {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .feed-tools label {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    min-width: 0;
+  }
+  .feed-tools select {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  .more-filters {
+    grid-column: 1 / -1;
+  }
+  .more-filters > div {
+    max-width: none;
+  }
+  .content-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 8px;
+    padding-block: 24px;
+  }
+  .content-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .content-row > .save {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+  .content-row > .thumbnail {
+    display: none;
+  }
+  .content-row > .rank {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0 auto;
+  }
+  .headline {
+    font-size: 17px;
+    line-height: 1.45;
+  }
+  .summary {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    line-height: 1.5;
+    gap: 6px;
+  }
+  .metadata {
+    font-size: 12px;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .metadata a {
+    min-height: 32px;
+  }
+  .feed-footer {
+    font-size: 12px;
+  }
+  .mobile-nav {
+    padding-top: 6px;
+  }
+  .mobile-nav a {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    gap: 5px;
+    min-height: 48px;
+  }
+  .mobile-nav span {
+    font-size: 12px;
+  }
+  .mobile-nav a.active svg {
+    background: var(--soft);
+    border-radius: 6px;
+    box-shadow: 0 0 0 5px var(--soft);
+  }
+  .topic-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .topic-card {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 16px;
+    padding: 18px 16px;
+  }
+  .topic-card > svg {
+    margin: 0;
+  }
+  .topic-card > div {
+    flex: 1;
+    min-width: 0;
+  }
+  .topic-card .topic-chevron {
+    display: block;
+    color: var(--secondary);
+  }
+  .back {
+    margin-bottom: 20px;
+    min-height: 44px;
+  }
+  .detail-title {
+    font-size: 28px;
+  }
+  .detail-labels {
+    gap: 6px;
+  }
+  .ai-panel {
+    padding: 20px 16px;
+  }
+  .assistant.has-conversation .assistant-intro {
+    margin: 0 0 16px;
+    text-align: left;
+  }
+  .has-conversation .sparkle-mark {
+    display: none;
+  }
+  .assistant.has-conversation h1 {
+    font-size: 24px;
+  }
+  .assistant-filters {
+    margin-block: 16px;
+  }
+  .assistant-filter-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .assistant-filter-fields input,
+  .assistant-filter-fields select {
+    width: 100%;
+    max-width: none;
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .answer {
+    padding: 20px 16px;
+  }
+  .composer {
+    position: sticky;
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    z-index: 10;
+    margin-top: 24px;
+  }
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .metric {
+    padding: 16px;
+    min-width: 0;
+  }
+  .dashboard-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .history-row {
+    align-items: flex-start;
+  }
+  .preference-actions .primary {
+    min-height: 44px;
+  }
+}

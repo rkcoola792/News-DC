@@ -70,7 +70,10 @@ export default function FeedFilters({ topic, params, filter, personalized = fals
               onChange={(e) => filter('minRelevance', e.target.value)}
             />
           </label>
-          <p>AI scores are not generated in this build. Score filters may return no results.</p>
+          <p>
+            Score filters apply to stored AI estimates where available. Unprocessed items may have
+            no scores.
+          </p>
         </div>
       </details>
     </div>
