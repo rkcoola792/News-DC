@@ -172,3 +172,7 @@ For MVP, Docker Compose can run:
 - Optional `redis` if BullMQ is enabled.
 
 Use managed PostgreSQL in production if available; persist database storage and back it up.
+
+## Implemented shared runtime — 6 November
+
+One API runtime shares the provider concurrency guard between enrichment, cited assistant and trend synthesis. Background pending processing is opt-in and pauses persistently; post-ingestion hooks wake it. Prisma retrieves/ranks bounded evidence; validated cited answers and source-linked trend reports use persistent output caches. Research backfill uses reviewed arXiv pages with existing pacing/deduplication, and HN-discovered YouTube links use public oEmbed metadata only. Operate one API/worker process in the MVP; process-local locks are not distributed queue guarantees. See ASSISTANT_AUTOMATION.md.

@@ -10,8 +10,15 @@ async function syncTags(tx, contentId, names) {
       skipDuplicates: true,
     });
 }
-import { normalizeCandidate, classifyTopics, isRelevantMetadata } from './normalize.js';
+import {
+  normalizeCandidate,
+  classifyTopics,
+  isRelevantMetadata,
+  canonicalize,
+} from './normalize.js';
+import { youtubeId } from './video.js';
 import { fetchCandidates } from './sources.js';
+import { enrichmentHash, clearedEnrichment } from '../ai/enrichment-input.js';
 export async function ingestSource(
   db,
   source,
@@ -31,7 +38,13 @@ export async function ingestSource(
     for (const raw of candidates)
       try {
         const item = normalizeCandidate(raw);
-        if (source.source_type === 'API' && !isRelevantMetadata(item.title, item.description)) {
+        if (
+          source.source_type === 'API' &&
+          !isRelevantMetadata(
+            item.title + ' ' + (item.metadata?.discoveryTitle || ''),
+            item.description,
+          )
+        ) {
           skipped++;
           continue;
         }
@@ -39,26 +52,85 @@ export async function ingestSource(
         await db.$transaction(async (tx) => {
           const duplicate = await tx.content_items.findFirst({
             where: {
-              OR: [{ canonical_url: item.canonicalUrl }, { content_fingerprint: item.fingerprint }],
+              OR: [
+                { canonical_url: item.canonicalUrl },
+                { content_fingerprint: item.fingerprint },
+                ...(youtubeId(item.metadata?.originalDiscoveryUrl)
+                  ? [{ canonical_url: canonicalize(item.metadata.originalDiscoveryUrl) }]
+                  : []),
+              ],
             },
-            select: { id: true, metadata: true },
+            include: { publishers: true },
           });
           if (duplicate) {
+            const video = item.type === 'VIDEO' && item.metadata?.videoId;
+            const videoPublisher = video
+              ? await tx.publishers.upsert({
+                  where: { domain: item.domain },
+                  create: {
+                    name: item.domain,
+                    domain: item.domain,
+                    homepage_url: `https://${item.domain}`,
+                  },
+                  update: {},
+                })
+              : null;
+            const nextSource = {
+              ...duplicate,
+              ...(video
+                ? {
+                    title: item.title,
+                    content_type: 'VIDEO',
+                    published_at: null,
+                    publishers: videoPublisher,
+                  }
+                : {}),
+              metadata: { ...duplicate.metadata, ...item.metadata },
+              ...(item.description ? { description: item.description } : {}),
+              ...(item.author ? { author: item.author } : {}),
+              ...(item.publishedAt ? { published_at: item.publishedAt } : {}),
+            };
+            const changed = enrichmentHash(duplicate) !== enrichmentHash(nextSource);
+            const { aiEnrichment, aiSkipReason, ...sourceMetadata } = duplicate.metadata;
             await tx.content_items.update({
               where: { id: duplicate.id },
               data: {
+                ...(video
+                  ? {
+                      title: item.title,
+                      content_type: 'VIDEO',
+                      url: item.url,
+                      canonical_url: item.canonicalUrl,
+                      content_fingerprint: item.fingerprint,
+                      publisher_id: videoPublisher.id,
+                      published_at: null,
+                      author: item.author || null,
+                    }
+                  : {}),
                 ...(item.description ? { description: item.description } : {}),
                 ...(item.author ? { author: item.author } : {}),
                 ...(item.publishedAt ? { published_at: item.publishedAt } : {}),
                 ...(item.thumbnailUrl ? { thumbnail_url: item.thumbnailUrl } : {}),
+                ...(changed ? { ...clearedEnrichment, ai_status: 'PENDING' } : {}),
                 metadata: {
-                  ...duplicate.metadata,
+                  ...(changed ? sourceMetadata : duplicate.metadata),
                   ...item.metadata,
-                  topicMethod: 'metadata-keywords',
-                  aiEnabled: false,
+                  ...(changed || !aiEnrichment
+                    ? { topicMethod: 'metadata-keywords', aiEnabled: false }
+                    : {}),
                 },
               },
             });
+            if (changed) {
+              await tx.content_category_map.deleteMany({ where: { content_id: duplicate.id } });
+              if (categories.length)
+                await tx.content_category_map.createMany({
+                  data: categories.map((category_slug) => ({
+                    content_id: duplicate.id,
+                    category_slug,
+                  })),
+                });
+            }
             await syncTags(tx, duplicate.id, item.tags);
             skipped++;
             return;
@@ -143,6 +215,7 @@ const instances = new WeakMap();
 export function createIngestion(db, logger = console) {
   if (instances.has(db)) return instances.get(db);
   let running = false;
+  let afterRun = () => {};
   async function execute(sources, runs) {
     try {
       for (let i = 0; i < sources.length; i++)
@@ -157,6 +230,11 @@ export function createIngestion(db, logger = console) {
         .catch(() => {});
     } finally {
       running = false;
+      try {
+        afterRun();
+      } catch {
+        logger.error(JSON.stringify({ event: 'post_ingestion_processing_failed' }));
+      }
     }
   }
   async function start(ids, wait = false) {
@@ -182,6 +260,9 @@ export function createIngestion(db, logger = console) {
     }
   }
   const instance = {
+    setAfterRun: (callback) => {
+      afterRun = callback;
+    },
     run: (ids) => start(ids, true),
     enqueue: (ids) => start(ids, false),
     isRunning: () => running,

@@ -46,6 +46,7 @@ test('readiness succeeds after database and migrations checks', async () => {
             { name: '003_fingerprint.sql' },
             { name: '004_ai_provider_limits.sql' },
             { name: '005_remove_ai_demo_caps.sql' },
+            { name: '006_ai_cache_settings.sql' },
           ];
         },
       },

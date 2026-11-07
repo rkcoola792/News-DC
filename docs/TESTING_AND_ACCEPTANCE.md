@@ -1,8 +1,10 @@
 # Testing Strategy and Acceptance Checklist
 
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
+
 ## Current evidence — 6 November 2026
 
-Latest API/provider suite (6 November): **48 passing results**, PostgreSQL enabled, no skips. Same-day DB/frontend suites before these fixes passed 7/23 results. The explicit `npm run test:reliability` check also passed a real 60-second scheduled interval and isolated database outage/recovery. Current live collection is 141 records (17 cooling search results, 14 topics), with AI disabled. Keyboard search/filter/detail/bookmark workflows and 320px research detail/Topics were inspected; this is not an exhaustive accessibility/browser acceptance pass.
+Latest API/enrichment suite (6 November): **61 passing results**, PostgreSQL enabled, no skips. Same-day DB/frontend suites before these fixes passed 7/23 results. The explicit `npm run test:reliability` check also passed a real 60-second scheduled interval and isolated database outage/recovery. Current live collection is 141 records (17 cooling search results, 14 topics), with 2 currently enriched research records and the cited assistant still pending. Keyboard search/filter/detail/bookmark workflows and 320px research detail/Topics were inspected; this is not an exhaustive accessibility/browser acceptance pass.
 
 Sections 5–6 below are earlier verification snapshots and are superseded by the current implementation tracker. Do not interpret earlier unchecked/pending descriptions as current implementation status. Tags and automatic research ingestion are complete. Final assignment acceptance remains open for AI, dataset coverage, broader user acceptance and public deployment. The plan is [ASSIGNMENT_COMPLETION_PLAN.md](ASSIGNMENT_COMPLETION_PLAN.md).
 
@@ -142,3 +144,20 @@ Browser: keyboard skip/search/filter/detail/bookmark/reload/remove and mobile To
 ## Provider routing verification — 6 November 2026
 
 Final cap-removal suites: 48 API + 7 DB results pass, isolated PostgreSQL enabled, no skips. Nine provider tests cover primary success, retry/fallback order, Retry-After, permanent/non-JSON errors, safety refusals, malformed output, disabled/oversized/storage-failure paths, overlap and operator authorization. Real DB integration verifies five migrations, persisted counters beyond the previous $1/50 thresholds, concurrent accounting and idempotent finalization. Provider unit tests were rerun after the final non-JSON error handling fix; all nine pass. Frontend/Docker builds and live smoke passed. Gemini and controlled-failure/real-OpenAI probes succeeded; see AI_PROVIDER_ROUTING.md. No generated summaries or assistant acceptance is claimed.
+
+## Enrichment verification — 6 November 2026
+
+61 API/integration results pass with isolated PostgreSQL, no skips, including the operator queue, evidence-ID resolution/invalid IDs, persistence/search/ranking, cache reuse, thin/video skips, source/version invalidation, stale responses, irrelevant filtering and recovery. Two real research abstracts completed through Gemini with prompt v2. Repeated API and browser-queued requests reused saved output without a provider call. Initial v1 quote-format failures were rejected and retained in history. Manual source comparison and detail/evidence expansion passed; 320px detail fits without horizontal overflow, and viewport was reset. Screenshot: artifacts/enrichment-detail-verified.png. This is focused browser evidence, not a complete accessibility/browser audit. Assistant and automatic enrichment after ingestion remain pending.
+
+## Whole-application acceptance after feature implementation
+
+1. Open http://127.0.0.1:5000/ and verify Discover, Trending, all topic links, search and combined type/topic/date/score filters, sorting and pagination.
+2. Open article/research/video/discussion detail, original source and related records. Compare AI summary, insights, evidence and score rationale with the available source text. Video metadata must not imply a watched video or known upload date.
+3. Save/unsave, reload Saved/history, clear history, save/cancel/reset preferences, and reload the selected theme. Check browser-local behavior.
+4. Ask the five assignment questions. Open every displayed citation and its indexed detail. A source gap should produce explicit insufficient evidence; do not judge fabricated answers as success. Repeat unchanged questions to verify saved-answer reuse. Apply type/topic/date evidence filters and check an unsupported question.
+5. Unlock Dashboard with the local server operator key. Check provider usage, relevance coverage, pending/skipped/failed counts, ingestion history and source switches. Pause/resume background AI; refresh themes; retry a failed enrichment explicitly. Lock Dashboard afterward.
+6. Repeat a source fetch/backfill and confirm duplicate prevention. Inspect safe failure logs and verify source/restart recovery without resetting database volumes.
+7. Export filtered JSON/Markdown; inspect content IDs/types/source links. Test keyboard focus and 320px/mobile layout on new assistant/trend/video/operator screens.
+8. Record defects and actual confirmed-relevant coverage. Complete user acceptance before selecting hosting and public deployment.
+
+Latest engineering suites: 71 API + 7 DB + 23 frontend pass (101 results). Source and model quality review remains human acceptance work. See ASSISTANT_AUTOMATION.md for real-source snapshots and limitations.

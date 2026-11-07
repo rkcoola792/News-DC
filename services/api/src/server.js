@@ -2,6 +2,7 @@ import { startScheduler } from './ingestion/scheduler.js';
 import { fileURLToPath } from 'node:url';
 import { seedSources } from './ingestion/sources.js';
 import { createIngestion } from './ingestion/service.js';
+import { recoverEnrichment } from './ai/enrichment.js';
 import { createDatabase } from '@newsdc/db';
 import { createApp } from './app.js';
 const port = Number(process.env.PORT || 5000);
@@ -24,21 +25,30 @@ await db.ingestion_runs
 await seedSources(db).catch(() =>
   console.error(JSON.stringify({ event: 'source_registry_unavailable' })),
 );
+await recoverEnrichment(db).catch(() =>
+  console.error(JSON.stringify({ event: 'enrichment_recovery_unavailable' })),
+);
 const scheduled = createIngestion(db);
 const stopSchedule = startScheduler(scheduled, {
   enabled: process.env.INGESTION_ENABLED === 'true',
   interval,
 });
-const server = createApp({
+const app = createApp({
   db,
   staticDirectory:
     process.env.NODE_ENV === 'production'
       ? fileURLToPath(new URL('../../../apps/web/dist/', import.meta.url))
       : undefined,
-}).listen(port, process.env.HOST || '127.0.0.1', () =>
+});
+const stopAutomation = app.locals.runtime.automation.start();
+await app.locals.runtime.backfill
+  .recover()
+  .catch(() => console.error(JSON.stringify({ event: 'backfill_recovery_unavailable' })));
+const server = app.listen(port, process.env.HOST || '127.0.0.1', () =>
   console.log(JSON.stringify({ event: 'api_started', port })),
 );
 server.on('error', async () => {
+  stopAutomation();
   console.error(JSON.stringify({ event: 'api_start_failed' }));
   await db.$disconnect();
   process.exitCode = 1;
@@ -48,6 +58,7 @@ function shutdown() {
   if (stopping) return;
   stopping = true;
   stopSchedule();
+  stopAutomation();
   const timer = setTimeout(() => process.exit(1), 10000).unref();
   server.close(async () => {
     await db.$disconnect();

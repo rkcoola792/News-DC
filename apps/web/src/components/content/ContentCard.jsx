@@ -21,7 +21,10 @@ export default function ContentCard({ item, rank, save }) {
         <Link className="headline" to={`/content/${item.id}`}>
           {item.title}
         </Link>
-        <p className="summary">{item.summary}</p>
+        <p className="summary">
+          {item.summaryIsAI && 'AI summary: '}
+          {item.summary}
+        </p>
         <div className="metadata">
           {item.type}
           <span>·</span>

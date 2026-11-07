@@ -1,6 +1,8 @@
 # AI provider routing — Gemini first
 
-Updated 6 November 2026. Implements the user's provider priority and fallback request within the existing Express/Prisma modular monolith. This is the connection/routing foundation; content enrichment (F7–F12) and grounded assistant (F31/F32) are still pending implementation.
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
+
+Updated 6 November 2026. Implements the user's provider priority and fallback request within the existing Express/Prisma modular monolith. This gateway now supports operator-controlled persisted enrichment (F7–F12); the grounded assistant (F31/F32) is next. See CONTENT_ENRICHMENT.md.
 
 ## Current policy
 
@@ -27,7 +29,7 @@ Operator endpoints, behind the existing bearer key:
 - `GET /api/v1/admin/ai/providers`: configuration flags, models/retry policy, recent safe call records and usage counters. `openaiCapUsd` and `dailyRequestLimit` are null to indicate no application cap. No credential values or source prompts are returned.
 - `POST /api/v1/admin/ai/providers/check` with `{}`: fixed small JSON connection probe through the actual chain; returns successful provider/model, fallback flag, safe attempts and token counts. Arbitrary prompts/fields are rejected. A check may use paid OpenAI fallback.
 
-Dashboard includes a separate AI provider connections component, usage visibility and check button. Content enrichment and assistant remain explicitly unavailable until those features are implemented; connecting keys does not fabricate answers.
+Dashboard includes a separate AI provider connections component, usage visibility and check button. Operator enrichment now uses this gateway; the assistant remains unavailable until implemented. Connecting keys does not fabricate answers.
 
 ## Persistence and usage
 
@@ -49,4 +51,4 @@ References: [OpenAI model/pricing](https://developers.openai.com/api/docs/models
 
 ## Next feature
 
-Implement guarded manual enrichment of 10 source-rich stored items through this shared provider interface, validated against the PRD's topic/intelligence/summary/insight/score contract, persisted and reused. Then implement the PostgreSQL-retrieved assistant with validated source citations. Avoid automatic full-collection enrichment while testing demo quality. No arbitrary public generation endpoint was added in this increment.
+Operator-triggered enrichment is delivered; see CONTENT_ENRICHMENT.md. Next: PostgreSQL/Prisma retrieval and the cited assistant, then broader quality, automation and delivery acceptance. No arbitrary public generation endpoint was added.

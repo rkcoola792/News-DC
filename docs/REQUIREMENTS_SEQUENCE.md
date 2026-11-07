@@ -2,7 +2,7 @@
 
 Created: 5 November 2026 (Asia/Calcutta).
 
-Latest increment, 6 November: user-selected automatic arXiv research ingestion is delivered (F1/F2/F44); 50 real papers, repeat deduplication and research search verified. F2 tags are complete. Next: finish non-AI reliability/acceptance, then agree on the low-cost AI scope/model and spending cap before any paid calls. See IMPLEMENTATION_STATUS.md and RESEARCH_INGESTION.md; historical stage notes below are not current completion evidence.
+Latest increment, 6 November: F7–F12 operator enrichment is delivered with stored-signal ranking/detail integration. Two real research abstracts have current Gemini output; 61 API test results pass. Next: F31/F32 cited assistant. Automatic post-ingestion AI, broader dataset/quality acceptance and deployment remain. See CONTENT_ENRICHMENT.md and IMPLEMENTATION_STATUS.md; stage notes below include historical snapshots.
 
 ## Purpose and source of truth
 
@@ -229,3 +229,7 @@ The focused non-AI reliability pass is complete: safe scheduled failure/recovery
 ## Provider routing increment — 6 November 2026
 
 Gemini primary, two temporary-failure retries, then OpenAI fallback are implemented and live-verified. Application spending/daily caps were removed at user request. Usage persists through Prisma. Next: F7–F12 enrichment through this gateway, then F31/F32 cited assistant. See AI_PROVIDER_ROUTING.md. Historical cap/deferral decisions above are superseded.
+
+## Completion increment — 6 November 2026
+
+Delivered the remaining agreed application features: cited assistant (F31/F32), automatic enrichment, cached source-linked emerging themes (F13), research backfill and approved public YouTube metadata (F41/F43). Added migration 006, operator pause/resume and explicit dataset coverage counts. Verification: 71 API, 7 DB and 23 frontend results pass. Backfill and live Gemini/video checks are recorded in ASSISTANT_AUTOMATION.md. Next is full user acceptance and dataset relevance review, followed by a separate hosting/deployment phase. No P2 scope was added and no public deployment occurred.

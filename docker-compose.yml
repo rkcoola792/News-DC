@@ -9,6 +9,8 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       AI_PROVIDER_ENABLED: ${AI_PROVIDER_ENABLED:-false}
+      AI_AUTO_ENRICHMENT: ${AI_AUTO_ENRICHMENT:-false}
+      AI_AUTO_INTERVAL_MS: ${AI_AUTO_INTERVAL_MS:-5000}
     depends_on:
       postgres:
         condition: service_healthy

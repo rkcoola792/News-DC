@@ -37,7 +37,11 @@ export function asItem(row) {
     ...row,
     type: names[row.contentType] || row.contentType,
     topic: row.categories?.map((t) => t.name).join(' · ') || 'Uncategorized',
-    summary: row.description || 'No publisher description available.',
+    summary:
+      (row.ai?.current && row.ai.summary) ||
+      row.description ||
+      'No publisher description available.',
+    summaryIsAI: !!(row.ai?.current && row.ai.summary),
   };
 }
 export function apiBase() {

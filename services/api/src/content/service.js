@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { topicOptions } from '@newsdc/shared/taxonomy';
+import { hasCurrentEnrichment } from '../ai/enrichment-input.js';
 const csv = (value) => (value ? String(value).split(',').filter(Boolean) : []);
 export const uuid = z.uuid();
 export const filters = z
@@ -40,6 +41,8 @@ export const include = {
   content_category_map: { include: { categories: true } },
 };
 export function serialize(row) {
+  const current = hasCurrentEnrichment(row);
+  const provenance = current ? row.metadata.aiEnrichment : null;
   return {
     id: row.id,
     contentType: row.content_type,
@@ -62,10 +65,24 @@ export function serialize(row) {
     metadata: row.metadata,
     ai: {
       status: row.ai_status,
-      summary: row.ai_summary,
-      keyInsights: row.key_insights || [],
-      qualityScore: row.quality_score == null ? null : Number(row.quality_score),
-      relevanceScore: row.relevance_score == null ? null : Number(row.relevance_score),
+      current,
+      summary: current ? row.ai_summary : null,
+      keyInsights: current ? row.key_insights || [] : [],
+      qualityScore: current && row.quality_score != null ? Number(row.quality_score) : null,
+      relevanceScore: current && row.relevance_score != null ? Number(row.relevance_score) : null,
+      relevanceConfidence:
+        current && row.relevance_confidence != null ? Number(row.relevance_confidence) : null,
+      isDataCenterRelevant: current ? row.is_data_center_relevant : null,
+      intelligenceType: current ? row.intelligence_type : null,
+      provider: provenance?.provider || null,
+      model: current ? row.ai_model : null,
+      processedAt: current ? row.ai_processed_at : null,
+      scope: provenance?.scope || null,
+      reason: provenance?.reason || null,
+      qualityReason: provenance?.qualityReason || null,
+      summaryEvidence: provenance?.summaryEvidence || [],
+      insightEvidence: provenance?.insightEvidence || [],
+      skipReason: row.metadata?.aiSkipReason || null,
     },
   };
 }
@@ -93,7 +110,12 @@ export function whereFor(f) {
   if (words.length) {
     const search = words.join(' & ');
     where.AND.push({
-      OR: [{ title: { search } }, { description: { search } }, { content_text: { search } }],
+      OR: [
+        { title: { search } },
+        { description: { search } },
+        { content_text: { search } },
+        { ai_summary: { search } },
+      ],
     });
   }
   if (f.timeframe !== 'all')
@@ -111,7 +133,10 @@ function rank(row, f, kind) {
   const engagement = Number.isFinite(points)
     ? Math.min(100, Math.log1p(Math.max(0, points)) * 15)
     : 0;
-  if (kind === 'trending') return freshness * 0.8 + engagement * 0.2;
+  const aiBonus = hasCurrentEnrichment(row)
+    ? Number(row.relevance_score || 0) * 0.4 + Number(row.quality_score || 0) * 0.25
+    : 0;
+  if (kind === 'trending') return freshness * 0.8 + engagement * 0.2 + aiBonus;
   const topic = csv(f.topics).some((t) =>
     row.content_category_map.some((m) => m.category_slug === t),
   );
@@ -120,7 +145,8 @@ function rank(row, f, kind) {
     Number(csv(f.types).includes(row.content_type)) * 100 +
     freshness * 0.1 +
     engagement * 0.02 -
-    Number(csv(f.read).includes(row.id)) * 20
+    Number(csv(f.read).includes(row.id)) * 20 +
+    aiBonus
   );
 }
 export async function listContent(db, f, kind = 'content') {
@@ -193,7 +219,7 @@ export async function listContent(db, f, kind = 'content') {
       ? {
           ranking: {
             method: kind === 'for-you' ? 'local-preferences-freshness' : 'freshness-engagement',
-            ai: false,
+            ai: data.some(hasCurrentEnrichment),
             candidateLimit: candidateTotal,
           },
         }
@@ -203,7 +229,19 @@ export async function listContent(db, f, kind = 'content') {
 export async function topicsWithCounts(db) {
   const rows = await db.categories.findMany({
     orderBy: { name: 'asc' },
-    include: { _count: { select: { content_category_map: true } } },
+    include: {
+      _count: {
+        select: {
+          content_category_map: {
+            where: {
+              content_items: {
+                is: { OR: [{ is_data_center_relevant: true }, { is_data_center_relevant: null }] },
+              },
+            },
+          },
+        },
+      },
+    },
   });
   return rows.map((r) => ({ slug: r.slug, name: r.name, count: r._count.content_category_map }));
 }

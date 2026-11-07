@@ -28,9 +28,9 @@ Answers must cite retrieved records and their original URLs. When the collection
 - API/RSS ingestion, normalization, tags, deduplication, topic organization, search, deterministic recommendations and local Docker architecture are implemented. Scheduled refresh exists but is opt-in, not continuously enabled by default.
 - Keyword topic/domain rules are not AI relevance or quality assessment. Current recommendation logic cannot establish that every record is high-quality or relevant.
 - Automatic arXiv research discovery now complements the article/discussion feeds: 50 real papers were persisted, searched and deduplicated on a repeat run. Coverage is bounded to the latest 50 title-matched papers per run, not exhaustive research discovery. See [RESEARCH_INGESTION.md](RESEARCH_INGESTION.md).
-- AI relevance, summaries/insights/scoring, grounded assistant and citation validation are still deferred/incomplete. F31/F32 are mandatory final-product requirements, not optional merely because implementation was deferred.
+- Operator-triggered relevance, summaries/insights/scoring and controlled classification are implemented for supported text. The grounded assistant/citation validation, automatic enrichment integration and broader quality acceptance remain incomplete. F31/F32 are mandatory final-product requirements, not optional merely because implementation was deferred.
 - Local Docker and initial research-source coverage are verified. Full end-to-end AI acceptance, broader relevant-dataset coverage and public deployment evidence remain outstanding.
 
 ## Acceptance priority for the next discussion
 
-After the non-AI acceptance pass, agree on provider/model/budget and explicit approval for AI implementation. Build a small reliable enrichment-to-retrieval-to-cited-answer slice before optional features. Use the five example questions as demo scenarios, including an insufficient-evidence case. Update F7–F12/F31/F32 and the final assignment acceptance checklist using executed evidence only.
+Provider routing and a small real enrichment slice are delivered. Next build the retrieved-evidence assistant and validate its citations. Use the five example questions plus insufficient evidence as acceptance scenarios. Do not mark all records relevant or the full assignment complete from two enriched abstracts.

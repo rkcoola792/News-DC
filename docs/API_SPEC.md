@@ -1,5 +1,7 @@
 # REST API Specification — NewsDC
 
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
+
 Base path: `/api/v1`  
 Format: JSON  
 Authentication: no end-user registration for MVP. Administrative endpoints must be protected by a server-side admin secret or deployment access control. Never expose that secret in the browser.
@@ -10,7 +12,7 @@ Research adapter update (6 November 2026): existing content/search/detail/export
 
 ### AI provider routing
 
-Backend-only environment names: GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED. Keys remain in root gitignored .env or deployment secrets, never in URLs, API bodies or VITE_ variables. Operator authentication protects GET /admin/ai/providers (safe configuration/usage) and POST /admin/ai/providers/check with an empty JSON object (fixed connection probe). Gemini is primary with two temporary-failure retries, then one OpenAI fallback. Permanent errors skip futile retries; safety refusals do not fall back. No application spending/daily cap is configured. Unknown fields/prompts are rejected. This enables connection checks only; assistant/ask still returns AI_DISABLED until implemented. See AI_PROVIDER_ROUTING.md for contracts and evidence.
+Backend-only environment names: GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED. Keys remain in root gitignored .env or deployment secrets, never in URLs, API bodies or VITE_ variables. Operator authentication protects GET /admin/ai/providers (safe configuration/usage) and POST /admin/ai/providers/check with an empty JSON object (fixed connection probe). Gemini is primary with two temporary-failure retries, then one OpenAI fallback. Permanent errors skip futile retries; safety refusals do not fall back. No application spending/daily cap is configured. Unknown fields/prompts are rejected. The shared gateway serves operator checks, enrichment, cited assistant and trend synthesis. See AI_PROVIDER_ROUTING.md for contracts and evidence.
 
 ### Pagination
 
@@ -110,7 +112,7 @@ Example:
 | ------ | --------- | ------------------------------- |
 | GET    | `/search` | Full-text search across content |
 
-Query parameters mirror `/content` filters. Return content type, publisher, publication date, excerpt and URL. Use parameterized SQL.
+Query parameters mirror `/content` filters. Return content type, publisher, publication date, excerpt and URL. Use Prisma full-text search; no handwritten application SQL.
 
 ## 5. Assistant
 
@@ -231,10 +233,22 @@ Allow filters and enforce export limits. Preserve original source URLs and attri
 
 Implemented: health/live and health/ready; content/types, content list/detail/summary status/related; search; ForYou/Trending; topics/topic content; publishers; JSON/Markdown exports; protected source listing/toggle, ingestion run/inspect, metrics and metadata import. Paths use the `/api/v1` prefix. Source toggling uses PATCH `/admin/sources/:id`; imports use POST `/admin/content/import`.
 
-Assistant POST returns explicit 503 AI_DISABLED. Summary status is not generated enrichment. AI reprocess is not implemented. Optional server bookmark/preferences/history endpoints are deliberately absent because those features are browser-local.
+Assistant POST returns 503 AI_DISABLED only when AI_PROVIDER_ENABLED is false. Cited responses, insufficient-evidence behavior and cache contracts are documented in ASSISTANT_AUTOMATION.md. Persisted summary status and protected enrichment/retry controls are implemented. Optional server bookmark/preferences/history endpoints are deliberately absent because those features are browser-local.
 
 Health and errors include request IDs; unknown paths return JSON 404. Content endpoints return stored source metadata using Prisma. Source tags and full AI enrichment are not complete; see the feature tracker. Exports cap matching records at 100. No unprotected admin write controls exist.
 
 ## Source tags (F2)
 
 Metadata imports accept optional `tags: string[]`. Content list/detail and JSON exports include `tags: [{id,name}]`. Labels are normalized and deduplicated. Omission preserves existing relationships on refresh, an explicit empty array clears them, and malformed tags reject the candidate. See [F2_TAGS.md](F2_TAGS.md) for limits and semantics.
+
+## Operator enrichment API — 6 November 2026
+
+GET /api/v1/admin/ai/enrichment returns enabled/busy, 50 recent candidates with eligibility/cache state, and 30 persistent processing logs. POST at the same path accepts a strict object with unique contentIds UUID array (1–10) and returns 202/runIds. Existing operator bearer authentication applies. Missing records return 404, concurrent batch 409, disabled generation 503. Unsupported prompts/extra fields reject; no arbitrary public generation endpoint is added.
+
+Existing content/summary/detail/export DTO ai now exposes currentness, summary/insights, classification, relevance/confidence/quality, explanations, provider/model/date, evidence scope and original supporting excerpts. Non-current generated values are withheld. /content/:id/summary enabled indicates whether new generation is enabled; saved current output can still be read with generation disabled. Search includes saved summaries; lists/related/topic counts exclude classified irrelevant items. Current stored AI scores contribute to ForYou/Trending; unprocessed records use existing signals.
+
+Provider routing remains Gemini first, two temporary retries, then OpenAI fallback, with no application spending/daily caps. Assistant/ask uses filtered Prisma retrieval, validated citations and saved answer reuse. See CONTENT_ENRICHMENT.md for evidence/hash/logging semantics and data limitations.
+
+## Assistant/automation implementation contract — 6 November
+
+See ASSISTANT_AUTOMATION.md for GET /assistant/status, POST /assistant/ask, GET /trends and protected automation/backfill/report routes. Assistant responses also include paragraphs/contentIds, source text scope/content type, insufficientEvidence, limitations, provider/model/cached and retrieval terms. GET requests do not generate output. Migration 006 persists AI caches and operator settings.

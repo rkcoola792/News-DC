@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useResource } from '../../hooks/useResource.js';
 import { request } from '../../services/api.js';
 import ResourceState from '../common/ResourceState.jsx';
 
 export default function AIProviderControls({ adminKey }) {
   const status = useResource('/admin/ai/providers', { adminKey });
+  useEffect(() => {
+    const timer = setInterval(() => status.retry(), 15000);
+    return () => clearInterval(timer);
+  }, [adminKey]);
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState('');
   async function check() {
@@ -35,8 +39,8 @@ export default function AIProviderControls({ adminKey }) {
         attempt. Safety refusals are not retried through another provider.
       </p>
       <p>
-        Content enrichment and the assistant are not enabled yet. This check verifies the provider
-        connection only.
+        This verifies the provider connection only. Use Content enrichment to process selected
+        records; the assistant is a separate feature.
       </p>
       <ResourceState {...status} />
       {data && (

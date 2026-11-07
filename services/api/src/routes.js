@@ -9,19 +9,30 @@ import {
   serialize,
   include,
 } from './content/service.js';
-import { createIngestion, ingestSource } from './ingestion/service.js';
-import { createAIProviders, probeTask } from './ai/providers.js';
+import { ingestSource } from './ingestion/service.js';
+import { probeTask } from './ai/providers.js';
+import { createRuntime } from './runtime.js';
 const hash = (s) => createHash('sha256').update(s).digest();
 export function createRoutes(
   db,
   {
     adminKey = process.env.ADMIN_API_KEY,
     logger = console,
-    aiProviders = createAIProviders(db),
+    aiProviders: suppliedProviders,
+    runtime: suppliedRuntime,
   } = {},
 ) {
   const router = Router();
-  const ingestion = createIngestion(db, logger);
+  const runtime = suppliedRuntime || createRuntime(db, { aiProviders: suppliedProviders, logger });
+  const {
+    ingestion,
+    enrichment,
+    assistant,
+    trends,
+    automation,
+    backfill,
+    providers: aiProviders,
+  } = runtime;
   const asyncRoute = (fn) => (req, res, next) => Promise.resolve(fn(req, res)).catch(next);
   const parse = (req) => filters.parse(req.query);
   router.get('/content/types', (_req, res) =>
@@ -72,6 +83,7 @@ export function createRoutes(
         ? await db.content_items.findMany({
             where: {
               id: { not: id },
+              OR: [{ is_data_center_relevant: true }, { is_data_center_relevant: null }],
               content_category_map: { some: { category_slug: { in: slugs } } },
             },
             include,
@@ -93,7 +105,7 @@ export function createRoutes(
         return res
           .status(404)
           .json({ error: { code: 'NOT_FOUND', message: 'Content not found.', details: [] } });
-      res.json({ data: serialize(item).ai, enabled: false });
+      res.json({ data: serialize(item).ai, enabled: aiProviders.isEnabled() });
     }),
   );
   router.get(
@@ -110,14 +122,17 @@ export function createRoutes(
       res.json({ data: serialize(row) });
     }),
   );
-  router.post('/assistant/ask', (_req, res) =>
-    res.status(503).json({
-      error: {
-        code: 'AI_DISABLED',
-        message: 'AI features are intentionally disabled for this build.',
-        details: [],
-      },
+  router.get('/assistant/status', (_req, res) => res.json(assistant.status()));
+  router.post(
+    '/assistant/ask',
+    asyncRoute(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await assistant.ask(req.body));
     }),
+  );
+  router.get(
+    '/trends',
+    asyncRoute(async (_req, res) => res.json({ data: await trends.status() })),
   );
   router.get(
     '/exports/:format',
@@ -186,20 +201,24 @@ export function createRoutes(
   router.get(
     '/admin/metrics',
     asyncRoute(async (_req, res) => {
-      const [total, byType, processing, runs, activity] = await Promise.all([
-        db.content_items.count(),
-        db.content_items.groupBy({ by: ['content_type'], _count: { _all: true } }),
-        db.content_items.groupBy({ by: ['ai_status'], _count: { _all: true } }),
-        db.ingestion_runs.findMany({
-          take: 20,
-          orderBy: { started_at: 'desc' },
-          include: { sources: { select: { name: true } } },
-        }),
-        db.content_items.findMany({
-          where: { created_at: { gte: new Date(Date.now() - 7 * 86400000) } },
-          select: { created_at: true },
-        }),
-      ]);
+      const [total, byType, processing, runs, activity, aiRelevant, aiExcluded] = await Promise.all(
+        [
+          db.content_items.count(),
+          db.content_items.groupBy({ by: ['content_type'], _count: { _all: true } }),
+          db.content_items.groupBy({ by: ['ai_status'], _count: { _all: true } }),
+          db.ingestion_runs.findMany({
+            take: 20,
+            orderBy: { started_at: 'desc' },
+            include: { sources: { select: { name: true } } },
+          }),
+          db.content_items.findMany({
+            where: { created_at: { gte: new Date(Date.now() - 7 * 86400000) } },
+            select: { created_at: true },
+          }),
+          db.content_items.count({ where: { is_data_center_relevant: true } }),
+          db.content_items.count({ where: { is_data_center_relevant: false } }),
+        ],
+      );
       const daily = {};
       for (const row of activity) {
         const day = row.created_at.toISOString().slice(0, 10);
@@ -207,11 +226,18 @@ export function createRoutes(
       }
       res.json({
         total,
+        coverage: {
+          target: 500,
+          aiRelevant,
+          aiExcluded,
+          unclassified: total - aiRelevant - aiExcluded,
+        },
         byType: byType.map((r) => ({ type: r.content_type, count: r._count._all })),
         processing: processing.map((r) => ({ status: r.ai_status, count: r._count._all })),
         runs,
         daily,
-        aiEnabled: false,
+        aiEnabled: aiProviders.isEnabled(),
+        assistantEnabled: aiProviders.isEnabled(),
         ingestionRunning: ingestion.isRunning(),
       });
     }),
@@ -230,6 +256,53 @@ export function createRoutes(
   router.get(
     '/admin/ai/providers',
     asyncRoute(async (_req, res) => res.json({ data: await aiProviders.status() })),
+  );
+  router.get(
+    '/admin/ai/automation',
+    asyncRoute(async (_req, res) => res.json({ data: await automation.status() })),
+  );
+  router.patch(
+    '/admin/ai/automation',
+    asyncRoute(async (req, res) => {
+      const { paused } = z.object({ paused: z.boolean() }).strict().parse(req.body);
+      await automation.pause(paused);
+      res.json({ data: await automation.status() });
+    }),
+  );
+  router.post(
+    '/admin/ai/trends/refresh',
+    asyncRoute(async (req, res) => {
+      z.object({})
+        .strict()
+        .parse(req.body || {});
+      res.json({ data: await trends.refresh(), message: 'Emerging-theme report refreshed.' });
+    }),
+  );
+  router.get(
+    '/admin/ai/enrichment',
+    asyncRoute(async (_req, res) => res.json({ data: await enrichment.status() })),
+  );
+  router.post(
+    '/admin/ai/enrichment',
+    asyncRoute(async (req, res) => {
+      const { contentIds } = z
+        .object({
+          contentIds: z
+            .array(uuid)
+            .min(1)
+            .max(10)
+            .refine(
+              (ids) => new Set(ids).size === ids.length,
+              'Duplicate content IDs are not allowed',
+            ),
+        })
+        .strict()
+        .parse(req.body);
+      const runIds = await enrichment.enqueue(contentIds);
+      res
+        .status(202)
+        .json({ runIds, message: 'Enrichment queued. Inspect processing status for results.' });
+    }),
   );
   router.post(
     '/admin/ai/providers/check',
@@ -289,7 +362,7 @@ export function createRoutes(
         .object({ sourceIds: z.array(uuid).max(10).optional() })
         .strict()
         .parse(req.body || {});
-      if (ingestion.isRunning())
+      if (ingestion.isRunning() || backfill.isBusy())
         return res.status(409).json({
           error: {
             code: 'ALREADY_RUNNING',
@@ -329,7 +402,33 @@ export function createRoutes(
           .status(404)
           .json({ error: { code: 'NOT_FOUND', message: 'Source not found.', details: [] } });
       res.json({ data: await ingestSource(db, source, { candidates: body.items }) });
+      automation.wake();
     }),
   );
-  return { router, ingestion };
+  router.get(
+    '/admin/ingestion/backfill',
+    asyncRoute(async (_req, res) => res.json({ data: await backfill.status() })),
+  );
+  router.post(
+    '/admin/ingestion/backfill',
+    asyncRoute(async (req, res) => {
+      const { pages } = z
+        .object({ pages: z.number().int().min(1).max(12).default(10) })
+        .strict()
+        .parse(req.body || {});
+      if (ingestion.isRunning())
+        return res.status(409).json({
+          error: {
+            code: 'ALREADY_RUNNING',
+            message: 'Wait for current ingestion to finish.',
+            details: [],
+          },
+        });
+      res.status(202).json({
+        data: await backfill.start(pages),
+        message: 'Research backfill started; inspect source history and backfill progress.',
+      });
+    }),
+  );
+  return { router, ingestion, runtime };
 }

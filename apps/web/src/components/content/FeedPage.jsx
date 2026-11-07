@@ -6,7 +6,7 @@ import ResourceState from '../common/ResourceState.jsx';
 import ContentFeed from './ContentFeed.jsx';
 import ContentTypeTabs from './ContentTypeTabs.jsx';
 import FeedFilters from './FeedFilters.jsx';
-export default function FeedPage({ path }) {
+export default function FeedPage({ path, children }) {
   const location = useLocation();
   const { type, topic, query, saved, params, filter, save, preferences, history } = useNews();
   const args = new URLSearchParams();
@@ -88,6 +88,7 @@ export default function FeedPage({ path }) {
           Preferences saved in this browser.
         </p>
       )}
+      {children}
       <ContentTypeTabs type={type} filter={filter} />
       {path === '/saved' && (
         <p className="footnote">Up to 200 bookmarks can be added in this browser.</p>
@@ -112,15 +113,16 @@ export default function FeedPage({ path }) {
           <p>
             Selected topics and formats receive boosts. Previously opened items receive a small
             reduction. Publication date and available engagement break ties. These are deterministic
-            rules; AI relevance and quality scores are not available yet.
+            rules. Stored AI relevance and quality estimates also contribute when available;
+            browsing does not generate new analysis.
           </p>
         </details>
       )}
       {path === '/trending' && (
         <>
           <p className="notice">
-            Heuristic ranking uses freshness and available source engagement, not a claim of
-            virality.
+            Ranking uses freshness, available source engagement and stored AI relevance/quality
+            estimates when available. It is not a claim of virality.
           </p>
           <label className="timeframe">
             Timeframe{' '}
@@ -169,7 +171,7 @@ export default function FeedPage({ path }) {
         </button>
       </div>
       <footer className="feed-footer">
-        <span>{pagination.total} results · AI processing disabled</span>
+        <span>{pagination.total} results · Source attribution retained</span>
         <div>
           <Link to={path} onClick={() => {}}>
             Clear filters

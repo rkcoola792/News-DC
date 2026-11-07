@@ -6,7 +6,14 @@ import express from 'express';
 import { randomUUID } from 'node:crypto';
 import { publicReadLimit } from './security.js';
 import { AIError } from './ai/limits.js';
-export function createApp({ db, logger = console, adminKey, staticDirectory, aiProviders } = {}) {
+export function createApp({
+  db,
+  logger = console,
+  adminKey,
+  staticDirectory,
+  aiProviders,
+  runtime: providedRuntime,
+} = {}) {
   const app = express();
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
@@ -55,7 +62,13 @@ export function createApp({ db, logger = console, adminKey, staticDirectory, aiP
     if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
     return readLimit(req, res, next);
   });
-  const { router } = createRoutes(db, { adminKey, logger, aiProviders });
+  const { router, runtime } = createRoutes(db, {
+    adminKey,
+    logger,
+    aiProviders,
+    runtime: providedRuntime,
+  });
+  app.locals.runtime = runtime;
   app.use('/api/v1', router);
   if (staticDirectory) {
     app.use(express.static(staticDirectory));

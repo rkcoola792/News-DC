@@ -1,38 +1,25 @@
-# NewsDC AI demo plan — Gemini first
+# NewsDC AI demo plan — current handoff
 
-Updated 6 November 2026. Provider connection/routing foundation is implemented; enrichment and assistant remain pending. See [AI_PROVIDER_ROUTING.md](AI_PROVIDER_ROUTING.md) for current behavior and executed evidence.
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
 
-## Current decisions
+6 November 2026. Gemini-first/OpenAI-fallback routing and operator-triggered persisted enrichment are delivered. No application spending or fixed daily request cap is configured, per the user's latest instruction. Keys remain server-side; provider quotas, bounded retries/timeouts, input/output bounds and concurrency controls remain.
 
-- User initially approved planning with a $1 ceiling, then preferred Gemini free tier, subsequently authorized OpenAI fallback after Gemini retries, and finally explicitly removed application spending/daily caps. Current behavior follows the latest instruction: Gemini first, two temporary-failure retries, then one OpenAI fallback; no application spending or fixed daily cap.
-- Keys are configured server-side as GEMINI_API_KEY and OPENAI_API_KEY. Local operator-only provider checks are enabled. Keys were not displayed or committed.
-- Models: gemini-3.5-flash-lite primary, gpt-5.4-mini fallback; both passed model-access checks. Live generation paths were verified with tiny fixed probes. Free-tier availability and quotas are account/project properties, not guaranteed by the application.
-- Keep bounded retries, input/output, timeout, concurrency guard and provider quota handling. Usage is recorded through Prisma across restarts. No bulk AI processing or public arbitrary-prompt endpoint exists.
+## Delivered
 
-## Next implementation: persisted enrichment (F7–F12)
+- Primary gemini-3.5-flash-lite, two temporary-failure retries, then one gpt-5.4-mini fallback. Safe refusals do not fall back. Usage and provider provenance persist through Prisma.
+- F7–F12: relevance/confidence, controlled topics, intelligence type, summaries, insights and explained scores. Prompt v2 uses model-selected source evidence IDs resolved/validated against original excerpts.
+- Operator selection/queuing, persistent processing history, thin/video-without-transcript skips, successful-output cache, source/prompt-version invalidation and stale-response discard.
+- Current stored output contributes to ranking and search and is shown with scope/provenance/evidence in detail. No generation on reads.
+- Two real research abstracts successfully processed through Gemini. The collection remains 141 records; 139 remain unprocessed. This is not a claim of complete relevant-dataset coverage.
 
-1. Start with a manually selected batch of 10 source-rich records, using the implemented provider chain. Do not automatically process the entire collection.
-2. Use one validated structured response per eligible record: relevance/confidence/reason, controlled topic labels, intelligence type, concise summary, supported insights and explained relevance/quality estimates. Reject invalid enums/ranges/slugs and unsupported facts. Treat source text as untrusted evidence, never instructions.
-3. Persist output, provider/model/prompt version and input hash through Prisma. Reuse matching successful outputs on reads; invalidate stale outputs when source text changes. Record safe processing failures and retry provenance.
-4. Weak metadata/videos without transcripts get metadata-only classification or insufficient-text handling, never invented summaries or claims that a full paper/video was read.
-5. Connect stored output to detail, filters and recommendation ranking. Label generated output, abstract-only limitations and score estimates. Preserve useful non-AI feeds when generation is unavailable.
+See CONTENT_ENRICHMENT.md and IMPLEMENTATION_STATUS.md for contracts, executed tests and limitations. Provider details remain in AI_PROVIDER_ROUTING.md.
 
-## Following implementation: cited assistant (F31/F32)
+## Next: cited assistant (F31/F32)
 
-1. Retrieve at most five relevant stored items through Prisma/PostgreSQL full-text search with supported filters; no vectors/external search required.
-2. Send bounded excerpts with stable content IDs and attribution to the shared provider chain. Generate only from that evidence.
-3. Validate all returned citation IDs against retrieved records and build links from stored original URLs. Reject fabricated/unknown citations.
-4. Return insufficient evidence without a provider call when retrieval is empty/too weak. Test the assignment's five example questions plus insufficient evidence.
-5. Add safe caching and abuse controls, recoverable quota/error states and live acceptance evidence. Do not mark assistant/enrichment complete on provider connectivity alone.
+1. Retrieve up to five relevant stored items through Prisma/PostgreSQL full-text search and supported filters.
+2. Send bounded excerpts with stable content IDs and attribution through the shared provider gateway. Treat sources as evidence, not instructions.
+3. Generate only from retrieved evidence; validate every returned citation ID against retrieved records and build links from database URLs.
+4. Return insufficient evidence without a model call for empty/weak retrieval; reject fabricated citations.
+5. Add safe caching/error/abuse controls and test the five assignment questions plus insufficient evidence with actual collected content.
 
-## Configuration
-
-Use only the root gitignored .env or backend deployment secrets:
-
-```env
-GEMINI_API_KEY=your-gemini-key
-OPENAI_API_KEY=your-openai-key
-AI_PROVIDER_ENABLED=true
-```
-
-Fresh .env.example defaults the enable flag to false. No VITE_ provider keys. Adding keys enables no content enrichment by itself. Provider and data-use references are linked in AI_PROVIDER_ROUTING.md. Public hosting, broader relevant-dataset coverage and optional live video sources remain separate tracked work.
+Following work: automatic enrichment after ingestion, broader quality/accessibility/user acceptance, progress toward 500 relevant records and public deployment. Optional AI trends/video source coverage remain separate P1 work. No vectors, registration or P2 scope expansion is required.

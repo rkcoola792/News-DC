@@ -145,6 +145,8 @@ export function createAIProviders(
 ) {
   let busy = false;
   return {
+    isEnabled: () => config.enabled,
+    isBusy: () => busy,
     async status() {
       return {
         enabled: config.enabled,
@@ -204,6 +206,7 @@ export function createAIProviders(
               // Storage failures fail closed; never send another call without a durable allowance.
               if (!(error instanceof AIError)) throw error;
               last = error;
+              error.model = model;
               await limits.finish(call, {
                 status: 'FAILED',
                 usage: result?.usage,
@@ -218,6 +221,9 @@ export function createAIProviders(
           }
         }
         throw last || new AIError('AI_UNAVAILABLE');
+      } catch (error) {
+        if (error instanceof AIError) error.attempts = attempts;
+        throw error;
       } finally {
         busy = false;
       }

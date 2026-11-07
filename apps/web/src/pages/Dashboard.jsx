@@ -3,6 +3,8 @@ import { useResource } from '../hooks/useResource.js';
 import { request } from '../services/api.js';
 import ResourceState from '../components/common/ResourceState.jsx';
 import AIProviderControls from '../components/admin/AIProviderControls.jsx';
+import EnrichmentControls from '../components/admin/EnrichmentControls.jsx';
+import AutomationControls from '../components/admin/AutomationControls.jsx';
 export default function Dashboard() {
   const [input, setInput] = useState(''),
     [key, setKey] = useState(''),
@@ -92,8 +94,18 @@ export default function Dashboard() {
             </button>
           )}
           <AIProviderControls adminKey={key} />
+          <AutomationControls adminKey={key} />
+          <EnrichmentControls adminKey={key} />
           {data && (
             <>
+              {data.coverage && (
+                <p className="notice">
+                  Dataset target: {data.coverage.target} relevant records. AI-confirmed relevant:{' '}
+                  {data.coverage.aiRelevant}; excluded: {data.coverage.aiExcluded}; not yet
+                  classified: {data.coverage.unclassified}. Total records alone do not establish
+                  relevance.
+                </p>
+              )}
               <div className="metrics">
                 {[
                   ['Total content', data.total],
@@ -130,7 +142,8 @@ export default function Dashboard() {
                 <section>
                   <h2>Processing</h2>
                   <p>
-                    AI enrichment <span>Not implemented yet</span>
+                    AI enrichment{' '}
+                    <span>{data.aiEnabled ? 'Operator controlled' : 'Disabled on server'}</span>
                   </p>
                   {data.processing.map((r) => (
                     <p key={r.status}>

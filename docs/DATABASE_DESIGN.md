@@ -122,3 +122,7 @@ Verified on PostgreSQL 16: four-format persistence, null optional fields, taxono
 ## AI provider persistence — 6 November 2026
 
 Migrations 004/005 add ai_provider_calls (provider/model/status/timestamps/token usage/safe error code), ai_provider_daily (UTC request counts) and ai_provider_budget (conservative OpenAI usage accounting). User requested removal of spending/fixed daily caps; migration 005 removes the initial upper-bound checks without rewriting applied migration 004. These names are retained for history; they do not enforce an app budget. Accounting is serializable and idempotently finalized through Prisma; no application raw SQL, prompt text or credentials are stored. See AI_PROVIDER_ROUTING.md. Provider connectivity is implemented; content-level AI processing schema fields still await enrichment integration.
+
+## Migration 006 — AI caches and operator settings
+
+`ai_output_cache` persists validated assistant/trend payloads keyed by a SHA-256 hash of prompt version and actual evidence, with kind/creation/expiry timestamps. `app_settings` persists automatic-enrichment pause and research-backfill progress. These are accessed through Prisma Client; raw SQL remains confined to migrations and database test infrastructure. Readiness requires all six migrations.

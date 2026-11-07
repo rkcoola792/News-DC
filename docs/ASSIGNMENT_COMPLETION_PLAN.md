@@ -1,51 +1,45 @@
 # Assignment completion plan — PRD/MVP audit
 
-Updated: 6 November 2026 (Asia/Calcutta). The original audit was planning only; the user subsequently approved automatic research ingestion before AI work.
+Updated: 6 November 2026 (Asia/Calcutta).
 
-## Baseline and decisions
+## Current outcome
 
-Scope comes from PRD.md, MVP_SCOPE.md, FEATURES.md and TRACEABILITY.md. Keep React/Vite JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL, Prisma and Docker. Keep user state browser-local without registration. The user approved Gemini-first provider integration with OpenAI fallback, then removed application spending/daily caps. Routing is delivered; enrichment and assistant remain next stages.
+The agreed P0/P1 application features are implemented locally. This is an implementation milestone, not final assignment acceptance or public deployment. Scope remains PRD.md, MVP_SCOPE.md, FEATURES.md and TRACEABILITY.md. The stack remains React/Vite JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL, Prisma and Docker. User state remains browser-local without registration.
 
-## Delivered and evidenced
+## Completed increments in order
 
-- API/RSS adapters for approved Hacker News, Data Center Knowledge and arXiv sources; normalization, validation, canonical/fingerprint deduplication and ingestion run tracking.
-- PostgreSQL persistence and Prisma queries for four content formats; all 14 configured topics.
-- Connected Discover, Trending, topic feeds, detail/original/related links, full-text search, combined filters and pagination.
-- Local bookmarks, reading history and saved preferences; theme persistence and responsive shell.
-- Protected operator metrics, source enable/disable, manual ingestion, metadata import and source failure history.
-- JSON/Markdown export (100-record cap), health/error handling, local Docker app/database, documentation and test infrastructure.
+1. UI routes/components, responsive discovery screens, local bookmarks/history/preferences and theme.
+2. PostgreSQL schema/migrations and Prisma application queries; four content formats and 14 topics.
+3. Public API/RSS ingestion, normalized metadata, canonical/fingerprint deduplication, source tags, protected source controls, run tracking and opt-in scheduling.
+4. Search/filters/pagination, recommendations/related items, detail attribution and JSON/Markdown exports.
+5. Automatic arXiv research ingestion and source reliability checks, including an actual scheduled interval and isolated database outage/recovery.
+6. Gemini-first routing, two temporary-failure retries and one OpenAI fallback. The user removed application spending and fixed daily request caps; usage remains visible and provider quotas/timeouts/concurrency guards remain.
+7. Validated relevance, topics, classification, summaries, insights and scores; persisted provenance/evidence, cache/invalidation, source-change protection and operator retries.
+8. Cited assistant, automatic background enrichment/pause/resume, cached source-linked emerging themes, approved YouTube public metadata and persistent research backfill. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md).
 
-Latest executed evidence on 6 November: 23 frontend logic and 7 database results passed before research implementation; the expanded API suite now passes 48 results, no skips. A real 60-second scheduled interval and isolated database outage/recovery also passed. Live smoke passed with 141 records, 17 cooling search results, 14 topics, protected metrics and AI disabled. Research ingestion inserted 50 papers; repeat ingestion inserted zero duplicates. These records are metadata-filtered, not AI-verified relevant records.
+## Actual evidence
 
-## Gaps against the final requirements
+- 71 API/integration, 7 database and 23 frontend logic results pass; isolated PostgreSQL enabled, zero skips in those suites.
+- Six migrations apply; repeated migration is a no-op. Local Docker build/readiness succeeds while preserving existing data.
+- Research backfill completed 12 pages: 550 inserted, 50 duplicates skipped, zero failed. HN refresh yielded two real video metadata records. Snapshot: 702 indexed records, including 600 papers.
+- Real Gemini responses cite stored sources for AI infrastructure, hyperscaler investment and cooling/power. GPU-utilization and combined PUE/WUE questions returned explicit insufficient evidence, including after relevance-ranked retrieval; this is recorded rather than inventing answers.
+- Assistant answer reuse was verified through the real API and browser. Metadata-only videos have no fabricated upload date, duration, transcript or summary.
 
-| Area                         | Feature IDs               | What remains                                                                                                                                                                                                                        |
-| ---------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Complete metadata extraction | F2                        | Completed 6 November: source/import tags now flow through validation, Prisma mappings, API/JSON export and detail UI. See F2_TAGS.md.                                                                                               |
-| AI intelligence              | F7–F12                    | Relevant flag/confidence/reason, validated AI categorization, summaries, insights, explained scoring and controlled intelligence classification. Currently deferred; keyword labels and publisher descriptions are not substitutes. |
-| Full recommendations/detail  | F14/F15/F23/F27           | Current non-AI behavior is usable; integrate real stored enrichment/quality signals and score explanations when AI is approved. Do not invent missing signals.                                                                      |
-| Grounded assistant           | F31/F32                   | PostgreSQL retrieval, bounded context, grounded answers, citation-ID validation, source links and insufficient-evidence behavior. Current assistant is explicitly disabled.                                                         |
-| Dataset target               | PRD/traceability          | Actual 141 records versus the 500-relevant-record target where source access permits. Add permitted backfill/source coverage and report actual relevant count after classification. Never seed fake records to satisfy it.          |
-| Verification                 | TESTING_AND_ACCEPTANCE.md | Full user acceptance pass, combined browser workflows, keyboard/focus/mobile checks, actual scheduled refresh and failure/restart behavior. Timer invocation tests alone do not prove a long-running schedule.                      |
-| Delivery                     | F35/F37/F38               | Public deployment URL, production configuration/secret controls, persistent storage/backups, deployed smoke tests, clean setup and final repository/demo evidence. Local Docker is verified; public hosting is not.                 |
-| Optional format enrichment   | F41–F44 (P1)              | Automatic arXiv research discovery is delivered. Live video metadata extraction (F43) still requires a permitted source; imports alone do not close that gap. No transcript work is required for MVP.                               |
-| Optional AI trends           | F13 (P1)                  | Supported trend synthesis and linked evidence; deferred along with AI.                                                                                                                                                              |
-| Future scope                 | F30/P2                    | Shortcuts, vectors, accounts/sync, notifications, multilingual and advanced administration stay deferred.                                                                                                                           |
+## Remaining before assignment delivery
 
-## Proposed order and exit criteria
+| Work                         | Exit condition                                                                                                              |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Whole-application acceptance | User tests complete workflows; defects fixed and checked                                                                    |
+| AI quality/relevance review  | Compare generated claims/citations/scores with source text; review skipped/failed rows                                      |
+| Dataset target               | Report actual AI-confirmed relevant count toward 500 where source access permits; total indexed count is a separate measure |
+| Deployment decision          | Choose hosting and persistent PostgreSQL/storage/secret configuration                                                       |
+| Public release               | Deploy only after testing, run migrations and smoke checks, verify restart/persistence/backups and public flows             |
+| Assignment handoff           | Final repository/setup walkthrough, deployment URL, architecture/demo notes and explicit limitations                        |
 
-1. **F2 metadata extraction — completed 6 November 2026.** Add optional validated tags to the normalized record, preserve source-provided tags, persist deduplicated tag relationships using Prisma and return/display them. Verify missing tags, malformed tags, repeated ingestion and query/detail round-trips. No LLM key needed.
-2. **Non-AI acceptance and reliability — focused pass completed 6 November.** Fixed unhandled scheduled rejections and mobile topic wrapping. Real 60-second scheduling, source failure, isolated database outage/recovery, keyboard research/search/bookmark flows and 320px detail/Topics passed. Full user acceptance/accessibility/browser matrix remains a final verification task; do not claim exhaustive coverage.
-3. **Provider routing — delivered.** Both keys are server-side. Gemini-first routing, two temporary-failure retries, one OpenAI fallback, persisted usage and operator controls are implemented and live-probed. User removed spending/daily caps. Refusal, timeout, Retry-After and overlap safeguards remain. See AI_PROVIDER_ROUTING.md. Next: enrichment in step 4.
-4. **Build/test enrichment (F7–F12).** Start with relevance/confidence/reason and controlled categorization, then classification, summaries/insights and versioned scoring. Persist validated output/provenance, failures and bounded retry. Check weak text and video-without-transcript cases. Connect stored output to detail/filters/ranking. Exit: inspectable grounded enrichment and reliable failure behavior.
-5. **Build/test assistant (F31/F32).** Retrieve stored evidence with PostgreSQL, generate only from it, validate citations and test insufficient evidence and unknown citations. Exit: answer-to-source demo with working original links.
-6. **Dataset and final verification.** Backfill/add only permitted sources toward 500 relevant records where feasible, verify repeated-ingestion counts and report achieved coverage/limitations. Run the full automated/browser acceptance suite after integration. Earlier ingestion/backfill can run in parallel once permitted sources are decided.
-7. **Delivery.** Choose hosting, deploy the existing Docker stack, run migrations/configure secrets and backups, verify public flows, finalize repository/README/architecture/demo notes and deployment link. Optional P1 additions follow only if time allows.
+Background classification can continue during testing. Dashboard shows confirmed relevant, excluded, unclassified and processing counts; operator pause/resume persists across restart. Failed model jobs require explicit retry. No false claim of 500 relevant records or complete AI quality acceptance is made.
 
-## Acceptance discussion before implementation
+## Deferred scope
 
-F2, automatic research discovery, focused reliability and provider routing are delivered. User authorized Gemini-first/OpenAI-fallback integration and removed spending/daily caps. Next: a small selected enrichment batch, then grounded assistant with validated citations. Mark feature IDs complete only after real implementation and acceptance. Keep credentials server-side.
+P2 stays deferred: keyboard shortcuts, transcripts, vector/semantic search, accounts/cross-device synchronization, notifications and saved searches. BullMQ/Redis remain conditional rather than required. No extra framework/provider migration is needed to finish the MVP.
 
-## Assignment screenshot clarification — 6 November 2026
-
-The original screenshots and acceptance mapping are preserved in [ASSIGNMENT_ACCEPTANCE_REFERENCE.md](ASSIGNMENT_ACCEPTANCE_REFERENCE.md). Prioritize a working end-to-end news/research MVP over feature count. Automatic research discovery now has verified live arXiv coverage. Collected-content answers with supporting links (F31/F32), AI relevance and quality remain required but deferred; metadata rules are not substitutes.
+Next: use TESTING_AND_ACCEPTANCE.md for the whole-application test pass, then discuss hosting and deployment.

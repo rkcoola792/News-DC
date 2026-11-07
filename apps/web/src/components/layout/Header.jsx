@@ -37,7 +37,7 @@ export default function Header() {
         <History size={18} />
         <span>History</span>
       </Link>
-      <span className="preview-indicator">AI disabled</span>
+      <span className="preview-indicator">Data center intelligence</span>
     </header>
   );
 }

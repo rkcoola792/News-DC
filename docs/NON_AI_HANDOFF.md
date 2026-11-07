@@ -1,5 +1,7 @@
 # Non-AI build handoff
 
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
+
 Updated 6 November 2026 (Asia/Calcutta).
 
 ## Open and test
@@ -52,3 +54,7 @@ Scheduler promise failures are contained; overlap and failure recovery have regr
 ## AI provider routing update — 6 November 2026
 
 Both server-side keys are configured. Dashboard now has protected connection checks: Gemini first, two temporary-failure retries, then one OpenAI fallback. User removed application spending/daily caps; usage is informational/persistent and provider quotas/retry/timeouts remain. No need to paste keys again. Provider routing is implemented and live-probed; enrichment and assistant remain the next implementation. See AI_PROVIDER_ROUTING.md for exact behavior and verification, superseding the earlier planning/cap notes in this handoff.
+
+## Enrichment handoff — 6 November 2026
+
+Dashboard → unlock → Content enrichment → select source-rich records → Enrich selected records. Inspect Recent processing history. Open a completed item to see labeled AI summary, insights, intelligence type, abstract/text scope, and expandable scores/evidence. Thin metadata and video without a permitted transcript skip. Current saved outputs are reused; no provider calls occur on page reads. Two research abstracts are enriched in the real 141-record collection; all other 139 remain unprocessed. Keys/provider order/no spending-daily-cap policy stay unchanged. See CONTENT_ENRICHMENT.md. Next feature: the cited assistant, still disabled until implemented.

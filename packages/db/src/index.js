@@ -39,10 +39,11 @@ export async function checkDatabaseReady(db) {
           '003_fingerprint.sql',
           '004_ai_provider_limits.sql',
           '005_remove_ai_demo_caps.sql',
+          '006_ai_cache_settings.sql',
         ],
       },
     },
     select: { name: true },
   });
-  if (applied.length !== 5) throw new Error('Migrations pending');
+  if (applied.length !== 6) throw new Error('Migrations pending');
 }

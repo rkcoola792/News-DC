@@ -1,4 +1,5 @@
 import ContentTags from '../components/content/ContentTags.jsx';
+import AIEnrichment from '../components/content/AIEnrichment.jsx';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
@@ -51,7 +52,11 @@ export default function ContentDetail() {
         />
       )}
       <section className="insights">
-        <h2>Publisher description</h2>
+        <h2>
+          {detail.metadata?.descriptionOrigin === 'discovery-post-text'
+            ? 'Discovery description'
+            : 'Publisher description'}
+        </h2>
         <p>{detail.description || 'No description was provided.'}</p>
         {detail.durationSeconds != null && (
           <p>
@@ -66,14 +71,16 @@ export default function ContentDetail() {
         )}
       </section>
       <ContentTags tags={detail.tags} />
-      <section className="ai-panel">
-        <h2>AI enrichment is disabled</h2>
-        <p>
-          Summaries, key insights and AI scores are not generated in this build. The description
-          above comes from source metadata.
+      {detail.type === 'Video' && (
+        <p className="footnote">
+          Public video metadata only. {detail.author ? `Channel: ${detail.author}. ` : ''}No video
+          or transcript was downloaded.
+          {detail.metadata?.discoveredAt
+            ? ` Discovered ${new Date(detail.metadata.discoveredAt).toLocaleDateString()}.`
+            : ''}
         </p>
-        <small>Topic labels use metadata keyword rules.</small>
-      </section>
+      )}
+      <AIEnrichment ai={detail.ai} />
       <h2 className="section-title">Related content</h2>
       <ResourceState {...related} />
       {!related.loading && !related.error && (

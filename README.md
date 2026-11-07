@@ -1,6 +1,6 @@
 # NewsDC
 
-Data center content discovery, built with React + Vite, JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL and Prisma. The **non-AI build** is ready for local testing; AI enrichment and assistant answers are intentionally disabled.
+Data center content discovery, built with React/Vite, JavaScript/JSX, Tailwind, Lucide, React Router, Express, PostgreSQL and Prisma. Gemini-first/OpenAI-fallback routing, automatic persisted enrichment, cited assistant answers and source-linked trend reports are available locally.
 
 ## Run with Docker
 
@@ -16,13 +16,13 @@ Open [NewsDC](http://127.0.0.1:5000/). The app serves both the SPA and `/api/v1`
 
 `setup:local` creates root `.env` with random local database/operator credentials and never overwrites an existing file. View `ADMIN_API_KEY` in that file to unlock Dashboard; do not share it or put it in a `VITE_` variable. Existing `.env` users can follow `.env.example`. Use URL-safe credentials in Compose's database URL. `.env` is gitignored and excluded from the image.
 
-The latest verified workspace collection contains **141 real source records**, including 50 research papers. No LLM key is required. See [the handoff](docs/NON_AI_HANDOFF.md) and [feature tracker](docs/IMPLEMENTATION_STATUS.md).
+The latest verified workspace collection contains **702 real source records**, including 600 research papers and two discovered videos. AI features require server-side provider keys; browsing and ingestion work without them. Indexed counts do not establish AI-confirmed relevance. See [the handoff](docs/NON_AI_HANDOFF.md) and [feature tracker](docs/IMPLEMENTATION_STATUS.md).
 
 ## Ingest real content
 
-Gemini-first provider routing is implemented. Root .env uses GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED=true (fresh example defaults false). Dashboard operator controls can check the connection: Gemini gets two temporary-failure retries before one OpenAI fallback. No application spending or fixed daily request cap is configured, as requested; provider quotas and retry/timeout guards remain. Content enrichment and the assistant are not implemented yet. See [provider routing](docs/AI_PROVIDER_ROUTING.md).
+Gemini-first provider routing is implemented. Root .env uses GEMINI_API_KEY, OPENAI_API_KEY and AI_PROVIDER_ENABLED=true (fresh example defaults false). Dashboard operator controls can check the connection: Gemini gets two temporary-failure retries before one OpenAI fallback. No application spending or fixed daily request cap is configured, as requested; provider quotas and retry/timeout guards remain. Automatic and operator enrichment, cited assistant and cached trend reports are implemented. Enable AI_AUTO_ENRICHMENT=true for background processing; use Dashboard to pause/resume it. See [content enrichment](docs/CONTENT_ENRICHMENT.md). See [provider routing](docs/AI_PROVIDER_ROUTING.md).
 
-Approved sources: Hacker News via Algolia's public API, Data Center Knowledge RSS and arXiv research metadata. In Dashboard, enter the operator key and select **Run ingestion**. It returns persisted run IDs; status/counts appear in recent runs. Enable/disable each source there.
+Approved sources: Hacker News via Algolia's public API, Data Center Knowledge RSS and arXiv research metadata, plus public YouTube oEmbed metadata for video links discovered through Hacker News. In Dashboard, enter the operator key and select **Run ingestion**. It returns persisted run IDs; status/counts appear in recent runs. Enable/disable each source there.
 
 Alternatively, from the host:
 
@@ -68,7 +68,7 @@ npm run smoke
 
 Database integration tests require `TEST_DATABASE_URL` in the process environment pointing to a dedicated disposable PostgreSQL database. Without it, real DB tests explicitly skip. They create/drop generated test schemas; the readiness test applies migrations to that test database's public schema. Never use production or the user's development database for these tests.
 
-Latest API results: **48 passing results**, real PostgreSQL enabled, no skips. Same-day DB/frontend suites previously passed 7/23 results. Docker build/start/health, local SPA/API smoke and selected browser checks passed. Full accessibility/browser coverage and public production deployment are not claimed.
+Latest API results: **61 passing results**, real PostgreSQL enabled, no skips. Same-day DB/frontend suites previously passed 7/23 results. Docker build/start/health, local SPA/API smoke and selected browser checks passed. Full accessibility/browser coverage and public production deployment are not claimed.
 
 For the slower, real one-minute scheduler and database outage/recovery checks, run `npm run test:reliability` with Docker available and loopback port 55435 free. It creates its own uniquely named disposable PostgreSQL container, stops/restarts only that database, verifies safe unavailable/recovery behavior, then removes its container/volumes. It does not read root `.env` or modify the development database. Leave the app scheduler off unless periodic ingestion is wanted.
 
@@ -106,4 +106,8 @@ The [strict PRD/MVP audit and completion plan](docs/ASSIGNMENT_COMPLETION_PLAN.m
 
 ## Source tags
 
-F2 tags are implemented from RSS/Atom or optional operator-import `tags` arrays through Prisma persistence, list/detail/JSON export and detail display. See [F2 tag rules](docs/F2_TAGS.md). Omitted tags preserve existing mappings; `[]` clears them. AI remains disabled.
+F2 tags are implemented from RSS/Atom or optional operator-import `tags` arrays through Prisma persistence, list/detail/JSON export and detail display. See [F2 tag rules](docs/F2_TAGS.md). Omitted tags preserve existing mappings; `[]` clears them. Enrichment is operator controlled; source tags stay separate from AI topics.
+
+## Current feature-complete handoff
+
+See [assistant and automation contracts](docs/ASSISTANT_AUTOMATION.md) and [whole-application test plan](docs/TESTING_AND_ACCEPTANCE.md). Remaining release work: finish/review dataset classification toward 500 relevant records, perform user acceptance, choose hosting and deploy. P2 features stay deferred. Local data and secrets persist; do not delete the PostgreSQL volume.

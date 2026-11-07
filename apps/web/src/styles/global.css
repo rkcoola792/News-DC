@@ -1331,3 +1331,137 @@ summary {
   overflow-wrap: anywhere;
   max-width: 100%;
 }
+.enrichment-candidates {
+  list-style: none;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 16px 0;
+}
+.enrichment-candidates li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.enrichment-candidates label {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.enrichment-candidates input {
+  width: auto;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.enrichment-candidates small {
+  display: block;
+  color: var(--secondary);
+  margin-top: 4px;
+}
+.ai-panel h3 {
+  margin-top: 20px;
+  font-size: 15px;
+}
+.ai-panel ul {
+  list-style: disc;
+  padding-left: 20px;
+  line-height: 1.8;
+}
+.ai-panel details {
+  margin-top: 16px;
+}
+.ai-panel blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 14px;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.assistant-question {
+  font-size: 16px;
+}
+.assistant-filters {
+  margin: 24px 0;
+}
+.assistant-filter-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.assistant-filter-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+.assistant-filter-fields input,
+.assistant-filter-fields select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--surface);
+  color: var(--text);
+  min-width: 0;
+}
+.assistant-sources {
+  margin: 20px 0;
+}
+.assistant-sources > div {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+}
+.assistant-sources a,
+.assistant-sources small {
+  display: block;
+}
+.assistant-sources small {
+  color: var(--secondary);
+}
+.citation {
+  color: var(--accent);
+  font-weight: 600;
+}
+.answer {
+  overflow-wrap: anywhere;
+}
+.composer input {
+  min-width: 0;
+}
+.clear-history {
+  margin: 18px auto;
+  font-size: 12px;
+}
+.trend-summary {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.trend-summary h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.trend-summary details {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+  margin-top: 12px;
+}
+.trend-summary summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+.trend-summary p,
+.trend-summary li {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.trend-summary ul {
+  padding-left: 20px;
+}
+.operator-section input[type='number'] {
+  max-width: 90px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}

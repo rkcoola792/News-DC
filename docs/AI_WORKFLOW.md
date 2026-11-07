@@ -1,5 +1,7 @@
 # AI Architecture and Workflow — NewsDC
 
+> Current implementation update — 6 November 2026: cited assistant, automatic enrichment, cached/source-linked trends, research backfill and approved YouTube public metadata are implemented. See [ASSISTANT_AUTOMATION.md](ASSISTANT_AUTOMATION.md) for current contracts/evidence; older pending/deferral notes below are historical. Full user acceptance, relevance dataset review and public deployment remain open.
+
 ## 1. AI responsibilities
 
 The AI layer is responsible for:
@@ -150,3 +152,7 @@ After research ingestion and the focused non-AI reliability pass, the user appro
 ## Provider integration update — 6 November 2026
 
 Implemented Gemini first, two temporary-failure retries, then one OpenAI fallback. User subsequently removed application spending/daily caps. Usage remains persisted through Prisma; quotas, input/output bounds, timeout, Retry-After and concurrency guards remain. Operator checks are enabled and both live paths verified. See AI_PROVIDER_ROUTING.md. This supersedes earlier planning/no-fallback/cap notes. Enrichment and assistant remain next implementation stages; connectivity alone is not their acceptance evidence.
+
+## Enrichment workflow implemented — 6 November 2026
+
+F7–F12 are delivered as operator-controlled batches. Prompt newsdc-enrichment-v2 has the model select IDs from short source excerpts; server-side mapping/validation produces exact source quotes and rejects unknown IDs. This corrected v1 quote-length/format failures without accepting rejected output. Stored results include input hash, provider/model, scope and rubric/provenance. Current output is reused on reads/repeat requests. Source/prompt changes invalidate outputs and startup marks interrupted work failed for retry. Gemini-first/OpenAI-fallback routing and no application spend/daily caps remain unchanged. See CONTENT_ENRICHMENT.md. The cited assistant is the next stage; automatic post-ingestion enrichment and broad quality acceptance remain open.

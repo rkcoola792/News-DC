@@ -1,5 +1,6 @@
 import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import { cleanText } from './normalize.js';
+import { videoCandidate, youtubeId } from './video.js';
 export const sourceDefinitions = [
   {
     id: '10000000-0000-4000-8000-000000000001',
@@ -38,7 +39,7 @@ export async function seedSources(db) {
 }
 async function fetchText(url, fetcher) {
   // Only reviewed registry endpoints are fetched; no arbitrary user-controlled URL requests.
-  if (!sourceDefinitions.some((s) => s.endpoint_url === url))
+  if (!sourceDefinitions.some((s) => s.endpoint_url === url) && !isResearchURL(url))
     throw new Error('Source endpoint is not approved');
   let last;
   for (let attempt = 0; attempt < 2; attempt++)
@@ -73,7 +74,36 @@ async function fetchText(url, fetcher) {
     }
   throw last;
 }
-const isArxiv = (url) => url === sourceDefinitions[2].endpoint_url;
+export function researchPageURL(start = 0) {
+  if (!Number.isInteger(start) || start < 0 || start > 550 || start % 50 !== 0)
+    throw Error('Unsupported research page');
+  const url = new URL(sourceDefinitions[2].endpoint_url);
+  url.searchParams.set('start', String(start));
+  return url.toString();
+}
+function isResearchURL(value) {
+  try {
+    const url = new URL(value),
+      expected = new URL(sourceDefinitions[2].endpoint_url);
+    return (
+      url.origin === expected.origin &&
+      url.pathname === expected.pathname &&
+      !url.username &&
+      !url.password &&
+      [...url.searchParams].length === 5 &&
+      [...url.searchParams.keys()].every((key) => expected.searchParams.has(key)) &&
+      ['search_query', 'max_results', 'sortBy', 'sortOrder'].every(
+        (key) => url.searchParams.get(key) === expected.searchParams.get(key),
+      ) &&
+      /^\d+$/.test(url.searchParams.get('start') || '') &&
+      Number(url.searchParams.get('start')) <= 550 &&
+      Number(url.searchParams.get('start')) % 50 === 0
+    );
+  } catch {
+    return false;
+  }
+}
+const isArxiv = isResearchURL;
 let researchRequest = Promise.resolve();
 let nextResearchRequestAt = 0;
 // arXiv requires one connection and at least three seconds between requests.
@@ -149,7 +179,7 @@ export async function fetchCandidates(source, fetcher = fetch) {
   if (source.source_type === 'API') {
     const payload = JSON.parse(text);
     if (!Array.isArray(payload.hits)) throw new Error('Unexpected API response');
-    return payload.hits.slice(0, 100).map((h) => ({
+    const candidates = payload.hits.slice(0, 100).map((h) => ({
       title: h.title,
       url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
       type: 'DISCUSSION',
@@ -164,6 +194,11 @@ export async function fetchCandidates(source, fetcher = fetch) {
         externalId: h.objectID,
       },
     }));
+    let videos = 0;
+    for (let i = 0; i < candidates.length; i++)
+      if (youtubeId(candidates[i].url) && videos++ < 5)
+        candidates[i] = await videoCandidate(candidates[i], fetcher);
+    return candidates;
   }
   const parsed = new XMLParser({
     ignoreAttributes: false,
