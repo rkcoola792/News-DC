@@ -641,6 +641,10 @@ summary {
   color: var(--secondary);
   margin-top: 12px;
 }
+.answer-streaming p:last-of-type::after {
+  content: ' ▍';
+  color: var(--accent);
+}
 .metrics {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

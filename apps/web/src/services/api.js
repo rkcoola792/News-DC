@@ -1,4 +1,4 @@
-const base = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const base = import.meta.env?.VITE_API_BASE_URL || '/api/v1';
 export async function request(path, { signal, adminKey, method = 'GET', body } = {}) {
   const response = await fetch(base + path, {
     signal,

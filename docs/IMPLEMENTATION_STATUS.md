@@ -193,3 +193,9 @@ Final API regression: 71 pass, zero skips. DB/frontend logic: 7/23 pass. Docker 
 ## Browser tab icon — 10 November 2026
 
 Added a local SVG favicon matching the existing NewsDC layers mark, with a navy background and white strokes for visibility. Linked it in the Vite HTML entry; no dependency or feature-scope change.
+
+## Ask AI progressive response — 10 November 2026
+
+Added opt-in SSE to the existing assistant POST while preserving JSON clients. Live progress appears during processing; validated answers reveal progressively with citations, Stop response and reduced-motion support. No raw model tokens bypass validation. Transport/error/cancellation tests cover split UTF-8 frames, early progress before generation completes, safe failures, normal JSON compatibility and disconnects. See ASSISTANT_AUTOMATION.md for the exact contract and provider-cancellation limitation. Verification results are recorded after the final checks below.
+
+Verification: 77 API/integration + 7 database + 27 frontend results passed (111 total), with real isolated PostgreSQL and no skipped results. The eight focused streaming checks were rerun successfully after the final cancellation guard. Docker frontend/API build, local smoke and Prisma validation passed. Changed files pass Prettier. The repository-wide format check separately flags eight pre-existing deployment/interview artifacts/documents; those unrelated files were preserved. Browser checks confirmed live progress/Stop, a visible partial paragraph with the reveal cursor, successful cancellation with question preserved, then a cached complete answer with resolved citations. Screenshot: artifacts/ask-ai-streaming-2026-11-10.png. The local app was rebuilt on port 5000; no public deployment was performed.

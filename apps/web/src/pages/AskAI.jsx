@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Send } from 'lucide-react';
+import { Sparkles, Send, Square } from 'lucide-react';
 import { topicOptions } from '@newsdc/shared/taxonomy';
-import { request } from '../services/api.js';
+import { askAssistant, revealAnswer, visibleAnswer } from '../services/assistantStream.js';
 import { useResource } from '../hooks/useResource.js';
 import ResourceState from '../components/common/ResourceState.jsx';
 const suggestions = [
@@ -14,22 +14,33 @@ const suggestions = [
 ];
 export default function AskAI() {
   const status = useResource('/assistant/status'),
-    controller = useRef(null);
+    controller = useRef(null),
+    mounted = useRef(true);
   const [question, setQuestion] = useState(''),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [history, setHistory] = useState([]),
+    [draft, setDraft] = useState(null),
+    [phase, setPhase] = useState(''),
     [type, setType] = useState(''),
     [topic, setTopic] = useState(''),
     [dateFrom, setDateFrom] = useState(''),
     [dateTo, setDateTo] = useState('');
-  useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      controller.current?.abort();
+    };
+  }, []);
   async function ask(text = question) {
     if (busy || !text.trim() || status.data?.enabled === false) return;
     setQuestion(text);
     setBusy(true);
     setError('');
-    controller.current = new AbortController();
+    setPhase('Searching indexed sources…');
+    const activeController = new AbortController();
+    controller.current = activeController;
     const filters = {
       ...(type ? { contentTypes: [type] } : {}),
       ...(topic ? { categorySlugs: [topic] } : {}),
@@ -37,21 +48,60 @@ export default function AskAI() {
       ...(dateTo ? { dateTo } : {}),
     };
     try {
-      const answer = await request('/assistant/ask', {
-        method: 'POST',
-        body: { question: text.trim(), filters },
-        signal: controller.current.signal,
-      });
+      let answer;
+      await askAssistant(
+        { question: text.trim(), filters },
+        {
+          signal: activeController.signal,
+          onStatus: (message) => {
+            if (mounted.current && !activeController.signal.aborted) setPhase(message);
+          },
+          onAnswer: async (value) => {
+            answer = value;
+            setPhase('Displaying the source-checked answer…');
+            setDraft({ question: text, answer: value, visible: 0 });
+            await revealAnswer(value, {
+              signal: activeController.signal,
+              reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+              onProgress: (visible) => {
+                if (mounted.current && !activeController.signal.aborted)
+                  setDraft({ question: text, answer: value, visible });
+              },
+            });
+          },
+        },
+      );
+      if (!mounted.current || activeController.signal.aborted) return;
       setHistory((items) => [...items.slice(-4), { question: text, answer }]);
       setQuestion('');
     } catch (err) {
-      if (err.name !== 'AbortError') setError(err.message);
+      if (mounted.current) setError(err.name === 'AbortError' ? 'Response stopped.' : err.message);
     } finally {
-      setBusy(false);
+      if (mounted.current) {
+        setBusy(false);
+        setDraft(null);
+      }
     }
   }
+  function stopResponse() {
+    controller.current?.abort();
+    setDraft(null);
+    setError('Response stopped.');
+  }
+  const conversation = [
+    ...history,
+    ...(draft
+      ? [
+          {
+            question: draft.question,
+            answer: visibleAnswer(draft.answer, draft.visible),
+            streaming: true,
+          },
+        ]
+      : []),
+  ];
   return (
-    <div className={`assistant ${history.length ? 'has-conversation' : ''}`}>
+    <div className={`assistant ${conversation.length ? 'has-conversation' : ''}`}>
       <div className="assistant-intro">
         <div className="sparkle-mark">
           <Sparkles size={30} />
@@ -65,7 +115,7 @@ export default function AskAI() {
           The assistant is disabled on the server. You can still search indexed content.
         </p>
       )}
-      {!history.length && (
+      {!conversation.length && (
         <div className="suggestions">
           {suggestions.map((text) => (
             <button
@@ -118,9 +168,13 @@ export default function AskAI() {
           </label>
         </div>
       </details>
-      <div aria-live="polite">
-        {history.map(({ question: asked, answer }, index) => (
-          <article className="answer" key={index}>
+      <div aria-live={busy ? 'off' : 'polite'}>
+        {conversation.map(({ question: asked, answer, streaming }, index) => (
+          <article
+            className={`answer ${streaming ? 'answer-streaming' : ''}`}
+            aria-busy={!!streaming}
+            key={index}
+          >
             <h2 className="assistant-question">{asked}</h2>
             {answer.insufficientEvidence ? (
               <p>{answer.answer}</p>
@@ -147,8 +201,8 @@ export default function AskAI() {
                 </p>
               ))
             )}
-            {answer.limitations && <p className="footnote">{answer.limitations}</p>}
-            {answer.sources.length > 0 && (
+            {!streaming && answer.limitations && <p className="footnote">{answer.limitations}</p>}
+            {!streaming && answer.sources.length > 0 && (
               <div className="assistant-sources">
                 <h3>Supporting sources</h3>
                 {answer.sources.map((source, sourceIndex) => (
@@ -170,17 +224,19 @@ export default function AskAI() {
                 ))}
               </div>
             )}
-            <small>
-              {answer.cached ? 'Reused saved answer. ' : ''}
-              {answer.provider ? `Generated by ${answer.provider}. ` : ''}Retrieved{' '}
-              {answer.retrieval.count} indexed sources.
-            </small>
+            {!streaming && (
+              <small>
+                {answer.cached ? 'Reused saved answer. ' : ''}
+                {answer.provider ? `Generated by ${answer.provider}. ` : ''}Retrieved{' '}
+                {answer.retrieval.count} indexed sources.
+              </small>
+            )}
           </article>
         ))}
       </div>
       {busy && (
         <p className="notice" role="status">
-          Searching indexed evidence and preparing a cited answer…
+          {phase}
         </p>
       )}
       {error && (
@@ -204,12 +260,20 @@ export default function AskAI() {
           onChange={(event) => setQuestion(event.target.value)}
           disabled={busy || !status.data?.enabled}
         />
-        <button
-          aria-label="Send question"
-          disabled={busy || !status.data?.enabled || question.trim().length < 3}
-        >
-          <Send size={19} />
-        </button>
+        {busy ? (
+          <button key="stop" type="button" aria-label="Stop response" onClick={stopResponse}>
+            <Square size={17} />
+            Stop
+          </button>
+        ) : (
+          <button
+            key="send"
+            aria-label="Send question"
+            disabled={busy || !status.data?.enabled || question.trim().length < 3}
+          >
+            <Send size={19} />
+          </button>
+        )}
       </form>
       <p className="assistant-note">
         Answers use collected evidence, not a live web search. Source scope and coverage may be

@@ -221,7 +221,7 @@ export function createAssistant(db, providers) {
   return {
     isBusy: () => busy,
     status: () => ({ enabled: providers.isEnabled(), busy }),
-    async ask(raw) {
+    async ask(raw, { onStatus = () => {} } = {}) {
       const request = assistantRequest.parse(raw);
       if (!providers.isEnabled())
         throw new AIError('AI_DISABLED', 'Enable AI_PROVIDER_ENABLED on the server.');
@@ -235,7 +235,10 @@ export function createAssistant(db, providers) {
         sources,
       });
       const cached = await db.ai_output_cache.findUnique({ where: { key } });
-      if (cached && cached.expires_at > new Date()) return { ...cached.payload, cached: true };
+      if (cached && cached.expires_at > new Date()) {
+        onStatus('Using a saved, source-checked answer…');
+        return { ...cached.payload, cached: true };
+      }
       if (busy)
         throw new AIError(
           'AI_BUSY',
@@ -245,8 +248,10 @@ export function createAssistant(db, providers) {
       try {
         // Let a short automatic enrichment request finish before interactive generation.
         const deadline = Date.now() + 10000;
+        if (providers.isBusy?.()) onStatus('Waiting for the current AI request to finish…');
         while (providers.isBusy?.() && Date.now() < deadline)
           await new Promise((resolve) => setTimeout(resolve, 250));
+        onStatus('Preparing the answer and checking source references…');
         const task = citedTask(request.question, sources),
           result = await providers.generate(task);
         const value = task.validate(result.value);

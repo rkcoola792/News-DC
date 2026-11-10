@@ -84,3 +84,7 @@ Current status: **Implemented for ingestion and AI operations**. Persistent sour
 - Record AI processing status and retry count per content item.
 - Provide a basic admin-only/manual trigger protected by a server-side secret or deployment-level access control.
 - Do not expose unrestricted ingestion controls to anonymous public users.
+
+## Ask AI display update — 10 November 2026
+
+F31/F32 now include live SSE progress and a progressive reveal of the fully validated answer, citations as paragraphs finish, Stop response and reduced-motion support. Plain JSON clients remain compatible. See ASSISTANT_AUTOMATION.md for the distinction between display pacing and provider generation, cancellation behavior and verification.

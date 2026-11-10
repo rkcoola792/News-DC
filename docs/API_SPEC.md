@@ -252,3 +252,7 @@ Provider routing remains Gemini first, two temporary retries, then OpenAI fallba
 ## Assistant/automation implementation contract — 6 November
 
 See ASSISTANT_AUTOMATION.md for GET /assistant/status, POST /assistant/ask, GET /trends and protected automation/backfill/report routes. Assistant responses also include paragraphs/contentIds, source text scope/content type, insufficientEvidence, limitations, provider/model/cached and retrieval terms. GET requests do not generate output. Migration 006 persists AI caches and operator settings.
+
+## Assistant SSE response option — 10 November 2026
+
+POST `/assistant/ask` additionally accepts header `Accept: text/event-stream`. Body and validated answer payload are unchanged. SSE events are `status` with `{ "message": "..." }`, `answer` containing the existing complete validated payload, `done` with `{}`, or `error` with safe code/message. HTTP validation failures before headers remain JSON. Consumers must see `done` before treating a response as complete. No provider tokens are exposed before output/citation validation. The UI progressively reveals the validated answer; plain JSON clients are unchanged. See ASSISTANT_AUTOMATION.md for timing, caching and Stop behavior.

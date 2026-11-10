@@ -12,6 +12,7 @@ import {
 import { ingestSource } from './ingestion/service.js';
 import { probeTask } from './ai/providers.js';
 import { createRuntime } from './runtime.js';
+import { streamAssistant } from './ai/assistant-stream.js';
 const hash = (s) => createHash('sha256').update(s).digest();
 export function createRoutes(
   db,
@@ -127,6 +128,8 @@ export function createRoutes(
     '/assistant/ask',
     asyncRoute(async (req, res) => {
       res.set('Cache-Control', 'no-store');
+      if (req.get('accept')?.includes('text/event-stream'))
+        return streamAssistant(req, res, assistant, logger);
       res.json(await assistant.ask(req.body));
     }),
   );
