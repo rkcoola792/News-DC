@@ -13,4 +13,5 @@ README.md
 AGENTS.md
 .github/
 artifacts/
+output/
 **/*.test.js

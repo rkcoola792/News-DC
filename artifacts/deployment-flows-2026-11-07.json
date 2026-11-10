@@ -1,0 +1,1622 @@
+[
+  {
+    "path": "/",
+    "method": "GET",
+    "status": 200,
+    "ms": 433,
+    "headers": {
+      "accept-ranges": "bytes",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "public, max-age=0",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a931e5ba65996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "219",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:19 GMT",
+      "etag": "W/\"1c8-1a1b4cd39d8\"",
+      "last-modified": "Sat, 07 Nov 2026 06:58:31 GMT",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "1dfb531f-63f5-4308",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "8a3e68e7-1b8d-43e3-8cc7-a410efa3f469"
+    },
+    "body": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <meta name=\"description\" content=\"NewsDC web application\" />\n    <title>NewsDC</title>\n    <script type=\"module\" crossorigin src=\"/assets/index-CpFPYfUo.js\"></script>\n    <link rel=\"stylesheet\" crossorigin href=\"/assets/index-BPO0VDWz.css\">\n  </head>\n  <body>\n    <div id=\"root\"></div>\n  </body>\n</html>\n"
+  },
+  {
+    "comparison": "HTML asset names",
+    "deployed": [
+      "/assets/index-CpFPYfUo.js",
+      "/assets/index-BPO0VDWz.css"
+    ],
+    "local": [
+      "/assets/index-CpFPYfUo.js",
+      "/assets/index-BPO0VDWz.css"
+    ]
+  },
+  {
+    "path": "/assets/index-CpFPYfUo.js",
+    "method": "GET",
+    "status": 200,
+    "ms": 459,
+    "headers": {
+      "accept-ranges": "bytes",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "public, max-age=0",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93206d1d5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "text/javascript; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:19 GMT",
+      "etag": "W/\"4dff5-1a1b4cd39d8\"",
+      "last-modified": "Sat, 07 Nov 2026 06:58:31 GMT",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "1023eaf6-365c-4b78",
+      "server": "cloudflare",
+      "transfer-encoding": "chunked",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "f74b8530-921f-46e3-a8f7-da12429b3e01"
+    },
+    "sha256": "d3f93d919c6b34fd56bc135744cb0117d461af1392d912f574f6bc8c368297a4",
+    "bytes": 319412,
+    "localhostReferences": [
+      "http://localhost`;e&&(r=e.location.origin===`null`?e.location.href:e.location.origin",
+      "http://localhost`"
+    ],
+    "providerCredentialPatternFound": false,
+    "sameOriginApiReference": true
+  },
+  {
+    "path": "/assets/index-BPO0VDWz.css",
+    "method": "GET",
+    "status": 200,
+    "ms": 283,
+    "headers": {
+      "accept-ranges": "bytes",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "public, max-age=0",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93234f325996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "text/css; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:19 GMT",
+      "etag": "W/\"7c02-1a1b4cd39d8\"",
+      "last-modified": "Sat, 07 Nov 2026 06:58:31 GMT",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "789de4b5-a95b-4b24",
+      "server": "cloudflare",
+      "transfer-encoding": "chunked",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "3995c5e2-80fd-4613-9de1-e38c765aea4d"
+    },
+    "sha256": "2940eba992ea869643b1d6b90d3ad253bffcfa585a9ecd0ef41f344e69092ca2",
+    "bytes": 31746
+  },
+  {
+    "path": "/api/v1/content?type=ARTICLE&limit=1",
+    "method": "GET",
+    "status": 200,
+    "ms": 1932,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a932509545996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "965",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:21 GMT",
+      "etag": "W/\"72e-vsaVmuDzZm3UKbQHC8zfsANMhRE\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "9c49b60a-68a7-413b",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "0a917b0b-8bdd-4150-b156-d95bda7a1b6d"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "b688404d-420e-46b5-8698-f6f7ffd5b8eb",
+          "contentType": "ARTICLE",
+          "title": "Can Optical AI Cut Data Center Inference Power Use?",
+          "description": "Lumai is testing optical AI servers in a UK lab to see whether shifting inference prefill off GPUs can ease data center power constraints.",
+          "url": "https://www.datacenterknowledge.com/ai-data-centers/can-optical-ai-cut-data-center-inference-power-use-",
+          "author": "Sean Michael Kerner",
+          "publishedAt": "2026-11-06T17:13:26.000Z",
+          "createdAt": "2026-11-07T07:02:51.871Z",
+          "thumbnailUrl": "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/bltd3a6256e59188db9/6aee0bc96c3a3d4459aa7aab/Extreme_Close-up_of_illuminated_servers.png?width=720&amp;quality=80&amp;disable=upscale",
+          "durationSeconds": null,
+          "publisher": {
+            "id": "5e394ef3-df42-4fdd-bbef-37c84e04d0e7",
+            "name": "www.datacenterknowledge.com",
+            "domain": "www.datacenterknowledge.com"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "ai-compute-gpus",
+              "name": "AI Compute and GPUs"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "ai-agentic-ai",
+              "name": "AI/Agentic AI"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "aiEnabled": false,
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "sourceFormat": "RSS"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 1,
+        "total": 50,
+        "totalPages": 50
+      }
+    }
+  },
+  {
+    "path": "/api/v1/content?type=RESEARCH&limit=1",
+    "method": "GET",
+    "status": 200,
+    "ms": 1946,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93311aed5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "2081",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:23 GMT",
+      "etag": "W/\"1fb6-clusGNLM/bpYpMM6Bnal13sNAvQ\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "93e9076d-f422-4118",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "5e567e25-00bd-4b8b-96ed-6aeda75841f8"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "28576778-20b5-4e57-89b7-54bf044f1a55",
+          "contentType": "RESEARCH",
+          "title": "Joint Electricity Price and Load Forecasting for Data Center Battery Dispatch Using Polynomial Diffusion Models",
+          "description": "The rapid growth of large-scale data centers (DCs) is increasing electricity demand, market volatility, and operating costs. Battery energy storage systems (BESSs) can mitigate these challenges by shifting electricity purchases from high-price to low-price periods. This paper proposes a real-time BESS dispatch framework using polynomial diffusion models (PDMs) to forecast both electricity prices and DC loads. Leveraging the closed-form conditional expectations of PDMs, the forecasts are integrated into a dynamic programming (DP) framework to minimize electricity procurement costs. Across the evaluated BESS configurations, the proposed approach achieves 2.63 times the cost savings of a rule-based (RB) strategy.",
+          "url": "https://arxiv.org/abs/2611.08470v1",
+          "author": "Matthew Van Ham, Yiping Liu, Xiaozhe Wang",
+          "publishedAt": "2026-11-05T18:55:37.000Z",
+          "createdAt": "2026-11-07T07:06:15.898Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "economics",
+              "name": "Economics and Financial Models"
+            },
+            {
+              "slug": "optimization",
+              "name": "Optimization"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            }
+          ],
+          "tags": [
+            {
+              "id": "c26fcf3e-1a19-45c3-8e51-1b1f725fa18c",
+              "name": "eess.sy"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2611.08470v1",
+            "authors": [
+              "Matthew Van Ham",
+              "Yiping Liu",
+              "Xiaozhe Wang"
+            ],
+            "aiEnabled": true,
+            "updatedAt": "2026-11-05T18:55:37Z",
+            "externalId": "2611.08470v1",
+            "topicMethod": "ai-enrichment",
+            "aiEnrichment": {
+              "model": "gpt-5.4-mini",
+              "scope": "abstract-only",
+              "reason": "The abstract is directly about data center electricity demand, load/price forecasting, battery dispatch, and cost minimization, which are highly relevant to data center energy operations. The evidence is sufficient to support a concise technical summary, though it is abstract-only and does not provide implementation details, dataset specifics, or full validation context.",
+              "version": "newsdc-enrichment-v2",
+              "attempts": [
+                {
+                  "code": "AI_PROVIDER_QUOTA",
+                  "status": "FAILED",
+                  "attempt": 1,
+                  "provider": "gemini"
+                },
+                {
+                  "status": "COMPLETED",
+                  "attempt": 1,
+                  "provider": "openai"
+                }
+              ],
+              "provider": "openai",
+              "inputHash": "93bb0c669cf3fd37e38ddb3d0db2c086b6f30596cf509a29761e5e9c2bfe7d02",
+              "qualityReason": "The supplied text gives specific methods, objective, and a quantitative result, which makes it reasonably informative. Quality is limited by the abstract-only scope and lack of experimental details, assumptions, and broader evaluation context, so it is strong but not fully comprehensive.",
+              "rubricVersion": "newsdc-scores-v1",
+              "insightEvidence": [
+                "The rapid growth of large-scale data centers (DCs) is increasing electricity demand, market volatility, and operating costs. Battery energy storage systems (BESSs) can mitigate these challenges by shifting electricity purchases from",
+                "high-price to low-price periods. This paper proposes a real-time BESS dispatch framework using polynomial diffusion models (PDMs) to forecast both electricity prices and DC loads. Leveraging the closed-form conditional expectations of PDMs,",
+                "the forecasts are integrated into a dynamic programming (DP) framework to minimize electricity procurement costs. Across the evaluated BESS configurations, the proposed approach achieves 2.63 times the cost savings of a rule-based (RB) strategy."
+              ],
+              "summaryEvidence": [
+                "The rapid growth of large-scale data centers (DCs) is increasing electricity demand, market volatility, and operating costs. Battery energy storage systems (BESSs) can mitigate these challenges by shifting electricity purchases from",
+                "high-price to low-price periods. This paper proposes a real-time BESS dispatch framework using polynomial diffusion models (PDMs) to forecast both electricity prices and DC loads. Leveraging the closed-form conditional expectations of PDMs,",
+                "the forecasts are integrated into a dynamic programming (DP) framework to minimize electricity procurement costs. Across the evaluated BESS configurations, the proposed approach achieves 2.63 times the cost savings of a rule-based (RB) strategy."
+              ],
+              "hasSufficientEvidence": true
+            },
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "eess.SY",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "COMPLETED",
+            "current": true,
+            "summary": "This abstract describes a data center-focused battery dispatch method that jointly forecasts electricity prices and data center load using polynomial diffusion models, then uses dynamic programming to minimize electricity procurement costs. It frames battery storage as a way to reduce exposure to electricity market volatility and operating costs, and reports materially better savings than a rule-based baseline. Because this is abstract-only evidence, the findings should be treated as a summary of the paper’s claims rather than a full verification of methods or results.",
+            "keyInsights": [
+              "Battery energy storage is positioned as a practical tool for data centers to shift purchases away from high-price periods and reduce operating cost exposure.",
+              "The proposed framework combines polynomial diffusion model forecasts for both price and load with dynamic programming for real-time BESS dispatch.",
+              "The abstract reports 2.63x the cost savings of a rule-based strategy across evaluated battery configurations, indicating strong economics-focused optimization gains."
+            ],
+            "qualityScore": 76,
+            "relevanceScore": 97,
+            "relevanceConfidence": 0.98,
+            "isDataCenterRelevant": true,
+            "intelligenceType": "TECHNICAL_RESEARCH",
+            "provider": "openai",
+            "model": "gpt-5.4-mini",
+            "processedAt": "2026-11-07T07:06:39.388Z",
+            "scope": "abstract-only",
+            "reason": "The abstract is directly about data center electricity demand, load/price forecasting, battery dispatch, and cost minimization, which are highly relevant to data center energy operations. The evidence is sufficient to support a concise technical summary, though it is abstract-only and does not provide implementation details, dataset specifics, or full validation context.",
+            "qualityReason": "The supplied text gives specific methods, objective, and a quantitative result, which makes it reasonably informative. Quality is limited by the abstract-only scope and lack of experimental details, assumptions, and broader evaluation context, so it is strong but not fully comprehensive.",
+            "summaryEvidence": [
+              "The rapid growth of large-scale data centers (DCs) is increasing electricity demand, market volatility, and operating costs. Battery energy storage systems (BESSs) can mitigate these challenges by shifting electricity purchases from",
+              "high-price to low-price periods. This paper proposes a real-time BESS dispatch framework using polynomial diffusion models (PDMs) to forecast both electricity prices and DC loads. Leveraging the closed-form conditional expectations of PDMs,",
+              "the forecasts are integrated into a dynamic programming (DP) framework to minimize electricity procurement costs. Across the evaluated BESS configurations, the proposed approach achieves 2.63 times the cost savings of a rule-based (RB) strategy."
+            ],
+            "insightEvidence": [
+              "The rapid growth of large-scale data centers (DCs) is increasing electricity demand, market volatility, and operating costs. Battery energy storage systems (BESSs) can mitigate these challenges by shifting electricity purchases from",
+              "high-price to low-price periods. This paper proposes a real-time BESS dispatch framework using polynomial diffusion models (PDMs) to forecast both electricity prices and DC loads. Leveraging the closed-form conditional expectations of PDMs,",
+              "the forecasts are integrated into a dynamic programming (DP) framework to minimize electricity procurement costs. Across the evaluated BESS configurations, the proposed approach achieves 2.63 times the cost savings of a rule-based (RB) strategy."
+            ],
+            "skipReason": null
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 1,
+        "total": 50,
+        "totalPages": 50
+      }
+    }
+  },
+  {
+    "path": "/api/v1/content?type=DISCUSSION&limit=1",
+    "method": "GET",
+    "status": 200,
+    "ms": 2457,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a933d4c4b5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "763",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:26 GMT",
+      "etag": "W/\"5ce-xo+YgreVpf3g7Jhjkig2DD+HkR0\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "2842ac02-a675-4bf9",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "fab46f9c-0d69-4592-8d35-76043de43e49"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "d778c7ae-f36f-4821-bcb8-270670a643a4",
+          "contentType": "DISCUSSION",
+          "title": "ECB considers review of bank data center lending on AI risk",
+          "description": null,
+          "url": "https://www.bloomberg.com/news/articles/2026-11-06/ecb-considers-review-of-banks-data-center-lending-as-fears-rise",
+          "author": "TheAlchemist",
+          "publishedAt": "2026-11-06T23:19:22.000Z",
+          "createdAt": "2026-11-07T07:04:57.372Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "8c1b18d9-a01d-4cb3-bd55-2d8d2eb33b5d",
+            "name": "www.bloomberg.com",
+            "domain": "www.bloomberg.com"
+          },
+          "categories": [
+            {
+              "slug": "ai-agentic-ai",
+              "name": "AI/Agentic AI"
+            },
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "points": 2,
+            "comments": 0,
+            "aiEnabled": false,
+            "externalId": "50399847",
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "discussionUrl": "https://news.ycombinator.com/item?id=50399847"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 1,
+        "total": 41,
+        "totalPages": 41
+      }
+    }
+  },
+  {
+    "path": "/api/v1/search?q=cooling&type=RESEARCH&sort=title&order=asc&limit=5",
+    "method": "GET",
+    "status": 200,
+    "ms": 2040,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a934ca8aa5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:28 GMT",
+      "etag": "W/\"97ca-DEyj4HS1VI7d0A2+C/JFGibN/LQ\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "d6440fb1-9796-4c1e",
+      "server": "cloudflare",
+      "transfer-encoding": "chunked",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "2e7c179c-dd31-4edd-852d-b4c5d9b4b1cd"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "6d5caccd-8a6f-4965-ad03-463ad58e0b72",
+          "contentType": "RESEARCH",
+          "title": "A Critical Review of Grid Integration Challenges and Flexibility Opportunities for Large-Scale Data Centers",
+          "description": "The rapid proliferation of cloud computing and artificial intelligence workloads is fundamentally reshaping the magnitude, spatial concentration, and electrical characteristics of data center power demand. Data centers differ from conventional commercial loads because they combine high rack densities, converter-dominated interfaces, thermally coupled cooling, uninterruptible power supplies, programmable workloads, and increasingly complex behind-the-meter generation and storage within a single facility. This review examines their grid integration from utility and sustainable-energy perspectives across resource planning, large-load interconnection, distribution feeders, market operation, real-time dynamics, power quality, and asset management. Particular attention is given to distribution-level issues that receive limited treatment in broader energy reviews: bidirectional operation on renewable-rich feeders, harmonic propagation and resonance, ride-through and reconnection, transformer derating, cable ampacity, neutral-conductor heating, protection, and measurement. Static, composite, physics-based dynamic, calibrated, impedance, electromagnetic transient, and hybrid load models are compared according to study purpose and data requirements, and utility coordination platforms, uninterruptible power supply and battery control, workload flexibility, renewable co-location, cogeneration, fuel cells, thermal storage, and clean firm supply are assessed. The central finding is that requested peak demand and annual energy matching alone cannot establish reliable or sustainable integration. Credible assessment must consider hourly and locational supply, network deliverability, marginal emissions, lifecycle and water impacts, backup obligations, rebound, asset health, and verified operating capability.",
+          "url": "https://arxiv.org/abs/2610.19374v2",
+          "author": "Bibek Dhakal, Manohar Chamana, Biswambhar Gayen, Jatendar Kumar, S M Shams Rahman, Aaqib Peerzada, Ki Yeob Lee, Olatunji M. Adeyanju, Bhaskar Mitra, Stephen Bayne",
+          "publishedAt": "2026-10-14T01:17:31.000Z",
+          "createdAt": "2026-11-07T07:07:58.462Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            },
+            {
+              "slug": "sustainability",
+              "name": "Sustainability (PUE/WUE/carbon)"
+            },
+            {
+              "slug": "optimization",
+              "name": "Optimization"
+            }
+          ],
+          "tags": [
+            {
+              "id": "c26fcf3e-1a19-45c3-8e51-1b1f725fa18c",
+              "name": "eess.sy"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2610.19374v2",
+            "authors": [
+              "Bibek Dhakal",
+              "Manohar Chamana",
+              "Biswambhar Gayen",
+              "Jatendar Kumar",
+              "S M Shams Rahman",
+              "Aaqib Peerzada",
+              "Ki Yeob Lee",
+              "Olatunji M. Adeyanju",
+              "Bhaskar Mitra",
+              "Stephen Bayne"
+            ],
+            "aiEnabled": true,
+            "updatedAt": "2026-11-04T05:44:02Z",
+            "externalId": "2610.19374v2",
+            "topicMethod": "ai-enrichment",
+            "aiEnrichment": {
+              "model": "gpt-5.4-mini",
+              "scope": "abstract-only",
+              "reason": "Highly relevant to data-center power/grid integration, with direct discussion of load behavior, interconnection, flexibility, and sustainability implications. Because this is an abstract-only source, the evidence is concise but still specific and sufficient to support a focused technical summary.",
+              "version": "newsdc-enrichment-v2",
+              "attempts": [
+                {
+                  "code": "AI_PROVIDER_QUOTA",
+                  "status": "FAILED",
+                  "attempt": 1,
+                  "provider": "gemini"
+                },
+                {
+                  "status": "COMPLETED",
+                  "attempt": 1,
+                  "provider": "openai"
+                }
+              ],
+              "provider": "openai",
+              "inputHash": "b9851d20fe57a204748332cdf769b83fa55fe45687b7dd74c3cd338b37547cd5",
+              "qualityReason": "The abstract provides substantial concrete detail across multiple technical dimensions, including load modeling, distribution issues, and flexibility options. Quality is limited by being abstract-only, so claims are necessarily summarized rather than grounded in full methods, data, or results.",
+              "rubricVersion": "newsdc-scores-v1",
+              "insightEvidence": [
+                "conventional commercial loads because they combine high rack densities, converter-dominated interfaces, thermally coupled cooling, uninterruptible power supplies, programmable workloads, and increasingly complex behind-the-meter generation",
+                "dynamics, power quality, and asset management. Particular attention is given to distribution-level issues that receive limited treatment in broader energy reviews: bidirectional operation on renewable-rich feeders, harmonic propagation and",
+                "storage, and clean firm supply are assessed. The central finding is that requested peak demand and annual energy matching alone cannot establish reliable or sustainable integration. Credible assessment must consider hourly and locational"
+              ],
+              "summaryEvidence": [
+                "The rapid proliferation of cloud computing and artificial intelligence workloads is fundamentally reshaping the magnitude, spatial concentration, and electrical characteristics of data center power demand. Data centers differ from",
+                "and storage within a single facility. This review examines their grid integration from utility and sustainable-energy perspectives across resource planning, large-load interconnection, distribution feeders, market operation, real-time",
+                "resonance, ride-through and reconnection, transformer derating, cable ampacity, neutral-conductor heating, protection, and measurement. Static, composite, physics-based dynamic, calibrated, impedance, electromagnetic transient, and hybrid"
+              ],
+              "hasSufficientEvidence": true
+            },
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "eess.SY",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "COMPLETED",
+            "current": true,
+            "summary": "This abstract reviews grid integration challenges and flexibility opportunities for large-scale data centers, emphasizing how cloud and AI workloads are changing data center power demand and electrical characteristics. It focuses on distribution-level impacts such as harmonic propagation, resonance, ride-through, transformer derating, cable ampacity, protection, and power quality, and compares multiple load-modeling approaches. It also assesses flexibility options including UPS and battery control, workload flexibility, renewable co-location, cogeneration, fuel cells, thermal storage, and clean firm supply, concluding that peak demand and annual energy matching alone are insufficient for reliable or sustainable integration.",
+            "keyInsights": [
+              "The review frames data centers as complex electrical loads with high rack density, converter-dominated interfaces, UPS systems, cooling interactions, and on-site generation/storage, making them materially different from conventional commercial loads.",
+              "It highlights under-addressed distribution-grid issues for data centers, including bidirectional feeder operation, harmonic/resonance effects, ride-through/reconnection, transformer and cable constraints, neutral heating, protection, and measurement.",
+              "The paper argues that credible integration assessments must go beyond peak demand and annual energy to include hourly/locational supply, deliverability, emissions, water impacts, backup obligations, rebound, asset health, and verified operating capability."
+            ],
+            "qualityScore": 84,
+            "relevanceScore": 96,
+            "relevanceConfidence": 0.99,
+            "isDataCenterRelevant": true,
+            "intelligenceType": "TECHNICAL_RESEARCH",
+            "provider": "openai",
+            "model": "gpt-5.4-mini",
+            "processedAt": "2026-11-07T07:16:00.678Z",
+            "scope": "abstract-only",
+            "reason": "Highly relevant to data-center power/grid integration, with direct discussion of load behavior, interconnection, flexibility, and sustainability implications. Because this is an abstract-only source, the evidence is concise but still specific and sufficient to support a focused technical summary.",
+            "qualityReason": "The abstract provides substantial concrete detail across multiple technical dimensions, including load modeling, distribution issues, and flexibility options. Quality is limited by being abstract-only, so claims are necessarily summarized rather than grounded in full methods, data, or results.",
+            "summaryEvidence": [
+              "The rapid proliferation of cloud computing and artificial intelligence workloads is fundamentally reshaping the magnitude, spatial concentration, and electrical characteristics of data center power demand. Data centers differ from",
+              "and storage within a single facility. This review examines their grid integration from utility and sustainable-energy perspectives across resource planning, large-load interconnection, distribution feeders, market operation, real-time",
+              "resonance, ride-through and reconnection, transformer derating, cable ampacity, neutral-conductor heating, protection, and measurement. Static, composite, physics-based dynamic, calibrated, impedance, electromagnetic transient, and hybrid"
+            ],
+            "insightEvidence": [
+              "conventional commercial loads because they combine high rack densities, converter-dominated interfaces, thermally coupled cooling, uninterruptible power supplies, programmable workloads, and increasingly complex behind-the-meter generation",
+              "dynamics, power quality, and asset management. Particular attention is given to distribution-level issues that receive limited treatment in broader energy reviews: bidirectional operation on renewable-rich feeders, harmonic propagation and",
+              "storage, and clean firm supply are assessed. The central finding is that requested peak demand and annual energy matching alone cannot establish reliable or sustainable integration. Credible assessment must consider hourly and locational"
+            ],
+            "skipReason": null
+          }
+        },
+        {
+          "id": "e1f7e1fa-a2f9-45f9-bc1d-78ba5efb0cc4",
+          "contentType": "RESEARCH",
+          "title": "Dynamic Modeling of Transmission Networks, Grid-Following Inverters, and UPS-Based AI Data Centers",
+          "description": "This document presents dynamic models of a transmission network and average models of power-electronic devices and loads in the synchronous $dq$ frame. We model the network in the positive sequence and its synchronous generators with the classical swing equation and a first-order turbine governor. The power-electronic models cover grid-following inverters and AI data centers. Each inverter has a phase-locked loop, a power controller, and a current controller. Each data center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load. We model its rectifier, grid-forming output inverter, battery, and bidirectional DC-DC converter. A measured GPU power trace drives the IT demand. We replace every non-smooth operation with a smooth surrogate. This keeps the discretized model continuously differentiable for the nonlinear solver. We also show how we initialize each model at its power-flow operating point.",
+          "url": "https://arxiv.org/abs/2611.03279v1",
+          "author": "Muhammad Hamza Ali, Amritanshu Pandey",
+          "publishedAt": "2026-11-02T15:22:32.000Z",
+          "createdAt": "2026-11-07T07:06:37.420Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "ai-compute-gpus",
+              "name": "AI Compute and GPUs"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            },
+            {
+              "slug": "optimization",
+              "name": "Optimization"
+            }
+          ],
+          "tags": [
+            {
+              "id": "c26fcf3e-1a19-45c3-8e51-1b1f725fa18c",
+              "name": "eess.sy"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2611.03279v1",
+            "authors": [
+              "Muhammad Hamza Ali",
+              "Amritanshu Pandey"
+            ],
+            "aiEnabled": true,
+            "updatedAt": "2026-11-02T15:22:32Z",
+            "externalId": "2611.03279v1",
+            "topicMethod": "ai-enrichment",
+            "aiEnrichment": {
+              "model": "gpt-5.4-mini",
+              "scope": "abstract-only",
+              "reason": "The abstract is directly and substantively about AI data centers and their electrical integration with transmission networks, UPS, and GPU-driven load modeling. It is highly relevant for data center power/infrastructure analysis, though it is abstract-only and therefore limited to model description rather than results.",
+              "version": "newsdc-enrichment-v2",
+              "attempts": [
+                {
+                  "code": "AI_PROVIDER_QUOTA",
+                  "status": "FAILED",
+                  "attempt": 1,
+                  "provider": "gemini"
+                },
+                {
+                  "status": "COMPLETED",
+                  "attempt": 1,
+                  "provider": "openai"
+                }
+              ],
+              "provider": "openai",
+              "inputHash": "1696a3fec1dfed6418f3d1b31ee626544f08f73076b194e3bd2504574e63dd2f",
+              "qualityReason": "The abstract provides specific component-level modeling details and a clear methodological contribution, which supports a high quality score. However, it is only an abstract, so evidence is limited to described models and approach without results, validation, or quantitative findings.",
+              "rubricVersion": "newsdc-scores-v1",
+              "insightEvidence": [
+                "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load.",
+                "We model its rectifier, grid-forming output inverter, battery, and bidirectional DC-DC converter. A measured GPU power trace drives the IT demand. We replace every non-smooth operation with a smooth surrogate. This keeps the discretized",
+                "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load."
+              ],
+              "summaryEvidence": [
+                "This document presents dynamic models of a transmission network and average models of power-electronic devices and loads in the synchronous $dq$ frame. We model the network in the positive sequence and its synchronous generators with the",
+                "classical swing equation and a first-order turbine governor. The power-electronic models cover grid-following inverters and AI data centers. Each inverter has a phase-locked loop, a power controller, and a current controller. Each data",
+                "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load."
+              ],
+              "hasSufficientEvidence": true
+            },
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "eess.SY",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "COMPLETED",
+            "current": true,
+            "summary": "Abstract-only research describing dynamic modeling of transmission networks and AI data centers, including grid-following inverters, a UPS-backed IT load, GPU-driven demand, and an induction-motor cooling load. The paper focuses on coupled power-system and data-center component models, smooth approximations for numerical solving, and initialization at the power-flow operating point.",
+            "keyInsights": [
+              "The data center is explicitly modeled as part of the grid, with two step-down transformers feeding an LV bus that serves IT load, cooling load, and a constant-impedance load.",
+              "The IT load is driven by a measured GPU power trace, indicating the model is intended to represent AI-compute workload dynamics rather than generic facility demand.",
+              "A double-conversion UPS is modeled in detail, including rectifier, grid-forming inverter, battery, and bidirectional DC-DC converter, which makes the work relevant to power-conditioning and resilience design."
+            ],
+            "qualityScore": 84,
+            "relevanceScore": 95,
+            "relevanceConfidence": 0.99,
+            "isDataCenterRelevant": true,
+            "intelligenceType": "TECHNICAL_RESEARCH",
+            "provider": "openai",
+            "model": "gpt-5.4-mini",
+            "processedAt": "2026-11-07T07:08:25.737Z",
+            "scope": "abstract-only",
+            "reason": "The abstract is directly and substantively about AI data centers and their electrical integration with transmission networks, UPS, and GPU-driven load modeling. It is highly relevant for data center power/infrastructure analysis, though it is abstract-only and therefore limited to model description rather than results.",
+            "qualityReason": "The abstract provides specific component-level modeling details and a clear methodological contribution, which supports a high quality score. However, it is only an abstract, so evidence is limited to described models and approach without results, validation, or quantitative findings.",
+            "summaryEvidence": [
+              "This document presents dynamic models of a transmission network and average models of power-electronic devices and loads in the synchronous $dq$ frame. We model the network in the positive sequence and its synchronous generators with the",
+              "classical swing equation and a first-order turbine governor. The power-electronic models cover grid-following inverters and AI data centers. Each inverter has a phase-locked loop, a power controller, and a current controller. Each data",
+              "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load."
+            ],
+            "insightEvidence": [
+              "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load.",
+              "We model its rectifier, grid-forming output inverter, battery, and bidirectional DC-DC converter. A measured GPU power trace drives the IT demand. We replace every non-smooth operation with a smooth surrogate. This keeps the discretized",
+              "center connects to the grid through two step-down transformers. Its low-voltage bus feeds an IT load, an induction-motor cooling load, and a constant-impedance load. A double-conversion uninterruptible power supply (UPS) serves the IT load."
+            ],
+            "skipReason": null
+          }
+        },
+        {
+          "id": "a538b0db-03b2-4eba-8de3-de490560ed7b",
+          "contentType": "RESEARCH",
+          "title": "Estimating data center water use: Best practices and critical questions",
+          "description": "Concerns are growing about the water use of data centers. To quantify the scales, drivers, and possible trajectories of this water use, analytical estimation is required. However, current estimation methods and results vary widely due, in part, to a lack of established best practices. This variance is illustrated with a U.S. case study demonstrating a roughly 24-fold difference in possible outcomes based on observed U.S. study design variations. To address these challenges, this review synthesizes 14 best practices for advancing the science and utility of data center water use estimation. These proposed best practices can also be used as critical questions for stakeholders when evaluating the quality of any study. Using a structured rubric, it further assesses the literature to date (31 studies) against these best practices. The assessment reveals important opportunities for improvement and standardization in future study scopes, clarity, methods, and scientific knowledge building utility. It further finds that, while many studies provide reasonable transparency, scope definitions, replicability, and uncertainty treatment, many fall short in scientific justification, data representativeness, transparency on hydropower assumptions, terminological consistency, and meaningful discussions of limitations and future work. Recommendations are proposed for analysts, stakeholders, and policymakers to leverage these findings to help build a vibrant data center water use research community. Finally, this review can also be used as a basic primer for understanding data center cooling configurations and water use among analysts, policymakers, the media, and the public.",
+          "url": "https://arxiv.org/abs/2610.04735v1",
+          "author": "Eric Masanet",
+          "publishedAt": "2026-10-03T20:00:56.000Z",
+          "createdAt": "2026-11-07T07:08:36.472Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            },
+            {
+              "slug": "regulation",
+              "name": "Regulation"
+            }
+          ],
+          "tags": [
+            {
+              "id": "eafc73ee-484d-45b5-869a-bf2507cd2ca5",
+              "name": "cs.cy"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2610.04735v1",
+            "authors": [
+              "Eric Masanet"
+            ],
+            "aiEnabled": false,
+            "updatedAt": "2026-10-03T20:00:56Z",
+            "externalId": "2610.04735v1",
+            "topicMethod": "metadata-keywords",
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "cs.CY",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "PENDING",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": null
+          }
+        },
+        {
+          "id": "58621846-7fff-482e-9af8-23f5f8f83c60",
+          "contentType": "RESEARCH",
+          "title": "Halley: A Predictive Control Plane for Optical AI Data Center Networks",
+          "description": "A frontier AI model is trained in an AI data center, on tens of thousands of accelerators joined by a dedicated network, and every training step ends with all of them exchanging data at once. Between racks, that network is optical, and each of its four layers, from lasers to switches, runs a fixed or after-the-fact policy. Lasers sharing an enclosure, cooling, and power can fail together. At a fixed spare ratio, correlated failure provably caps a pool's availability however large it grows. In this paper, we present a comprehensive predictive control plane framework, called Halley, that reads each resource's next state and acts before the failure occurs. It has four components, each carrying a formal guarantee: LightReserve that sizes the laser pool to provide a coverage bound, FoldFit that schedules the switch within $11/9$ of the optimal, ThermaLead that holds a microring with one-step-ahead control, and TriageGuard that protects the highest-risk modules first. Halley gives each layer a predictive controller that defers to the deployed policy when unsure. Composed from simulations at that point, effective goodput, the share of ideal throughput kept, rises from 65.2\\% to 76.5\\% if a window that exhausts its spares is lost. If only the dark channels' bandwidth is lost, it reaches 67.4\\%. Per megawatt, that is up to 1.03--1.17 times the training; for the same training, up to 3.3--14.7\\% less data center capacity. \\textsf{Halley}'s fallback circuits are formally verified and are shown to achieve close timing on a commercial FPGA, and pass a 130~nm signoff.",
+          "url": "https://arxiv.org/abs/2611.04408v1",
+          "author": "Manav Mishra, Krishna M. Sivalingam",
+          "publishedAt": "2026-11-03T06:45:50.000Z",
+          "createdAt": "2026-11-07T07:06:32.182Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "networking",
+              "name": "Networking"
+            },
+            {
+              "slug": "optimization",
+              "name": "Optimization"
+            },
+            {
+              "slug": "ai-compute-gpus",
+              "name": "AI Compute and GPUs"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            }
+          ],
+          "tags": [
+            {
+              "id": "97c0e2c0-002b-42d9-a282-e5c8c57da11f",
+              "name": "cs.ni"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2611.04408v1",
+            "authors": [
+              "Manav Mishra",
+              "Krishna M. Sivalingam"
+            ],
+            "aiEnabled": true,
+            "updatedAt": "2026-11-03T06:45:50Z",
+            "externalId": "2611.04408v1",
+            "topicMethod": "ai-enrichment",
+            "aiEnrichment": {
+              "model": "gpt-5.4-mini",
+              "scope": "abstract-only",
+              "reason": "Highly relevant to data center networking and AI training infrastructure: it explicitly discusses AI data centers, accelerator clusters, optical networks, failure modes, and performance/availability impacts. The scope is abstract-only, but the abstract contains concrete technical claims, formal guarantees, and quantitative results.",
+              "version": "newsdc-enrichment-v2",
+              "attempts": [
+                {
+                  "code": "AI_PROVIDER_QUOTA",
+                  "status": "FAILED",
+                  "attempt": 1,
+                  "provider": "gemini"
+                },
+                {
+                  "status": "COMPLETED",
+                  "attempt": 1,
+                  "provider": "openai"
+                }
+              ],
+              "provider": "openai",
+              "inputHash": "b0766542f80905c794c8b7df2b42543440c624c8396bd6572a1c6002232e45d4",
+              "qualityReason": "Good abstract quality with specific methods, named components, formal guarantees, and quantitative outcomes. However, it is limited to abstract-level evidence rather than full experimental detail, so conclusions should be treated as preliminary and not fully independently verifiable from the supplied text.",
+              "rubricVersion": "newsdc-scores-v1",
+              "insightEvidence": [
+                "A frontier AI model is trained in an AI data center, on tens of thousands of accelerators joined by a dedicated network, and every training step ends with all of them exchanging data at once. Between racks, that network is optical, and each",
+                "large it grows. In this paper, we present a comprehensive predictive control plane framework, called Halley, that reads each resource's next state and acts before the failure occurs. It has four components, each carrying a formal guarantee:",
+                "highest-risk modules first. Halley gives each layer a predictive controller that defers to the deployed policy when unsure. Composed from simulations at that point, effective goodput, the share of ideal throughput kept, rises from 65.2\\% to"
+              ],
+              "summaryEvidence": [
+                "A frontier AI model is trained in an AI data center, on tens of thousands of accelerators joined by a dedicated network, and every training step ends with all of them exchanging data at once. Between racks, that network is optical, and each",
+                "large it grows. In this paper, we present a comprehensive predictive control plane framework, called Halley, that reads each resource's next state and acts before the failure occurs. It has four components, each carrying a formal guarantee:",
+                "highest-risk modules first. Halley gives each layer a predictive controller that defers to the deployed policy when unsure. Composed from simulations at that point, effective goodput, the share of ideal throughput kept, rises from 65.2\\% to"
+              ],
+              "hasSufficientEvidence": true
+            },
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "cs.NI",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "COMPLETED",
+            "current": true,
+            "summary": "This abstract describes Halley, a predictive control plane for optical AI data center networks connecting tens of thousands of accelerators. It targets correlated failures across laser, switch, microring, and protection layers, and proposes four formally guaranteed components to improve availability and goodput. The abstract reports simulation gains in goodput and data-center efficiency, plus formally verified fallback circuits and FPGA timing results. Evidence is abstract-only, so the findings should be read as reported research claims rather than full-paper validated results.",
+            "keyInsights": [
+              "The work is directly about AI data center networking for large accelerator clusters, focusing on optical inter-rack networks and their layered control policies.",
+              "It proposes a predictive control plane with four components and formal guarantees to mitigate correlated failures and improve availability.",
+              "The abstract reports improved goodput and efficiency, along with formally verified fallback circuits and FPGA/signoff validation."
+            ],
+            "qualityScore": 83,
+            "relevanceScore": 96,
+            "relevanceConfidence": 0.98,
+            "isDataCenterRelevant": true,
+            "intelligenceType": "TECHNICAL_RESEARCH",
+            "provider": "openai",
+            "model": "gpt-5.4-mini",
+            "processedAt": "2026-11-07T07:08:00.755Z",
+            "scope": "abstract-only",
+            "reason": "Highly relevant to data center networking and AI training infrastructure: it explicitly discusses AI data centers, accelerator clusters, optical networks, failure modes, and performance/availability impacts. The scope is abstract-only, but the abstract contains concrete technical claims, formal guarantees, and quantitative results.",
+            "qualityReason": "Good abstract quality with specific methods, named components, formal guarantees, and quantitative outcomes. However, it is limited to abstract-level evidence rather than full experimental detail, so conclusions should be treated as preliminary and not fully independently verifiable from the supplied text.",
+            "summaryEvidence": [
+              "A frontier AI model is trained in an AI data center, on tens of thousands of accelerators joined by a dedicated network, and every training step ends with all of them exchanging data at once. Between racks, that network is optical, and each",
+              "large it grows. In this paper, we present a comprehensive predictive control plane framework, called Halley, that reads each resource's next state and acts before the failure occurs. It has four components, each carrying a formal guarantee:",
+              "highest-risk modules first. Halley gives each layer a predictive controller that defers to the deployed policy when unsure. Composed from simulations at that point, effective goodput, the share of ideal throughput kept, rises from 65.2\\% to"
+            ],
+            "insightEvidence": [
+              "A frontier AI model is trained in an AI data center, on tens of thousands of accelerators joined by a dedicated network, and every training step ends with all of them exchanging data at once. Between racks, that network is optical, and each",
+              "large it grows. In this paper, we present a comprehensive predictive control plane framework, called Halley, that reads each resource's next state and acts before the failure occurs. It has four components, each carrying a formal guarantee:",
+              "highest-risk modules first. Halley gives each layer a predictive controller that defers to the deployed policy when unsure. Composed from simulations at that point, effective goodput, the share of ideal throughput kept, rises from 65.2\\% to"
+            ],
+            "skipReason": null
+          }
+        },
+        {
+          "id": "a2b3dba2-8c41-424d-b623-895c8c92c077",
+          "contentType": "RESEARCH",
+          "title": "Identifiability-Guided Composite Load Modeling of AI Data Centers",
+          "description": "The rapid growth of AI data centers introduces large, workload-dependent loads whose protection and reconnection behavior can affect power-system transient stability. Calibrating dynamic models of such loads is challenging because treating all associated elements as freely estimable may lead to weakly identified or physically confounded parameterizations. This paper proposes an identifiability-guided calibration framework for a composite load model with separate IT, cooling, and auxiliary branches. A nuisance-projected Fisher-information criterion characterizes the local identifiability of the cooling-motor composition, while a workload non-equivalence result shows that voltage-only recalibration cannot reproduce workload-dependent responses. Guided by these results, a grey-box estimator trained with branch-level supervision learns the workload-to-power relation and the cooling composition, while retaining a prescribed UPS protection law and an externally anchored reconnect-ramp duration. The learned workload relation is then distilled into a closed form for transient-stability simulation. Evaluation using 300,000 MIT Supercloud GPU power-utilization samples and 12,600 IEEE 39-bus fault scenarios yields an aggregate active-power $R^2$ of 0.948, compared with 0.856 for an LSTM baseline. Removing branch-level supervision preserves relatively high aggregate accuracy but substantially degrades cooling-component recovery. Under unseen deep voltage sags, the proposed model achieves a transient $R^2$ of 0.750, compared with 0.033 for the LSTM. Closed-loop simulations further show that cooling composition and protection behavior can affect retained-load states and voltage responses near protection thresholds.",
+          "url": "https://arxiv.org/abs/2610.19565v2",
+          "author": "Ding Lin, Jianhui Wang, Meng Yue, Tianqiao Zhao",
+          "publishedAt": "2026-10-14T04:28:41.000Z",
+          "createdAt": "2026-11-07T07:07:53.211Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "78d4a2eb-99e2-4460-b896-dcc28c3196b2",
+            "name": "arxiv.org",
+            "domain": "arxiv.org"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "ai-compute-gpus",
+              "name": "AI Compute and GPUs"
+            },
+            {
+              "slug": "power-energy",
+              "name": "Power and Energy"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            },
+            {
+              "slug": "optimization",
+              "name": "Optimization"
+            }
+          ],
+          "tags": [
+            {
+              "id": "c26fcf3e-1a19-45c3-8e51-1b1f725fa18c",
+              "name": "eess.sy"
+            }
+          ],
+          "metadata": {
+            "doi": null,
+            "arxivId": "2610.19565v2",
+            "authors": [
+              "Ding Lin",
+              "Jianhui Wang",
+              "Meng Yue",
+              "Tianqiao Zhao"
+            ],
+            "aiEnabled": true,
+            "updatedAt": "2026-10-17T22:57:50Z",
+            "externalId": "2610.19565v2",
+            "topicMethod": "ai-enrichment",
+            "aiEnrichment": {
+              "model": "gpt-5.4-mini",
+              "scope": "abstract-only",
+              "reason": "Directly about AI data centers and their electrical load behavior, with clear implications for power-system modeling, cooling, and operational protection dynamics. The abstract provides concrete methodology and quantitative results, making it highly relevant.",
+              "version": "newsdc-enrichment-v2",
+              "attempts": [
+                {
+                  "code": "AI_PROVIDER_QUOTA",
+                  "status": "FAILED",
+                  "attempt": 1,
+                  "provider": "gemini"
+                },
+                {
+                  "status": "COMPLETED",
+                  "attempt": 1,
+                  "provider": "openai"
+                }
+              ],
+              "provider": "openai",
+              "inputHash": "24959d12a197d4fd5a1503d30473903e1d5ba0b98a2d1d0afb11f977e19b902f",
+              "qualityReason": "The abstract is detailed and includes a specific modeling approach, dataset sizes, baselines, and performance metrics. As an abstract-only source, it still has limitations: implementation details, assumptions, and broader validation scope are not available, but the evidence is substantial enough for a confident technical summary.",
+              "rubricVersion": "newsdc-scores-v1",
+              "insightEvidence": [
+                "all associated elements as freely estimable may lead to weakly identified or physically confounded parameterizations. This paper proposes an identifiability-guided calibration framework for a composite load model with separate IT, cooling,",
+                "and an externally anchored reconnect-ramp duration. The learned workload relation is then distilled into a closed form for transient-stability simulation. Evaluation using 300,000 MIT Supercloud GPU power-utilization samples and 12,600 IEEE",
+                "recovery. Under unseen deep voltage sags, the proposed model achieves a transient $R^2$ of 0.750, compared with 0.033 for the LSTM. Closed-loop simulations further show that cooling composition and protection behavior can affect"
+              ],
+              "summaryEvidence": [
+                "The rapid growth of AI data centers introduces large, workload-dependent loads whose protection and reconnection behavior can affect power-system transient stability. Calibrating dynamic models of such loads is challenging because treating",
+                "all associated elements as freely estimable may lead to weakly identified or physically confounded parameterizations. This paper proposes an identifiability-guided calibration framework for a composite load model with separate IT, cooling,",
+                "and an externally anchored reconnect-ramp duration. The learned workload relation is then distilled into a closed form for transient-stability simulation. Evaluation using 300,000 MIT Supercloud GPU power-utilization samples and 12,600 IEEE"
+              ],
+              "hasSufficientEvidence": true
+            },
+            "sourceFormat": "arXiv Atom",
+            "primaryCategory": "eess.SY",
+            "journalReference": null,
+            "descriptionOrigin": "source-abstract"
+          },
+          "ai": {
+            "status": "COMPLETED",
+            "current": true,
+            "summary": "This abstract presents an identifiability-guided composite load modeling method for AI data centers, motivated by the impact of workload-dependent loads on power-system transient stability. It proposes a grey-box model separating IT, cooling, and auxiliary branches, uses Fisher-information-based identifiability analysis, and validates the approach on MIT Supercloud GPU power data and IEEE 39-bus fault scenarios. The reported results show improved aggregate and transient prediction accuracy versus an LSTM baseline, and the paper argues that cooling composition and protection/reconnect behavior materially affect voltage and retained-load dynamics.",
+            "keyInsights": [
+              "The model explicitly decomposes AI data center load into IT, cooling, and auxiliary branches and emphasizes that protection/reconnection behavior can influence transient stability.",
+              "Evaluation on 300,000 GPU power-utilization samples and 12,600 fault scenarios reports strong gains over an LSTM baseline, especially for unseen deep voltage sags.",
+              "The study finds that cooling composition and protection behavior affect retained-load states and voltage responses near protection thresholds."
+            ],
+            "qualityScore": 86,
+            "relevanceScore": 94,
+            "relevanceConfidence": 0.99,
+            "isDataCenterRelevant": true,
+            "intelligenceType": "TECHNICAL_RESEARCH",
+            "provider": "openai",
+            "model": "gpt-5.4-mini",
+            "processedAt": "2026-11-07T07:15:35.396Z",
+            "scope": "abstract-only",
+            "reason": "Directly about AI data centers and their electrical load behavior, with clear implications for power-system modeling, cooling, and operational protection dynamics. The abstract provides concrete methodology and quantitative results, making it highly relevant.",
+            "qualityReason": "The abstract is detailed and includes a specific modeling approach, dataset sizes, baselines, and performance metrics. As an abstract-only source, it still has limitations: implementation details, assumptions, and broader validation scope are not available, but the evidence is substantial enough for a confident technical summary.",
+            "summaryEvidence": [
+              "The rapid growth of AI data centers introduces large, workload-dependent loads whose protection and reconnection behavior can affect power-system transient stability. Calibrating dynamic models of such loads is challenging because treating",
+              "all associated elements as freely estimable may lead to weakly identified or physically confounded parameterizations. This paper proposes an identifiability-guided calibration framework for a composite load model with separate IT, cooling,",
+              "and an externally anchored reconnect-ramp duration. The learned workload relation is then distilled into a closed form for transient-stability simulation. Evaluation using 300,000 MIT Supercloud GPU power-utilization samples and 12,600 IEEE"
+            ],
+            "insightEvidence": [
+              "all associated elements as freely estimable may lead to weakly identified or physically confounded parameterizations. This paper proposes an identifiability-guided calibration framework for a composite load model with separate IT, cooling,",
+              "and an externally anchored reconnect-ramp duration. The learned workload relation is then distilled into a closed form for transient-stability simulation. Evaluation using 300,000 MIT Supercloud GPU power-utilization samples and 12,600 IEEE",
+              "recovery. Under unseen deep voltage sags, the proposed model achieves a transient $R^2$ of 0.750, compared with 0.033 for the LSTM. Closed-loop simulations further show that cooling composition and protection behavior can affect"
+            ],
+            "skipReason": null
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 5,
+        "total": 9,
+        "totalPages": 2
+      }
+    }
+  },
+  {
+    "path": "/api/v1/content?page=2&limit=2",
+    "method": "GET",
+    "status": 200,
+    "ms": 1850,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93596bcb5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "952",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:30 GMT",
+      "etag": "W/\"aed-NiZfiwlrMRBJ+jf73a2nEHNNiUM\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "ec9005a5-762a-421b",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "ce012f8f-a18d-4cfa-a127-d9f39a22772a"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "e95e2fa2-cb17-4190-8668-c56b038612bd",
+          "contentType": "DISCUSSION",
+          "title": "Google has acquired Crusoe's data center site in southeast Wyoming",
+          "description": null,
+          "url": "https://www.crusoe.ai/resources/newsroom/crusoe-wyoming-data-center-campus-update",
+          "author": "rexbee",
+          "publishedAt": "2026-11-06T20:09:14.000Z",
+          "createdAt": "2026-11-07T07:05:00.868Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "5fedf21f-e3f2-4342-8dfa-9b0b1b16cd2a",
+            "name": "www.crusoe.ai",
+            "domain": "www.crusoe.ai"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "hyperscaler-investments",
+              "name": "Hyperscaler Investments"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "points": 64,
+            "comments": 13,
+            "aiEnabled": false,
+            "externalId": "50397711",
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "discussionUrl": "https://news.ycombinator.com/item?id=50397711"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        },
+        {
+          "id": "219d134d-f471-44a1-bd38-f66262301e75",
+          "contentType": "DISCUSSION",
+          "title": "Datacenters were on the ballot. US voters rejected them",
+          "description": null,
+          "url": "https://www.theguardian.com/us-news/2026/nov/04/datacenters-midterm-elections",
+          "author": "Betelbuddy",
+          "publishedAt": "2026-11-06T19:38:33.000Z",
+          "createdAt": "2026-11-07T07:05:02.615Z",
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "publisher": {
+            "id": "fd703b8f-676d-4cbb-aca5-2f97061e76cf",
+            "name": "www.theguardian.com",
+            "domain": "www.theguardian.com"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "points": 7,
+            "comments": 0,
+            "aiEnabled": false,
+            "externalId": "50397290",
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "discussionUrl": "https://news.ycombinator.com/item?id=50397290"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        }
+      ],
+      "pagination": {
+        "page": 2,
+        "limit": 2,
+        "total": 162,
+        "totalPages": 81
+      }
+    }
+  },
+  {
+    "path": "/api/v1/topics/cooling/content?limit=2",
+    "method": "GET",
+    "status": 200,
+    "ms": 1947,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a9364fca45996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "1205",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:32 GMT",
+      "etag": "W/\"dae-96yfp84+wWNxHjeYrUpt4X/RysU\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "dab09078-eca4-4179",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "2972ef5d-9c17-4319-9866-1e8993345889"
+    },
+    "data": {
+      "data": [
+        {
+          "id": "6dbd66aa-028d-4b99-925c-77724e3ecf5e",
+          "contentType": "ARTICLE",
+          "title": "Modular AI Data Centers Gain Ground as Crusoe Debuts Unit",
+          "description": "Crusoe's 3.5 MW Spark Liquid unit highlights how factory-built, modular data centers are becoming a faster path to AI capacity at scale.",
+          "url": "https://www.datacenterknowledge.com/modular-data-centers/modular-ai-data-centers-gain-ground-as-crusoe-debuts-unit",
+          "author": "Sean Michael Kerner",
+          "publishedAt": "2026-11-04T19:47:30.000Z",
+          "createdAt": "2026-11-07T07:02:57.190Z",
+          "thumbnailUrl": "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/blt1fd14156886f4c9b/6aeb8c3a268c44a7d9fe32db/Crusoe_Liquid_Spark_product_representation.png?width=720&amp;quality=80&amp;disable=upscale",
+          "durationSeconds": null,
+          "publisher": {
+            "id": "5e394ef3-df42-4fdd-bbef-37c84e04d0e7",
+            "name": "www.datacenterknowledge.com",
+            "domain": "www.datacenterknowledge.com"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            },
+            {
+              "slug": "ai-agentic-ai",
+              "name": "AI/Agentic AI"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "aiEnabled": false,
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "sourceFormat": "RSS"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        },
+        {
+          "id": "174628a5-8dc6-4b06-979b-4ff7b7f404b1",
+          "contentType": "ARTICLE",
+          "title": "Liquid Cooling Is Changing What Data Centers Need to Measure",
+          "description": "Liquid cooling changes data center operations by making precise, real-time measurement across both liquid and air environments essential.",
+          "url": "https://www.datacenterknowledge.com/cooling/liquid-cooling-is-changing-what-data-centers-need-to-measure",
+          "author": "Anu Kätkä, Industry Perspectives",
+          "publishedAt": "2026-11-04T14:00:00.000Z",
+          "createdAt": "2026-11-07T07:02:58.960Z",
+          "thumbnailUrl": "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/bltde767004205f0310/6ae8caaf60521853fb43abcd/Closeup_of_high-performance_gpu_servers_with_liquid_cooling_and_ai_processing_units.png?width=720&amp;quality=80&amp;disable=upscale",
+          "durationSeconds": null,
+          "publisher": {
+            "id": "5e394ef3-df42-4fdd-bbef-37c84e04d0e7",
+            "name": "www.datacenterknowledge.com",
+            "domain": "www.datacenterknowledge.com"
+          },
+          "categories": [
+            {
+              "slug": "infrastructure",
+              "name": "Data Center Infrastructure"
+            },
+            {
+              "slug": "cooling",
+              "name": "Cooling"
+            }
+          ],
+          "tags": [],
+          "metadata": {
+            "aiEnabled": false,
+            "topicMethod": "metadata-keywords",
+            "aiSkipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required).",
+            "sourceFormat": "RSS"
+          },
+          "ai": {
+            "status": "SKIPPED",
+            "current": false,
+            "summary": null,
+            "keyInsights": [],
+            "qualityScore": null,
+            "relevanceScore": null,
+            "relevanceConfidence": null,
+            "isDataCenterRelevant": null,
+            "intelligenceType": null,
+            "provider": null,
+            "model": null,
+            "processedAt": null,
+            "scope": null,
+            "reason": null,
+            "qualityReason": null,
+            "summaryEvidence": [],
+            "insightEvidence": [],
+            "skipReason": "Source text is too thin for a grounded summary (at least 25 words and 160 characters required)."
+          }
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 2,
+        "total": 17,
+        "totalPages": 9
+      }
+    }
+  },
+  {
+    "path": "/api/v1/content/00000000-0000-4000-8000-000000000000",
+    "method": "GET",
+    "status": 404,
+    "ms": 472,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93711d5f5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "70",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:32 GMT",
+      "etag": "W/\"4a-OokuC2JXQhtsOCjoZGuAHXn/WbI\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "5a92da20-2967-4090",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "f36a3aee-e615-40f8-a463-68c4bc33ee76"
+    },
+    "data": {
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Content not found.",
+        "details": []
+      }
+    }
+  },
+  {
+    "path": "/api/v1/assistant/ask",
+    "method": "POST",
+    "status": 200,
+    "ms": 13631,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "no-store",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93741fd25996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "1733",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:46 GMT",
+      "etag": "W/\"14fa-s2ez8FizSWMQpsLJQX/ACJcPllg\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "c486799f-8840-4869",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "295bc960-6a13-40f9-b9d9-28a9db0ed367"
+    },
+    "data": {
+      "answer": "Recent developments point to tighter integration of liquid cooling with whole-facility simulation and control. One study adds a native EnergyPlus object for direct-to-chip liquid cooling that models chilled-water and warm-water architectures, secondary loops, coolant distribution units, and chip temperatures in one solver; it reports validation against Modelica and finds warm-water liquid cooling can reduce annual PUE from 1.43 to 1.25 while eliminating on-site water use and cutting total facility energy by 37.9% in the case study. [1]\n\nOperationally, liquid cooling is making measurement and monitoring more important, with emphasis on precise real-time sensing across both liquid and air environments, and retrofits are being viewed as beneficial but case-specific because cost, downtime, and infrastructure constraints limit where they make sense. [2] [3]\n\nOn the power-management side, the latest coverage emphasizes smarter integrated control: AI-driven data centers are described as needing coordinated sensing, motor control, and power management in a single responsive, failure-anticipating system. A broader grid-integration review also highlights how large data centers are reshaping electrical demand and creating challenges around interconnection, distribution feeders, power quality, and asset management, especially given converter-dominated interfaces and tightly coupled cooling and backup systems. [4] [5]",
+      "paragraphs": [
+        {
+          "text": "Recent developments point to tighter integration of liquid cooling with whole-facility simulation and control. One study adds a native EnergyPlus object for direct-to-chip liquid cooling that models chilled-water and warm-water architectures, secondary loops, coolant distribution units, and chip temperatures in one solver; it reports validation against Modelica and finds warm-water liquid cooling can reduce annual PUE from 1.43 to 1.25 while eliminating on-site water use and cutting total facility energy by 37.9% in the case study.",
+          "contentIds": [
+            "c3c9c2d9-f40d-42fc-9748-2e175653a4b8"
+          ]
+        },
+        {
+          "text": "Operationally, liquid cooling is making measurement and monitoring more important, with emphasis on precise real-time sensing across both liquid and air environments, and retrofits are being viewed as beneficial but case-specific because cost, downtime, and infrastructure constraints limit where they make sense.",
+          "contentIds": [
+            "174628a5-8dc6-4b06-979b-4ff7b7f404b1",
+            "e64b621a-dda9-4b30-84be-e5c5e571eda4"
+          ]
+        },
+        {
+          "text": "On the power-management side, the latest coverage emphasizes smarter integrated control: AI-driven data centers are described as needing coordinated sensing, motor control, and power management in a single responsive, failure-anticipating system. A broader grid-integration review also highlights how large data centers are reshaping electrical demand and creating challenges around interconnection, distribution feeders, power quality, and asset management, especially given converter-dominated interfaces and tightly coupled cooling and backup systems.",
+          "contentIds": [
+            "4b55a6b7-555a-4c1f-b4fe-5253b6a26687",
+            "6d5caccd-8a6f-4965-ad03-463ad58e0b72"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "contentId": "c3c9c2d9-f40d-42fc-9748-2e175653a4b8",
+          "title": "Modeling Liquid-Cooled Data Centers in EnergyPlus",
+          "url": "https://arxiv.org/abs/2610.33148v1",
+          "publisher": "arxiv.org",
+          "publishedAt": "2026-10-23T17:24:37.000Z",
+          "scope": "abstract-only",
+          "contentType": "RESEARCH"
+        },
+        {
+          "contentId": "174628a5-8dc6-4b06-979b-4ff7b7f404b1",
+          "title": "Liquid Cooling Is Changing What Data Centers Need to Measure",
+          "url": "https://www.datacenterknowledge.com/cooling/liquid-cooling-is-changing-what-data-centers-need-to-measure",
+          "publisher": "www.datacenterknowledge.com",
+          "publishedAt": "2026-11-04T14:00:00.000Z",
+          "scope": "supplied source text",
+          "contentType": "ARTICLE"
+        },
+        {
+          "contentId": "e64b621a-dda9-4b30-84be-e5c5e571eda4",
+          "title": "Liquid Cooling Retrofits: Hard, but Sometimes Worth It",
+          "url": "https://www.datacenterknowledge.com/cooling/liquid-cooling-retrofits-hard-but-sometimes-worth-it",
+          "publisher": "www.datacenterknowledge.com",
+          "publishedAt": "2026-11-02T16:45:17.000Z",
+          "scope": "supplied source text",
+          "contentType": "ARTICLE"
+        },
+        {
+          "contentId": "4b55a6b7-555a-4c1f-b4fe-5253b6a26687",
+          "title": "Why AI Data Center Cooling Needs to Get Smarter",
+          "url": "https://www.datacenterknowledge.com/cooling/why-ai-data-center-cooling-needs-to-get-smarter",
+          "publisher": "www.datacenterknowledge.com",
+          "publishedAt": "2026-10-14T14:54:42.000Z",
+          "scope": "supplied source text",
+          "contentType": "ARTICLE"
+        },
+        {
+          "contentId": "6d5caccd-8a6f-4965-ad03-463ad58e0b72",
+          "title": "A Critical Review of Grid Integration Challenges and Flexibility Opportunities for Large-Scale Data Centers",
+          "url": "https://arxiv.org/abs/2610.19374v2",
+          "publisher": "arxiv.org",
+          "publishedAt": "2026-10-14T01:17:31.000Z",
+          "scope": "abstract-only",
+          "contentType": "RESEARCH"
+        }
+      ],
+      "insufficientEvidence": false,
+      "limitations": "The evidence is limited to abstracts and short excerpts, so the answer reflects reported claims rather than independently verified full-study results. It does not provide a complete survey of all 2026 developments, product releases, or vendor-specific implementations.",
+      "retrieval": {
+        "count": 5,
+        "method": "postgres_full_text",
+        "terms": [
+          "liquid",
+          "cooling",
+          "coolant",
+          "thermal",
+          "liquid",
+          "power",
+          "electricity",
+          "energy",
+          "grid",
+          "management"
+        ]
+      },
+      "provider": "openai",
+      "model": "gpt-5.4-mini",
+      "cached": false
+    }
+  },
+  {
+    "path": "/api/v1/assistant/ask",
+    "method": "POST",
+    "status": 200,
+    "ms": 745,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "no-store",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93c94eac5996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "268",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:46 GMT",
+      "etag": "W/\"1ad-H7hY0Df/PKROJThlyT5JXxLFPeI\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "a39ddf2e-fbe2-49b8",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "8727507b-0e42-4186-89bf-e55bfca333fd"
+    },
+    "data": {
+      "answer": "The indexed collection does not provide enough evidence to answer this question reliably. Try a narrower question or different filters.",
+      "paragraphs": [],
+      "sources": [],
+      "insufficientEvidence": true,
+      "limitations": "Coverage is limited to the indexed sources and their available text.",
+      "retrieval": {
+        "count": 0,
+        "method": "postgres_full_text",
+        "terms": [
+          "zzqvnomatchingevidence872343"
+        ]
+      },
+      "provider": null,
+      "model": null,
+      "cached": false
+    }
+  },
+  {
+    "path": "/api/v1/assistant/ask",
+    "method": "POST",
+    "status": 400,
+    "ms": 408,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "no-store",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56a93cdea975996-DEL",
+      "connection": "keep-alive",
+      "content-encoding": "br",
+      "content-length": "135",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 07 Nov 2026 07:20:47 GMT",
+      "etag": "W/\"a8-udQnd2Pvhf2MoBY35G7KkGzusr4\"",
+      "referrer-policy": "no-referrer",
+      "rndr-id": "ad655972-08df-46e1",
+      "server": "cloudflare",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-render-origin-server": "Render",
+      "x-request-id": "beaaa34e-3c53-40ad-8472-123307b716dc"
+    },
+    "data": {
+      "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Check the request filters or fields.",
+        "details": [
+          {
+            "path": "filters.dateTo",
+            "message": "End date must follow start date"
+          }
+        ]
+      }
+    }
+  }
+]

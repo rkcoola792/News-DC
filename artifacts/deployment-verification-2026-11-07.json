@@ -1,0 +1,12 @@
+{
+  "verified": [
+    "Remote requests returned expected statuses",
+    "All 21 video records have unique IDs and supported YouTube URLs",
+    "Page two does not overlap page one",
+    "Research filter and title ordering are respected",
+    "Assistant paragraphs cite returned source IDs and safe URLs",
+    "Admin response is unauthorized and not cacheable",
+    "Identical local and deployed asset: /assets/index-CpFPYfUo.js",
+    "Identical local and deployed asset: /assets/index-BPO0VDWz.css"
+  ]
+}
