@@ -189,3 +189,7 @@ Next: whole-application user acceptance and AI source/relevance review, then hos
 ## Final focused handoff checks — 6 November 2026
 
 Final API regression: 71 pass, zero skips. DB/frontend logic: 7/23 pass. Docker app/database healthy, readiness/smoke passed with 702 records, 101 cooling search results and 14 topics. Prettier and Prisma validation passed. Browser checks verified source-linked trend expansion, cited assistant and video metadata detail; 320px assistant filters/answer and video detail fit without horizontal overflow. Screenshots: artifacts/assistant-citations-verified.png, artifacts/assistant-mobile-verified.png, artifacts/video-mobile-verified.png. Temporary viewport was reset. This is focused engineering verification; whole-application user acceptance remains next. Automatic enrichment was resumed after stable interactive checks. At the resume snapshot, 9 records were AI-confirmed relevant; 642 were pending and 51 skipped. The worker continues, so inspect Dashboard for current counts. The isolated disposable test container was stopped; development data volumes were preserved.
+
+## Browser tab icon — 10 November 2026
+
+Added a local SVG favicon matching the existing NewsDC layers mark, with a navy background and white strokes for visibility. Linked it in the Vite HTML entry; no dependency or feature-scope change.
